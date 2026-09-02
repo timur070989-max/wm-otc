@@ -4,31 +4,34 @@
   --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
   --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   
-  /* World Medicine Corporate Brandbook Colors */
+  /* World Medicine Luxury Wellness Brandbook */
   --wm-blue: #0032a0;
-  --wm-blue-dark: #001f66;
+  --wm-blue-dark: #00174c;
+  --wm-blue-deep: #000e33;
   --wm-blue-light: #e8f0fe;
   --wm-cyan: #3bbdd2;
   --wm-cyan-light: #e6f8fa;
-  --wm-orange: #ffa561;
-  --wm-orange-dark: #e8802a;
+  --wm-gold: #f59e0b;
+  --wm-gold-light: #fef3c7;
+  --wm-emerald: #10b981;
+  --wm-emerald-light: #ecfdf5;
   
-  --bg-main: #f4f7fc;
+  --bg-main: #f8fafc;
   --bg-card: #ffffff;
   
   --color-text-main: #0f172a;
-  --color-text-muted: #475569;
+  --color-text-muted: #64748b;
   --color-border: #e2e8f0;
   
-  --shadow-soft: 0 8px 24px -4px rgba(0, 34, 117, 0.06), 0 2px 6px -1px rgba(0, 34, 117, 0.04);
-  --shadow-hover: 0 20px 40px -8px rgba(0, 34, 117, 0.16), 0 4px 12px -2px rgba(0, 34, 117, 0.08);
+  --shadow-soft: 0 10px 30px -4px rgba(0, 31, 102, 0.06), 0 2px 8px -2px rgba(0, 31, 102, 0.04);
+  --shadow-hover: 0 24px 48px -12px rgba(0, 31, 102, 0.16), 0 8px 16px -4px rgba(0, 31, 102, 0.08);
+  --shadow-modal: 0 32px 64px -16px rgba(0, 23, 76, 0.35);
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   color: var(--color-text-main);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,110 +40,130 @@ h1, h2, h3, h4, .font-display {
   font-family: var(--font-display);
 }
 
-/* Glassmorphism & Header */
+/* Glassmorphism Classes */
 .glass-header {
-  background: rgba(0, 31, 102, 0.96);
+  background: rgba(0, 23, 76, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .glass-card {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
-/* Luxury Gradient Text & Highlights */
+/* Luxury Gradient Text */
 .luxury-gradient-text {
-  background: linear-gradient(135deg, #001f66 0%, #0032a0 60%, #0284c7 100%);
+  background: linear-gradient(135deg, #00174c 0%, #0032a0 50%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.luxury-gold-badge {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  color: #b45309;
-  border: 1px solid #fde68a;
+.luxury-gold-text {
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #b45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* World Medicine Product Cards */
+/* Enhanced Product Cards */
 .product-card {
-  background: var(--bg-card);
-  border: 1px solid rgba(199, 220, 254, 0.7);
-  border-radius: 1.25rem;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 1.5rem;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0, 50, 160, 0.45);
+  transform: translateY(-8px);
+  border-color: rgba(0, 50, 160, 0.4);
   box-shadow: var(--shadow-hover);
 }
 
-/* Clean Image Container without background shapes/figures */
 .product-image-wrap {
-  background-color: #ffffff;
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.35s ease;
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.06);
+  transform: scale(1.08) translateY(-4px);
 }
 
 .product-image {
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   object-fit: contain;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 14px 20px rgba(0, 23, 76, 0.12));
 }
 
 /* Badges */
 .badge-bestseller {
-  background: #fff3e0;
-  color: #d97706;
-  border: 1px solid #fed7aa;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  color: #b45309;
+  border: 1px solid #fde68a;
 }
 
 .badge-natural {
-  background: #ecfdf5;
-  color: #059669;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #047857;
   border: 1px solid #a7f3d0;
 }
 
 .badge-premium {
-  background: #eff6ff;
-  color: var(--wm-blue);
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1d4ed8;
   border: 1px solid #bfdbfe;
 }
 
 .badge-kids {
-  background: #fdf2f8;
-  color: #db2777;
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+  color: #be185d;
   border: 1px solid #fbcfe8;
 }
 
-.badge-otc {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--wm-blue-dark);
-  border: 1px solid #cbd5e1;
-  backdrop-filter: blur(8px);
+.badge-top {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #15803d;
+  border: 1px solid #bbf7d0;
 }
 
-/* Custom WM Elements */
+.badge-basic {
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+/* Uzum Official Brand Gradient Button */
+.uzum-btn {
+  background: linear-gradient(135deg, #7000FF 0%, #8B24FF 100%);
+  color: #ffffff;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px -2px rgba(112, 0, 255, 0.35);
+}
+
+.uzum-btn:hover {
+  background: linear-gradient(135deg, #6000E0 0%, #7B1BE8 100%);
+  box-shadow: 0 6px 20px -2px rgba(112, 0, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Corporate Color Helpers */
 .wm-blue-bg {
   background-color: var(--wm-blue);
 }
@@ -149,180 +172,35 @@ h1, h2, h3, h4, .font-display {
 }
 
 .wm-blue-gradient {
-  background: linear-gradient(135deg, #0032a0 0%, #001f66 100%);
+  background: linear-gradient(135deg, #0032a0 0%, #00174c 100%);
 }
 
 .wm-cyan-gradient {
   background: linear-gradient(135deg, #3bbdd2 0%, #0099b8 100%);
 }
 
-.wm-gradient-text {
-  background: linear-gradient(135deg, #0032a0 0%, #0066cc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Scrollbar */
+/* Smooth Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Pulse animation for live trust pills */
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
 }
 
-/* Telegram Button */
-.telegram-btn {
-  background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
-  color: #fff;
-  transition: all 0.25s ease;
-}
-.telegram-btn:hover {
-  box-shadow: 0 8px 25px -4px rgba(34, 158, 217, 0.45);
-  transform: translateY(-2px);
-}
-
-/* Uzum Market Brand Styling */
-.uzum-btn {
-  background: linear-gradient(135deg, #7000FF 0%, #8A2BE2 100%);
-  color: #ffffff;
-  transition: all 0.25s ease;
-}
-.uzum-btn:hover {
-  background: linear-gradient(135deg, #5e00db 0%, #7622c5 100%);
-  box-shadow: 0 8px 25px -4px rgba(112, 0, 255, 0.45);
-  transform: translateY(-2px);
-}
-
-.uzum-badge {
-  background: #f3e8ff;
-  color: #7000FF;
-  border: 1px solid #e9d5ff;
-}
-
-/* 3D Anatomy Model Viewer & Hotspots */
-model-viewer#bodyViewer,
-model-viewer#female3DViewer {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  --poster-color: transparent;
-  outline: none;
-  border-radius: 1.5rem;
-}
-
-.hotspot-3d {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hotspot-3d:hover {
-  transform: translate(-50%, -50%) scale(1.25);
-  z-index: 50;
-}
-
-.hotspot-point {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #0032a0;
-  border: 2.5px solid #ffffff;
-  box-shadow: 0 0 0 2px rgba(0, 50, 160, 0.35), 0 4px 12px rgba(0, 31, 102, 0.3);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
-}
-
-.hotspot-point::after {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #3bbdd2;
-}
-
-.hotspot-pulse {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid #3bbdd2;
-  animation: pulse-ring 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-  pointer-events: none;
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(0.5); opacity: 0.95; }
-  80%, 100% { transform: scale(2.2); opacity: 0; }
-}
-
-.hotspot-tag {
-  position: absolute;
-  left: calc(100% + 8px);
-  top: 50%;
-  transform: translateY(-50%) translateX(-4px);
-  background: rgba(0, 31, 102, 0.94);
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 8px;
-  white-space: nowrap;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 50;
-}
-
-.hotspot-3d:hover .hotspot-tag,
-.hotspot-3d.active .hotspot-tag {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-50%) translateX(0);
-}
-
-.hotspot-3d.active .hotspot-point {
-  background: #ffa561;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(255, 165, 97, 0.6), 0 4px 14px rgba(255, 165, 97, 0.4);
-  transform: scale(1.15);
-}
-
-.hotspot-3d.active .hotspot-point::after {
-  background: #ffffff;
-}
-
-/* Force hotspots to remain visible at all times during 3D rotation */
-model-viewer#bodyViewer button[slot^="hotspot-"] {
-  display: flex !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+.animate-soft-pulse {
+  animation: soft-pulse 3s infinite ease-in-out;
 }

@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4.5">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=4.0"></script>
-  <script src="assets/js/app.js?v=4.0"></script>
+  <script src="assets/js/products-data.js?v=4.5"></script>
+  <script src="assets/js/app.js?v=4.5"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -231,8 +231,57 @@
     </div>
   </section>
 
+  <!-- Luxury Trust & Authority Bar (Thorne / Solgar Style) -->
+  <section class="border-y border-slate-200/80 bg-white/80 backdrop-blur-md relative z-20 py-4 sm:py-5 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+        
+        <div class="flex items-center justify-center gap-3 p-2">
+          <div class="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200/80 flex items-center justify-center text-[#0032a0] shrink-0 shadow-2xs">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div class="text-left">
+            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Yevropa GMP standarti' : 'Европейский стандарт GMP'"></div>
+            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? '100% xalqaro sifat nazorati' : 'Строгий контроль качества ЕС'"></div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 p-2">
+          <div class="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-amber-600 shrink-0 shadow-2xs">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <div class="text-left">
+            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Yuqori bio-o\'zlashuvchanlik' : 'Биодоступные формулы'"></div>
+            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? 'Maksimal foydali ta\'sir' : 'Легкое и быстрое усвоение'"></div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 p-2">
+          <div class="w-10 h-10 rounded-2xl bg-purple-50 border border-purple-200/80 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+          </div>
+          <div class="text-left">
+            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Uzum orqali 1 kunda' : 'Доставка за 1 день'"></div>
+            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? 'Butun O\'zbekiston bo\'ylab' : 'Экспресс по всему Узбекистану'"></div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 p-2">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+            <i data-lucide="award" class="w-5 h-5"></i>
+          </div>
+          <div class="text-left">
+            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? '25+ yillik tajriba' : '25+ лет доверия'"></div>
+            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? 'Millionlab xaridorlar tanlovi' : 'Выбор миллионов семей'"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Master Unified Saturated Corporate Canvas (Seamless Background for All Sections) -->
-  <div class="bg-gradient-to-b from-[#c2dfff] via-[#e5f1ff] to-[#bddcff] relative overflow-hidden">
+  <div class="bg-gradient-to-b from-[#eaf2fd] via-[#f8fafc] to-[#edf4fe] relative overflow-hidden">
     
     <!-- Unified Ambient Light Orbs & Glows across the Canvas -->
     <div class="absolute -top-24 -left-20 w-[500px] h-[500px] bg-gradient-to-br from-[#0284c7]/40 via-[#38bdf8]/30 to-transparent rounded-full blur-3xl pointer-events-none"></div>
@@ -687,23 +736,29 @@
                 </div>
 
                 <!-- Content Area -->
-                <div class="p-3.5 sm:p-4 bg-white">
+                <div class="p-3.5 sm:p-4 bg-white space-y-1.5">
                   
-                  <!-- Category -->
-                  <div class="text-[10.5px] font-black text-wmBlue-700 uppercase tracking-wider mb-1 line-clamp-1" x-text="lang === 'uz' ? prod.category_uz : prod.category_ru"></div>
+                  <!-- Category & Dosage Pill -->
+                  <div class="flex items-center justify-between gap-1 text-[11px]">
+                    <span class="font-black text-[#0032a0] uppercase tracking-wider line-clamp-1 text-[10px]" x-text="lang === 'uz' ? prod.pharm_group_uz : prod.pharm_group_ru"></span>
+                    <span class="text-slate-400 text-[10.5px] whitespace-nowrap" x-text="lang === 'uz' ? prod.dosage_uz : prod.dosage_ru"></span>
+                  </div>
 
                   <!-- Product Title -->
                   <h3 
                     @click="openProductModal(prod)" 
-                    class="font-black text-slate-900 text-sm sm:text-[15px] leading-snug hover:text-wmBlue-600 cursor-pointer transition-colors line-clamp-2 min-h-[2.4rem]" 
+                    class="font-black text-slate-900 text-sm sm:text-base leading-snug hover:text-wmBlue-600 cursor-pointer transition-colors line-clamp-2 min-h-[2.5rem]" 
                     x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"
                   ></h3>
 
-                  <!-- Rating -->
-                  <div class="flex items-center gap-1.5 mt-1.5 text-xs text-amber-500">
-                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
-                    <span class="font-bold text-slate-800 text-xs" x-text="prod.rating"></span>
-                    <span class="text-slate-400 text-[11px]" x-text="'(' + prod.reviews_count + ')'"></span>
+                  <!-- Rating & Quality Badge -->
+                  <div class="flex items-center justify-between gap-2 pt-0.5">
+                    <div class="flex items-center gap-1 text-xs text-amber-500">
+                      <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
+                      <span class="font-black text-slate-800 text-xs" x-text="prod.rating"></span>
+                      <span class="text-slate-400 text-[11px]" x-text="'(' + prod.reviews_count + ')'"></span>
+                    </div>
+                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">GMP EU</span>
                   </div>
 
                 </div>

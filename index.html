@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=4.5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=5.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=4.5"></script>
-  <script src="assets/js/app.js?v=4.5"></script>
+  <script src="assets/js/products-data.js?v=5.0"></script>
+  <script src="assets/js/app.js?v=5.0"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -302,7 +302,7 @@
         <div class="text-center max-w-3xl mx-auto mb-1 sm:mb-2">
           <h2 
             class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight" 
-            x-text="lang === 'uz' ? 'Salomatlik va go\'zallikning qaysi sohasini tanlaysiz?' : 'Какую сферу красоты и здоровья вы хотите улучшить?'"
+            x-text="lang === 'uz' ? 'Maqsadingizni tanlang — shaxsiy salomatlik va go\'zallik formulasini kashf eting' : 'Выберите вашу цель — откройте персональную формулу здоровья и красоты'"
           ></h2>
         </div>
 
@@ -349,113 +349,7 @@
             <div class="w-full h-[440px] sm:h-[490px] lg:h-[530px] relative flex items-center justify-center select-none">
               
               <!-- SVG Interactive Connector Lines (Saturated, High-Contrast & Clearly Visible) -->
-              <svg class="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 400 530" preserveAspectRatio="none">
-                <defs>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                <!-- Left Item 1 -> Head (196, 138) -->
-                <path 
-                  d="M 0 135 C 90 135, 120 138, 196 138" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'head_stress' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'head_stress' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'head_stress' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'head_stress' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'head_stress' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Left Item 2 -> Joints / Elbow (144, 255) -->
-                <path 
-                  d="M 0 225 C 60 225, 90 255, 144 255" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'joints_pain' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'joints_pain' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'joints_pain' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'joints_pain' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'joints_pain' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Left Item 3 -> Stomach / Heartburn (196, 292) -->
-                <path 
-                  d="M 0 315 C 90 315, 120 292, 196 292" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'heartburn_bloat' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'heartburn_bloat' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'heartburn_bloat' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'heartburn_bloat' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'heartburn_bloat' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Left Item 4 -> Cold / Throat (196, 202) -->
-                <path 
-                  d="M 0 405 C 90 405, 120 202, 196 202" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'cold_fever' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'cold_fever' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'cold_fever' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'cold_fever' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'cold_fever' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right Item 1 -> Heart / Immunity (196, 244) -->
-                <path 
-                  d="M 400 135 C 310 135, 270 244, 196 244" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'fatigue_immunity' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'fatigue_immunity' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'fatigue_immunity' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'fatigue_immunity' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'fatigue_immunity' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right Item 2 -> Pregnancy / Center (196, 340) -->
-                <path 
-                  d="M 400 225 C 310 225, 280 340, 196 340" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'pregnancy_growth' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'pregnancy_growth' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'pregnancy_growth' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'pregnancy_growth' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'pregnancy_growth' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right Item 3 -> Legs / Veins (200, 419) -->
-                <path 
-                  d="M 400 315 C 310 315, 280 419, 200 419" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'tired_legs' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'tired_legs' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'tired_legs' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'tired_legs' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'tired_legs' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right Item 4 -> Skin / Shoulder (224, 223) -->
-                <path 
-                  d="M 400 405 C 310 405, 290 223, 224 223" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'skin_wounds' ? '#002275' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'skin_wounds' ? '3.8' : '2.4'" 
-                  :stroke-dasharray="selectedSymptom === 'skin_wounds' ? 'none' : '6 5'"
-                  :opacity="selectedSymptom === 'skin_wounds' ? '1' : '0.95'"
-                  :filter="selectedSymptom === 'skin_wounds' ? 'url(#glow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-              </svg>
+              
 
               <!-- 3D Rotating Woman Model in Corporate Colors -->
               <model-viewer
@@ -487,7 +381,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Tiniq fikr' : 'Ясность и сон'"></span>
+                  
                 </button>
 
                 <!-- 2. Cold / Throat (Свежесть дыхания и защита) -->
@@ -500,7 +394,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Erkin nafas' : 'Свежесть и защита'"></span>
+                  
                 </button>
 
                 <!-- 3. Heart / Immunity (Энергия и сияние молодости) -->
@@ -513,7 +407,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Yoshlik nuri' : 'Энергия и сияние'"></span>
+                  
                 </button>
 
                 <!-- 4. Joints / Arm (Гибкость и грация суставов) -->
@@ -526,7 +420,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Yengil harakat' : 'Гибкость и грация'"></span>
+                  
                 </button>
 
                 <!-- 5. Skin / Shoulder (Бархатная кожа и сияние) -->
@@ -539,7 +433,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Mayin teri' : 'Красота и кожа'"></span>
+                  
                 </button>
 
                 <!-- 6. Stomach / Gastro (Легкость и плоский живот) -->
@@ -552,7 +446,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Yengil hazm' : 'Легкость и живот'"></span>
+                  
                 </button>
 
                 <!-- 7. Pregnancy & Growth (Сияние материнства) -->
@@ -565,7 +459,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Onalik nuri' : 'Сияние материнства'"></span>
+                  
                 </button>
 
                 <!-- 8. Legs & Veins (Стройные легкие ноги) -->
@@ -578,7 +472,7 @@
                 >
                   <div class="hotspot-point"></div>
                   <div class="hotspot-pulse"></div>
-                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Yengil oyoqlar' : 'Стройные ноги'"></span>
+                  
                 </button>
 
               </div>

@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=2.5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=3.5">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=2.5"></script>
-  <script src="assets/js/app.js?v=2.5"></script>
+  <script src="assets/js/products-data.js?v=3.5"></script>
+  <script src="assets/js/app.js?v=3.5"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -1154,7 +1154,7 @@
               </div>
 
               <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                <strong class="text-slate-900 block mb-0.5" x-text="t('indications') + ':'"></strong>
+                <strong class="text-slate-900 block mb-0.5" x-text="(lang === 'uz' ? 'Qo\'llash bo\'yicha tavsiyalar' : 'Рекомендации к применению') + ':'"></strong>
                 <span class="text-slate-600" x-text="lang === 'uz' ? selectedProduct?.indications_uz : selectedProduct?.indications_ru"></span>
               </div>
 

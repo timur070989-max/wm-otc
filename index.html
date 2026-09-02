@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=7.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=7.5">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=7.0"></script>
-  <script src="assets/js/app.js?v=7.0"></script>
+  <script src="assets/js/products-data.js?v=7.5"></script>
+  <script src="assets/js/app.js?v=7.5"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -736,6 +736,15 @@
                     onerror="this.onerror=null; this.src='https://placehold.co/400x400/ffffff/0032a0?text=World+Medicine';"
                   >
 
+                                    <!-- Authentic Halal Certification Seal / Stamp on Packaging -->
+                  <div class="absolute bottom-2.5 right-2.5 z-10 pointer-events-none select-none">
+                    <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-800/90 backdrop-blur-md text-white border border-emerald-400/90 shadow-[0_4px_12px_rgba(4,120,87,0.4)] -rotate-3">
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+                      <span class="text-[10px] font-black tracking-wider uppercase text-white">HALAL</span>
+                      <span class="text-[9px] font-bold text-emerald-200">حلال</span>
+                    </div>
+                  </div>
+
                   <!-- Hover "Подробнее →" overlay -->
                   <div class="absolute inset-0 bg-wmBlue-900/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-semibold transition-opacity duration-300 backdrop-blur-[2px]">
                     <span class="bg-white/25 px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 font-bold text-xs">
@@ -747,18 +756,12 @@
                 </div>
 
                 <!-- Content Area -->
-                <div class="p-3.5 sm:p-4 bg-white space-y-1.5">
+                <div class="p-3.5 sm:p-4 bg-white space-y-2">
                   
-                  <!-- Category & Dosage Pill -->
-                  <div class="flex items-center justify-between gap-1 text-[11px]">
-                    <span class="font-black text-[#0032a0] uppercase tracking-wider line-clamp-1 text-[10px]" x-text="lang === 'uz' ? prod.pharm_group_uz : prod.pharm_group_ru"></span>
-                    <span class="text-slate-400 text-[10.5px] whitespace-nowrap" x-text="lang === 'uz' ? prod.dosage_uz : prod.dosage_ru"></span>
-                  </div>
-
                   <!-- Product Title -->
                   <h3 
                     @click="openProductModal(prod)" 
-                    class="font-black text-slate-900 text-sm sm:text-base leading-snug hover:text-wmBlue-600 cursor-pointer transition-colors line-clamp-2 min-h-[2.5rem]" 
+                    class="font-black text-slate-900 text-base sm:text-[17px] leading-snug hover:text-wmBlue-600 cursor-pointer transition-colors line-clamp-2 min-h-[2.6rem]" 
                     x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"
                   ></h3>
 

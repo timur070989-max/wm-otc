@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Препараты World Medicine | Безрецептурные препараты (OTC)</title>
+  <meta name="description" content="Официальный каталог безрецептурных препаратов и витаминных комплексов компании World Medicine в Узбекистане. Европейское качество, проверенная эффективность, доставка.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://www.worldmedicine.uz/favicon/favicon-96x96.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            wmBlue: {
+              50: '#eef4ff',
+              100: '#e0ecff',
+              200: '#c7dcfe',
+              300: '#a1c4fd',
+              400: '#6ea3fb',
+              500: '#0032a0', // Corporate World Medicine Blue
+              600: '#002984',
+              700: '#002275',
+              800: '#001b5c',
+              900: '#001344',
+            },
+            wmCyan: {
+              50: '#effcfd',
+              100: '#d7f7fa',
+              200: '#b4eff5',
+              300: '#80e2ee',
+              400: '#47cde2',
+              500: '#3bbdd2', // Brandbook Cyan
+              600: '#1b9bb0',
+              700: '#1a7c8e',
+            },
+            wmOrange: {
+              400: '#ffb982',
+              500: '#ffa561', // Brandbook Orange Accent
+              600: '#e8802a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=2.5">
+
+  <!-- Alpine.js Core & Plugins -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Google Model Viewer for 3D Anatomy Models -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+  <!-- Products Database & App Logic -->
+  <script src="assets/js/products-data.js?v=2.5"></script>
+  <script src="assets/js/app.js?v=2.5"></script>
+</head>
+<body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
+
+  <!-- Header with Official White Logo on Corporate Navy -->
+  <header class="sticky top-0 z-40 bg-[#001f66] border-b border-[#00174c] shadow-md transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="flex items-center justify-between gap-4">
+        
+        <!-- Official White World Medicine Logo -->
+        <a href="#" class="flex items-center gap-3 shrink-0 group">
+          <img 
+            src="https://www.worldmedicine.uz/themes/template-ru/images/icons/logo/logo.svg" 
+            alt="World Medicine" 
+            class="h-9 sm:h-11 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105"
+          >
+        </a>
+
+        <!-- Controls: Language Selector first, then Cart -->
+        <div class="flex items-center gap-3">
+          
+          <!-- Language Selector (First on the right) -->
+          <div class="flex items-center bg-white/10 p-1 rounded-full border border-white/15 text-xs font-bold text-white">
+            <button 
+              @click="setLang('ru')" 
+              :class="lang === 'ru' ? 'bg-[#0032a0] text-white shadow-xs' : 'text-slate-300 hover:text-white'"
+              class="px-2.5 py-1 rounded-full transition-all"
+            >RU</button>
+            <button 
+              @click="setLang('uz')" 
+              :class="lang === 'uz' ? 'bg-[#0032a0] text-white shadow-xs' : 'text-slate-300 hover:text-white'"
+              class="px-2.5 py-1 rounded-full transition-all"
+            >UZ</button>
+          </div>
+
+          <!-- Cart Trigger Button (White Background, Corporate Navy Text) -->
+          <button 
+            @click="isCartOpen = true" 
+            class="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-[#001f66] text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all transform active:scale-95 cursor-pointer"
+          >
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-[#001f66]"></i>
+            <span class="hidden sm:inline" x-text="t('cart_title')"></span>
+            <span 
+              x-show="cartCount > 0" 
+              x-text="cartCount" 
+              class="inline-flex items-center justify-center bg-[#001f66] text-white text-[11px] font-black rounded-full h-5 min-w-[20px] px-1 shadow-xs"
+            ></span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Animated Video Background -->
+  <section class="relative overflow-hidden py-14 sm:py-20 bg-slate-950 border-b border-slate-200">
+    
+    <!-- Background Animated Video (Sanovit) -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <video 
+        id="heroBgVideo"
+        autoplay 
+        loop 
+        muted 
+        playsinline 
+        class="w-full h-full object-cover opacity-90 scale-100 transition-opacity duration-500"
+      >
+        <source src="assets/videos/sanovit.mp4" type="video/mp4">
+      </video>
+      <!-- Subtle Light Overlay for perfect text readability -->
+      <div class="absolute inset-0 bg-gradient-to-r from-white/80 via-white/45 to-transparent sm:from-white/75 sm:via-white/30 sm:to-transparent"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div 
+        @mouseenter="if (heroTimer) clearInterval(heroTimer)"
+        @mouseleave="startHeroAutoSlide()"
+        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+      >
+        
+        <!-- Left Column: Official Corporate Slogan & Subtitle -->
+        <div class="lg:col-span-7 text-center lg:text-left space-y-4 sm:space-y-5">
+          
+          <!-- Corporate Slogan in Solid Corporate Navy -->
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#001f66] leading-[1.2] drop-shadow-xs uppercase">
+            <span x-text="lang === 'uz' ? 'Salomatlik — bu ' : 'Здоровье – сокровище, '"></span>
+            <span class="block mt-1 text-[#001f66]" x-text="lang === 'uz' ? 'siz bilan baham ko\'radigan boyligimiz' : 'которым мы делимся с вами'"></span>
+          </h1>
+
+          <!-- Subtitle Description -->
+          <p 
+            class="text-base sm:text-lg text-slate-800 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-semibold drop-shadow-2xs"
+            x-text="t('catalog_subtitle')"
+          ></p>
+
+        </div>
+
+        <!-- Right Column: Interactive Product Packaging + Buttons & Indicators Below -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center space-y-4">
+          
+          <!-- Floating Product Box Container (Clickable -> Opens Modal) -->
+          <div 
+            class="relative w-full h-[260px] sm:h-[320px] lg:h-[360px] flex items-center justify-center cursor-pointer group select-none"
+            @click="if (currentHeroProduct) openProductModal(currentHeroProduct)"
+            :title="lang === 'uz' ? 'Batafsil ko\'rish' : 'Нажмите для подробностей'"
+          >
+            <template x-for="(prod, idx) in featuredProducts" :key="prod.id">
+              <img 
+                x-show="heroCarouselIndex === idx"
+                x-transition:enter="transition ease-out duration-500 transform"
+                x-transition:enter-start="opacity-0 scale-90 translate-x-6"
+                x-transition:enter-end="opacity-100 scale-100 translate-x-0"
+                x-transition:leave="transition ease-in duration-300 transform absolute"
+                x-transition:leave-start="opacity-100 scale-100 translate-x-0"
+                x-transition:leave-end="opacity-0 scale-90 -translate-x-6"
+                :src="prod.image" 
+                :alt="prod.name_ru" 
+                class="w-68 sm:w-80 lg:w-96 max-h-[250px] sm:max-h-[310px] lg:max-h-[350px] object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300"
+              >
+            </template>
+          </div>
+
+          <!-- Corporate Action Buttons (Placed directly under the product) -->
+          <div class="flex flex-wrap items-center justify-center gap-3 w-full pt-1 z-20">
+            
+            <!-- Button 1: Primary Corporate Navy (#001f66) -->
+            <a 
+              href="#catalog-section"
+              class="px-6 sm:px-7 py-3 rounded-2xl bg-[#001f66] hover:bg-[#0032a0] text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span x-text="lang === 'uz' ? 'Katalogni ko\'rish' : 'Смотреть каталог'"></span>
+            </a>
+
+            <!-- Button 2: Outline Corporate Button (with backdrop blur for high contrast over video) -->
+            <button 
+              @click="if (currentHeroProduct) openProductModal(currentHeroProduct)"
+              class="px-5 sm:px-6 py-3 rounded-2xl border-2 border-slate-300/90 hover:border-[#001f66] bg-white/90 backdrop-blur-md text-slate-800 hover:text-[#001f66] font-bold text-xs sm:text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span x-text="lang === 'uz' ? 'Hit sotuv' : 'Хит продаж'"></span>
+            </button>
+
+          </div>
+
+          <!-- Carousel Indicator Dots -->
+          <div class="flex items-center justify-center gap-2 pt-1 z-20">
+            <template x-for="(prod, idx) in featuredProducts" :key="prod.id">
+              <button 
+                @click="setHeroSlide(idx)" 
+                :class="heroCarouselIndex === idx ? 'w-8 bg-[#001f66] shadow-md' : 'w-2.5 bg-slate-300/90 hover:bg-slate-500'"
+                class="h-2.5 rounded-full transition-all duration-300 cursor-pointer"
+                :title="lang === 'uz' ? prod.name_uz : prod.name_ru"
+              ></button>
+            </template>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Unified Saturated Corporate Canvas (Seamless Background for All Sections) -->
+  <div class="bg-gradient-to-b from-[#c2dfff] via-[#e5f1ff] to-[#bddcff] relative overflow-hidden">
+    
+    <!-- Unified Ambient Light Orbs & Glows across the Canvas -->
+    <div class="absolute -top-24 -left-20 w-[500px] h-[500px] bg-gradient-to-br from-[#0284c7]/40 via-[#38bdf8]/30 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/4 -right-20 w-[550px] h-[550px] bg-gradient-to-bl from-[#0032a0]/35 via-[#2563eb]/25 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -left-24 w-[520px] h-[520px] bg-gradient-to-tr from-[#0284c7]/30 via-[#38bdf8]/25 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-3/4 -right-20 w-[550px] h-[550px] bg-gradient-to-bl from-[#0032a0]/35 via-[#2563eb]/25 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section -->
+    <section id="symptoms-guide" class="pt-4 pb-6 sm:pt-5 sm:pb-8 relative">
+      
+      <!-- Central Saturated Medical Spotlight Directly Behind 3D Model -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[580px] h-[580px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(0,50,160,0.45) 0%, rgba(14,165,233,0.38) 45%, rgba(168,208,250,0) 75%); filter: blur(36px);"></div>
+      <div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(14,165,233,0.55) 0%, rgba(0,31,102,0.35) 55%, transparent 75%); filter: blur(18px);"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Section Header: Super Compact Question -->
+        <div class="text-center max-w-3xl mx-auto mb-1 sm:mb-2">
+          <h2 
+            class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight" 
+            x-text="lang === 'uz' ? 'Sizni nima bezovta qilyapti?' : 'Что вас беспокоит?'"
+          ></h2>
+        </div>
+
+        <!-- 3-Column Layout: Left Symptoms (4) + Center 3D Human with Connector Lines + Right Symptoms (4) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-2 items-center relative">
+          
+          <!-- Left Column: 4 Symptoms (100% Borderless, Large Clear Typography) -->
+          <div class="lg:col-span-4 flex flex-col gap-2.5 sm:gap-3.5 order-2 lg:order-1">
+            <template x-for="sym in symptoms.slice(0, 4)" :key="sym.id">
+              <div 
+                @click="selectSymptomFilter(sym.id)" 
+                :class="selectedSymptom === sym.id ? 'bg-gradient-to-r from-[#0032a0] to-[#002275] text-white shadow-xl ring-2 ring-wmBlue-300 scale-[1.02]' : 'bg-transparent text-slate-950 hover:text-[#0032a0]'"
+                class="flex items-center gap-3.5 p-2 sm:p-2.5 rounded-xl transition-all duration-200 cursor-pointer group select-none relative"
+              >
+                <!-- Modern Corporate Gradient Icon Badge -->
+                <div 
+                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white shadow-inner' : 'bg-white/90 text-[#0032a0] group-hover:scale-110 group-hover:bg-white border border-wmBlue-200/80'"
+                  class="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 relative shadow-sm"
+                >
+                  <!-- Glowing Accent Dot -->
+                  <span 
+                    :class="selectedSymptom === sym.id ? 'bg-wmCyan-300' : 'bg-wmCyan-500'" 
+                    class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white"
+                  ></span>
+
+                  <!-- Modern Lucide Icon -->
+                  <i :data-lucide="sym.icon" class="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.2]"></i>
+                </div>
+
+                <!-- Symptom Title: Large, Bold & Ultra Clear -->
+                <div class="text-base sm:text-lg lg:text-[17.5px] font-black leading-tight tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
+
+                <!-- Right Connector Dot (Desktop) -->
+                <div 
+                  :class="selectedSymptom === sym.id ? 'bg-wmCyan-400 scale-125 ring-2 ring-white' : 'bg-[#003896] opacity-85 group-hover:opacity-100 group-hover:scale-110'"
+                  class="hidden lg:block ml-auto w-2.5 h-2.5 rounded-full transition-all"
+                ></div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Center Column: 3D Human Anatomy Model with Clean Static 8 Hotspots & Connector Lines -->
+          <div class="lg:col-span-4 flex flex-col items-center justify-center order-1 lg:order-2">
+            <div class="w-full h-[440px] sm:h-[490px] lg:h-[530px] relative flex items-center justify-center select-none">
+              
+              <!-- SVG Interactive Connector Lines (Saturated, High-Contrast & Clearly Visible) -->
+              <svg class="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 400 530" preserveAspectRatio="none">
+                <defs>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Left Item 1 -> Head (196, 138) -->
+                <path 
+                  d="M 0 135 C 90 135, 120 138, 196 138" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'head_stress' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'head_stress' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'head_stress' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'head_stress' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'head_stress' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Left Item 2 -> Joints / Elbow (144, 255) -->
+                <path 
+                  d="M 0 225 C 60 225, 90 255, 144 255" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'joints_pain' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'joints_pain' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'joints_pain' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'joints_pain' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'joints_pain' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Left Item 3 -> Stomach / Heartburn (196, 292) -->
+                <path 
+                  d="M 0 315 C 90 315, 120 292, 196 292" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'heartburn_bloat' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'heartburn_bloat' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'heartburn_bloat' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'heartburn_bloat' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'heartburn_bloat' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Left Item 4 -> Cold / Throat (196, 202) -->
+                <path 
+                  d="M 0 405 C 90 405, 120 202, 196 202" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'cold_fever' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'cold_fever' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'cold_fever' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'cold_fever' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'cold_fever' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right Item 1 -> Heart / Immunity (196, 244) -->
+                <path 
+                  d="M 400 135 C 310 135, 270 244, 196 244" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'fatigue_immunity' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'fatigue_immunity' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'fatigue_immunity' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'fatigue_immunity' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'fatigue_immunity' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right Item 2 -> Pregnancy / Center (196, 340) -->
+                <path 
+                  d="M 400 225 C 310 225, 280 340, 196 340" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'pregnancy_growth' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'pregnancy_growth' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'pregnancy_growth' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'pregnancy_growth' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'pregnancy_growth' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right Item 3 -> Legs / Veins (200, 419) -->
+                <path 
+                  d="M 400 315 C 310 315, 280 419, 200 419" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'tired_legs' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'tired_legs' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'tired_legs' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'tired_legs' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'tired_legs' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right Item 4 -> Skin / Shoulder (224, 223) -->
+                <path 
+                  d="M 400 405 C 310 405, 290 223, 224 223" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'skin_wounds' ? '#002275' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'skin_wounds' ? '3.8' : '2.4'" 
+                  :stroke-dasharray="selectedSymptom === 'skin_wounds' ? 'none' : '6 5'"
+                  :opacity="selectedSymptom === 'skin_wounds' ? '1' : '0.95'"
+                  :filter="selectedSymptom === 'skin_wounds' ? 'url(#glow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+              </svg>
+
+              <!-- 3D Rotating Woman Model in Corporate Colors -->
+              <model-viewer
+                id="bodyViewer"
+                src="assets/models/woman_sitting_corporate.glb?v=30"
+                alt="World Medicine 3D Human Anatomy Map"
+                loading="eager"
+                reveal="auto"
+                auto-rotate
+                auto-rotate-delay="0"
+                rotation-per-second="12deg"
+                camera-orbit="0deg 78deg 105%"
+                shadow-intensity="1.5"
+                shadow-softness="0.8"
+                exposure="1.1"
+                class="w-full h-full pointer-events-none"
+              ></model-viewer>
+
+              <!-- 8 Anatomical Static Interactive Hotspots (Cleanly Spread on Body Zones) -->
+              <div class="absolute inset-0 pointer-events-auto z-20">
+                
+                <!-- 1. Head / Stress (Голова и нервная система) -->
+                <button 
+                  @click="selectSymptomFilter('head_stress')" 
+                  :class="{'active': selectedSymptom === 'head_stress'}"
+                  style="top: 26%; left: 49%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Голова и нервная система"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Bosh va asab' : 'Голова и стресс'"></span>
+                </button>
+
+                <!-- 2. Cold / Throat (Дыхательные пути и горло) -->
+                <button 
+                  @click="selectSymptomFilter('cold_fever')" 
+                  :class="{'active': selectedSymptom === 'cold_fever'}"
+                  style="top: 38%; left: 49%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Дыхательные пути"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Nafas yo\'llari' : 'Простуда и жар'"></span>
+                </button>
+
+                <!-- 3. Heart / Immunity (Сердце и тонус) -->
+                <button 
+                  @click="selectSymptomFilter('fatigue_immunity')" 
+                  :class="{'active': selectedSymptom === 'fatigue_immunity'}"
+                  style="top: 46%; left: 49%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Сердце и тонус"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Yurak va quvvat' : 'Иммунитет и энергия'"></span>
+                </button>
+
+                <!-- 4. Joints / Arm (Суставы и позвоночник) -->
+                <button 
+                  @click="selectSymptomFilter('joints_pain')" 
+                  :class="{'active': selectedSymptom === 'joints_pain'}"
+                  style="top: 48%; left: 36%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Суставы и мышцы"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Bo\'g\'imlar' : 'Суставы и хруст'"></span>
+                </button>
+
+                <!-- 5. Skin / Shoulder (Кожный покров и аллергия) -->
+                <button 
+                  @click="selectSymptomFilter('skin_wounds')" 
+                  :class="{'active': selectedSymptom === 'skin_wounds'}"
+                  style="top: 42%; left: 56%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Кожный покров"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Teri qoplami' : 'Кожа и ссадины'"></span>
+                </button>
+
+                <!-- 6. Stomach / Gastro (Изжога и ЖКТ -> верхняя часть живота) -->
+                <button 
+                  @click="selectSymptomFilter('heartburn_bloat')" 
+                  :class="{'active': selectedSymptom === 'heartburn_bloat'}"
+                  style="top: 55%; left: 49%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Желудок и кишечник"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Oshqozon-ichak' : 'Изжога и ЖКТ'"></span>
+                </button>
+
+                <!-- 7. Pregnancy & Growth (Беременность и дети -> нижняя часть живота) -->
+                <button 
+                  @click="selectSymptomFilter('pregnancy_growth')" 
+                  :class="{'active': selectedSymptom === 'pregnancy_growth'}"
+                  style="top: 64%; left: 49%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Материнство и дети"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Onalar va bolalar' : 'Беременность и дети'"></span>
+                </button>
+
+                <!-- 8. Legs & Veins (Вены и сосуды) -->
+                <button 
+                  @click="selectSymptomFilter('tired_legs')" 
+                  :class="{'active': selectedSymptom === 'tired_legs'}"
+                  style="top: 79%; left: 50%;"
+                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
+                  title="Вены и ноги"
+                >
+                  <div class="hotspot-point"></div>
+                  <div class="hotspot-pulse"></div>
+                  <span class="hotspot-tag" x-text="lang === 'uz' ? 'Venalar' : 'Вены и ноги'"></span>
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: 4 Symptoms (100% Borderless, Large Clear Typography) -->
+          <div class="lg:col-span-4 flex flex-col gap-2.5 sm:gap-3.5 order-3">
+            <template x-for="sym in symptoms.slice(4, 8)" :key="sym.id">
+              <div 
+                @click="selectSymptomFilter(sym.id)" 
+                :class="selectedSymptom === sym.id ? 'bg-gradient-to-r from-[#0032a0] to-[#002275] text-white shadow-xl ring-2 ring-wmBlue-300 scale-[1.02]' : 'bg-transparent text-slate-950 hover:text-[#0032a0]'"
+                class="flex items-center gap-3.5 p-2 sm:p-2.5 rounded-xl transition-all duration-200 cursor-pointer group select-none relative"
+              >
+                <!-- Left Connector Dot (Desktop) -->
+                <div 
+                  :class="selectedSymptom === sym.id ? 'bg-wmCyan-400 scale-125 ring-2 ring-white' : 'bg-[#003896] opacity-85 group-hover:opacity-100 group-hover:scale-110'"
+                  class="hidden lg:block mr-1 w-2.5 h-2.5 rounded-full transition-all"
+                ></div>
+
+                <!-- Modern Corporate Gradient Icon Badge -->
+                <div 
+                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white shadow-inner' : 'bg-white/90 text-[#0032a0] group-hover:scale-110 group-hover:bg-white border border-wmBlue-200/80'"
+                  class="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 relative shadow-sm"
+                >
+                  <!-- Glowing Accent Dot -->
+                  <span 
+                    :class="selectedSymptom === sym.id ? 'bg-wmCyan-300' : 'bg-wmCyan-500'" 
+                    class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white"
+                  ></span>
+
+                  <!-- Modern Lucide Icon -->
+                  <i :data-lucide="sym.icon" class="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.2]"></i>
+                </div>
+
+                <!-- Symptom Title: Large, Bold & Ultra Clear -->
+                <div class="text-base sm:text-lg lg:text-[17.5px] font-black leading-tight tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
+              </div>
+            </template>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. Main Catalog Section (Seamless Flow) -->
+    <section class="py-8 sm:py-12 relative">
+      <div id="catalog-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Catalog Header -->
+        <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <h2 
+            class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight" 
+            x-text="t('catalog_title')"
+          ></h2>
+        </div>
+
+        <!-- Clean Sorting Controls (Centered, Glassy White) -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pb-2 mb-8">
+          <div class="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-wmBlue-200/80 shadow-xs text-xs font-bold text-slate-800">
+            <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-wmBlue-700"></i>
+            <span class="text-slate-500" x-text="lang === 'uz' ? 'Saralash:' : 'Сортировка:'"></span>
+            <select x-model="sortBy" class="bg-transparent font-black focus:outline-none cursor-pointer text-slate-950">
+              <option value="popular" x-text="lang === 'uz' ? 'Ommabopligi bo\'yicha' : 'По популярности'"></option>
+              <option value="price_asc" x-text="lang === 'uz' ? 'Narx: arzonroqdan' : 'По цене (сначала дешевле)'"></option>
+              <option value="price_desc" x-text="lang === 'uz' ? 'Narx: qimmatroqdan' : 'По цене (сначала дороже)'"></option>
+              <option value="name" x-text="lang === 'uz' ? 'Nomi bo\'yicha (A-Z)' : 'По названию (А-Я)'"></option>
+            </select>
+          </div>
+
+          <button 
+            x-show="selectedSymptom" 
+            @click="selectedSymptom = null" 
+            class="px-4 py-2.5 rounded-2xl bg-white hover:bg-wmBlue-50 text-wmBlue-800 border border-wmBlue-300 text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs"
+          >
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            <span x-text="lang === 'uz' ? 'Barchasini ko\'rsatish' : 'Показать все'"></span>
+          </button>
+        </div>
+
+        <!-- Products Grid (Clean background, Large product images, 2 Rows = 8 items per page) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+          <template x-for="prod in paginatedProducts" :key="prod.id">
+            <div class="product-card bg-white rounded-2xl border border-blue-200/80 shadow-[0_8px_20px_-4px_rgba(0,34,117,0.08),0_3px_6px_-2px_rgba(0,34,117,0.04)] hover:shadow-[0_16px_32px_-6px_rgba(0,34,117,0.16)] hover:border-wmBlue-500 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+              
+              <div>
+                <!-- Dynamic Packaging-Matched Pedestal Image Container -->
+                <div :class="getProductBg(prod)" class="product-image-wrap p-3.5 h-48 sm:h-52 relative cursor-pointer transition-colors duration-300" @click="openProductModal(prod)">
+                  
+                  <!-- Badges -->
+                  <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
+                    <span 
+                      x-show="prod.badge_ru" 
+                      :class="{
+                        'badge-bestseller': prod.badge_type === 'bestseller',
+                        'badge-natural': prod.badge_type === 'natural',
+                        'badge-premium': prod.badge_type === 'premium',
+                        'badge-kids': prod.badge_type === 'kids',
+                        'badge-otc': prod.badge_type === 'top' || prod.badge_type === 'basic'
+                      }"
+                      class="text-[9.5px] font-black px-2 py-0.5 rounded-md shadow-2xs uppercase tracking-wider"
+                      x-text="lang === 'uz' ? prod.badge_uz : prod.badge_ru"
+                    ></span>
+                  </div>
+
+                  <!-- Wishlist Button -->
+                  <button 
+                    @click.stop="toggleFavorite(prod.id)" 
+                    class="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full bg-white/95 hover:bg-white shadow-xs flex items-center justify-center transition-transform active:scale-90 border border-slate-200"
+                  >
+                    <i 
+                      data-lucide="heart" 
+                      :class="isFavorite(prod.id) ? 'fill-red-500 text-red-500' : 'text-slate-400 hover:text-red-500'" 
+                      class="w-3.5 h-3.5 transition-colors"
+                    ></i>
+                  </button>
+
+                  <!-- Compact Product Image -->
+                  <img 
+                    :src="prod.image" 
+                    :alt="lang === 'uz' ? prod.name_uz : prod.name_ru" 
+                    loading="lazy" 
+                    class="product-image h-40 sm:h-44 w-full object-contain filter drop-shadow-xs"
+                    onerror="this.onerror=null; this.src='https://placehold.co/400x400/ffffff/0032a0?text=World+Medicine';"
+                  >
+
+                  <!-- Hover "Подробнее →" overlay -->
+                  <div class="absolute inset-0 bg-wmBlue-900/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-semibold transition-opacity duration-300 backdrop-blur-[2px]">
+                    <span class="bg-white/25 px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 font-bold text-xs">
+                      <span x-text="t('more_details')"></span>
+                      <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </span>
+                  </div>
+
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-3.5 sm:p-4 bg-white">
+                  
+                  <!-- Category -->
+                  <div class="text-[10.5px] font-black text-wmBlue-700 uppercase tracking-wider mb-1 line-clamp-1" x-text="lang === 'uz' ? prod.category_uz : prod.category_ru"></div>
+
+                  <!-- Product Title -->
+                  <h3 
+                    @click="openProductModal(prod)" 
+                    class="font-black text-slate-900 text-sm sm:text-[15px] leading-snug hover:text-wmBlue-600 cursor-pointer transition-colors line-clamp-2 min-h-[2.4rem]" 
+                    x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"
+                  ></h3>
+
+                  <!-- Rating -->
+                  <div class="flex items-center gap-1.5 mt-1.5 text-xs text-amber-500">
+                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
+                    <span class="font-bold text-slate-800 text-xs" x-text="prod.rating"></span>
+                    <span class="text-slate-400 text-[11px]" x-text="'(' + prod.reviews_count + ')'"></span>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Bottom Price & Cart Action -->
+              <div class="p-3.5 sm:p-4 pt-2.5 border-t border-slate-100 bg-white space-y-2">
+                <!-- Price Row -->
+                <div class="flex items-baseline justify-between gap-2">
+                  <div class="flex items-baseline gap-2 overflow-hidden">
+                    <span class="text-base sm:text-[17px] font-black text-slate-900 whitespace-nowrap" x-text="formatPrice(prod.price)"></span>
+                    <span class="text-[11px] text-slate-400 line-through whitespace-nowrap" x-show="prod.old_price" x-text="formatPrice(prod.old_price)"></span>
+                  </div>
+                </div>
+
+                <!-- Action Buttons Row (Uzum + Cart) -->
+                <div class="grid grid-cols-2 gap-2">
+                  <!-- Uzum Market Direct Button -->
+                  <a 
+                    :href="getUzumUrl(prod)" 
+                    target="_blank" 
+                    class="py-2 px-1.5 rounded-xl bg-[#7000FF] hover:bg-[#5e00d9] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1 active:scale-95 text-center"
+                    title="Купить на Uzum Market с доставкой за 1 день"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                    <span>Uzum</span>
+                  </a>
+
+                  <!-- Add to internal Cart -->
+                  <button 
+                    @click="addToCart(prod, 1)" 
+                    :class="isInCart(prod.id) ? 'bg-emerald-600 text-white' : 'bg-[#002275] hover:bg-[#00174c] text-white shadow-xs'"
+                    class="py-2 px-1.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1 transition-all transform active:scale-95"
+                  >
+                    <i :data-lucide="isInCart(prod.id) ? 'check' : 'shopping-bag'" class="w-3.5 h-3.5"></i>
+                    <span x-text="isInCart(prod.id) ? t('in_cart') : t('add_to_cart')"></span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </template>
+        </div>
+
+        <!-- Numeric Pagination Controls -->
+        <div x-show="totalPages > 1" class="flex items-center justify-center gap-2 mt-10">
+          <!-- Prev Page Button -->
+          <button 
+            @click="prevPage()" 
+            :disabled="currentPage === 1"
+            :class="currentPage === 1 ? 'opacity-40 cursor-not-allowed bg-white/50 text-slate-400' : 'bg-white hover:bg-slate-50 text-slate-800 hover:text-[#001f66] border border-wmBlue-200 shadow-2xs active:scale-95 cursor-pointer'"
+            class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm transition-all"
+            :title="lang === 'uz' ? 'Oldingi sahifa' : 'Предыдущая страница'"
+          >
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+
+          <!-- Page Numbers -->
+          <template x-for="p in totalPages" :key="p">
+            <button 
+              @click="setPage(p)" 
+              :class="currentPage === p ? 'bg-[#002275] text-white shadow-lg scale-105' : 'bg-white hover:bg-slate-50 text-slate-800 hover:text-[#001f66] border border-wmBlue-200'"
+              class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm transition-all active:scale-95 cursor-pointer"
+              x-text="p"
+            ></button>
+          </template>
+
+          <!-- Next Page Button -->
+          <button 
+            @click="nextPage()" 
+            :disabled="currentPage === totalPages"
+            :class="currentPage === totalPages ? 'opacity-40 cursor-not-allowed bg-white/50 text-slate-400' : 'bg-white hover:bg-slate-50 text-slate-800 hover:text-[#001f66] border border-wmBlue-200 shadow-2xs active:scale-95 cursor-pointer'"
+            class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm transition-all"
+            :title="lang === 'uz' ? 'Keyingi sahifa' : 'Следующая страница'"
+          >
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Empty Search State -->
+        <div x-show="filteredProducts.length === 0" class="py-16 text-center bg-white/95 rounded-3xl border border-wmBlue-200 shadow-md my-6 p-8">
+          <div class="w-16 h-16 rounded-full bg-wmBlue-50 text-wmBlue-600 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="search-x" class="w-8 h-8"></i>
+          </div>
+          <h3 class="text-lg font-black text-slate-900 mb-1" x-text="lang === 'uz' ? 'Hech qanday preparat topilmadi' : 'По вашему запросу ничего не найдено'"></h3>
+          <p class="text-sm text-slate-500 max-w-md mx-auto mb-5" x-text="lang === 'uz' ? 'Boshqa kalit so\'z bilan qidirib ko\'ring yoki filtrlarni tozalang' : 'Попробуйте изменить запрос, выбрать другую категорию или сбросить фильтры'"></p>
+          <button 
+            @click="resetAllFilters()" 
+            class="px-5 py-2.5 rounded-xl wm-blue-bg text-white font-bold text-xs shadow-xs transition-colors"
+            x-text="t('reset_filters')"
+          ></button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Unified Trust Section (Seamless Flow) -->
+    <section id="trust-section" class="py-10 sm:py-14 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Main Super Header -->
+        <div class="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
+          <h2 
+            class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight leading-tight"
+            x-text="lang === 'uz' ? 'Nega World Medicine preparatlarini tanlashadi?' : 'Почему выбирают препараты World Medicine?'"
+          ></h2>
+        </div>
+
+        <!-- Subsection 1: Awards & Achievements -->
+        <div class="mb-10 sm:mb-12">
+          
+          <!-- Subsection Header -->
+          <h3 
+            class="text-lg sm:text-xl font-black text-slate-900 tracking-tight text-center mb-5 sm:mb-6"
+            x-text="lang === 'uz' ? 'World Medicine mukofot va yutuqlari' : 'Награды и достижения World Medicine'"
+          ></h3>
+
+          <!-- Awards Cards Grid (3 Columns, Compact) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            <template x-for="award in awards" :key="award.id">
+              <div class="bg-white/95 rounded-2xl border-2 border-white/80 hover:border-wmBlue-500 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between group backdrop-blur-xs">
+                
+                <!-- Award Image Container -->
+                <div>
+                  <div class="w-full h-44 sm:h-48 bg-slate-100 overflow-hidden relative">
+                    <img 
+                      :src="award.image" 
+                      :alt="lang === 'uz' ? award.title_uz : award.title_ru" 
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    >
+                    <!-- Year Pill Badge -->
+                    <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-black shadow-xs flex items-center gap-1">
+                      <i data-lucide="award" class="w-3 h-3 text-amber-400"></i>
+                      <span x-text="award.year"></span>
+                    </div>
+                    
+                    <!-- Category Badge -->
+                    <div class="absolute bottom-2.5 left-3 px-2.5 py-0.5 rounded-full bg-white/95 backdrop-blur-md text-wmBlue-700 text-[10px] font-black shadow-xs" x-text="lang === 'uz' ? award.badge_uz : award.badge_ru"></div>
+                  </div>
+
+                  <!-- Award Text Content -->
+                  <div class="p-4 sm:p-5">
+                    <h4 class="font-extrabold text-slate-900 text-sm sm:text-base leading-snug group-hover:text-wmBlue-600 transition-colors mb-2 line-clamp-2" x-text="lang === 'uz' ? award.title_uz : award.title_ru"></h4>
+                    <p class="text-xs text-slate-600 leading-relaxed font-medium line-clamp-2" x-text="lang === 'uz' ? award.desc_uz : award.desc_ru"></p>
+                  </div>
+                </div>
+
+                <!-- Card Bottom Action -->
+                <div class="px-4 pb-4 pt-0">
+                  <a 
+                    href="https://www.worldmedicine.uz/korporatsiya/nagrady/" 
+                    target="_blank" 
+                    class="w-full py-2 rounded-lg bg-slate-50 hover:bg-wmBlue-50 border border-slate-200 hover:border-wmBlue-300 text-slate-700 hover:text-wmBlue-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <span x-text="lang === 'uz' ? 'Batafsil' : 'Подробнее'"></span>
+                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                  </a>
+                </div>
+
+              </div>
+            </template>
+          </div>
+
+        </div>
+
+        <!-- Subsection 2: Certificates -->
+        <div class="pt-6 sm:pt-8">
+          
+          <!-- Subsection Header -->
+          <h3 
+            class="text-lg sm:text-xl font-black text-slate-900 tracking-tight text-center mb-5 sm:mb-6"
+            x-text="lang === 'uz' ? 'World Medicine xalqaro sertifikatlari' : 'Международные сертификаты World Medicine'"
+          ></h3>
+
+          <!-- Certificates Cards Grid (3 Columns, Compact) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            <template x-for="cert in certificates" :key="cert.id">
+              <div class="bg-white/95 rounded-2xl border-2 border-white/80 hover:border-wmBlue-500 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between group p-4 sm:p-5 text-center items-center backdrop-blur-xs">
+                
+                <div class="w-full flex flex-col items-center">
+                  <!-- Certificate Image Container -->
+                  <div class="w-full h-36 sm:h-40 bg-slate-50 rounded-xl p-3 flex items-center justify-center mb-3.5 border border-slate-100 group-hover:border-wmBlue-200 transition-colors">
+                    <img 
+                      :src="cert.image" 
+                      :alt="cert.title_ru" 
+                      class="max-h-full max-w-full object-contain filter drop-shadow-xs group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    >
+                  </div>
+
+                  <!-- Certificate Titles -->
+                  <h4 class="font-extrabold text-slate-900 text-sm sm:text-base mb-1 group-hover:text-wmBlue-600 transition-colors" x-text="lang === 'uz' ? cert.title_uz : cert.title_ru"></h4>
+                  <div class="text-xs font-semibold text-wmBlue-600" x-text="lang === 'uz' ? cert.subtitle_uz : cert.subtitle_ru"></div>
+                </div>
+
+                <!-- Card Bottom Action -->
+                <div class="w-full mt-4 pt-3 border-t border-slate-100">
+                  <a 
+                    href="https://www.worldmedicine.uz/korporatsiya/sertifikaty/" 
+                    target="_blank" 
+                    class="w-full py-2 rounded-lg bg-slate-50 hover:bg-wmBlue-50 border border-slate-200 hover:border-wmBlue-300 text-slate-700 hover:text-wmBlue-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <span x-text="lang === 'uz' ? 'Sertifikatni ko\'rish' : 'Смотреть сертификат'"></span>
+                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                  </a>
+                </div>
+
+              </div>
+            </template>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Slide-Over Cart Drawer -->
+  <div 
+    x-show="isCartOpen" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-xs flex justify-end"
+    style="display: none;"
+  >
+    <div 
+      x-show="isCartOpen"
+      x-transition:enter="transform transition ease-out duration-300"
+      x-transition:enter-start="translate-x-full"
+      x-transition:enter-end="translate-x-0"
+      x-transition:leave="transform transition ease-in duration-200"
+      x-transition:leave-start="translate-x-0"
+      x-transition:leave-end="translate-x-full"
+      @click.away="isCartOpen = false" 
+      class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between"
+    >
+      <!-- Cart Header -->
+      <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full wm-blue-bg text-white flex items-center justify-center">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          </div>
+          <h3 class="font-bold text-slate-900 text-base" x-text="t('cart_title')"></h3>
+          <span class="text-xs bg-wmBlue-100 text-wmBlue-800 font-bold px-2 py-0.5 rounded-full" x-text="cartCount"></span>
+        </div>
+        <button @click="isCartOpen = false" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Free Delivery Progress Bar -->
+      <div class="px-5 py-3 bg-emerald-50 border-b border-emerald-100">
+        <div class="flex items-center justify-between text-xs font-semibold text-emerald-900 mb-1.5">
+          <span x-show="!isFreeDeliveryEligible" x-text="lang === 'uz' ? 'Bepul yetkazishgacha: ' + formatPrice(200000 - cartTotal) : 'До бесплатной доставки: ' + formatPrice(200000 - cartTotal)"></span>
+          <span x-show="isFreeDeliveryEligible" class="text-emerald-700 flex items-center gap-1 font-bold">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+            <span x-text="lang === 'uz' ? 'Sizga bepul yetkazib berish taqdim etiladi!' : 'Вам доступна бесплатная доставка!'"></span>
+          </span>
+          <span x-text="deliveryProgressPercent + '%'"></span>
+        </div>
+        <div class="w-full bg-emerald-200/80 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-emerald-600 h-1.5 rounded-full transition-all duration-300" :style="'width: ' + deliveryProgressPercent + '%'"></div>
+        </div>
+      </div>
+
+      <!-- Cart Items List -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-4">
+        
+        <!-- Empty State -->
+        <div x-show="cart.length === 0" class="py-16 text-center">
+          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="shopping-cart" class="w-8 h-8"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-base" x-text="t('empty_cart')"></h4>
+          <p class="text-xs text-slate-500 max-w-xs mx-auto mt-1" x-text="t('empty_cart_desc')"></p>
+        </div>
+
+        <!-- Items -->
+        <template x-for="item in cart" :key="item.id">
+          <div class="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-200">
+            <img :src="item.image" :alt="item.name_ru" class="w-14 h-14 object-contain bg-white rounded-xl p-1 shrink-0 border border-slate-100 drop-shadow-xs">
+            
+            <div class="flex-1 min-w-0">
+              <h4 class="font-bold text-slate-900 text-xs sm:text-sm truncate" x-text="lang === 'uz' ? item.name_uz : item.name_ru"></h4>
+              <p class="text-[11px] text-slate-500 truncate" x-text="lang === 'uz' ? item.dosage_uz : item.dosage_ru"></p>
+              <div class="text-xs font-bold text-wmBlue-600 mt-1" x-text="formatPrice(item.price)"></div>
+            </div>
+
+            <!-- Stepper -->
+            <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1">
+              <button @click="updateCartQty(item.id, -1)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-xs font-bold">-</button>
+              <span class="w-6 text-center text-xs font-bold text-slate-900" x-text="item.quantity"></span>
+              <button @click="updateCartQty(item.id, 1)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-xs font-bold">+</button>
+            </div>
+
+            <button @click="removeFromCart(item.id)" class="text-slate-400 hover:text-red-500 p-1">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </template>
+      </div>
+
+      <!-- Cart Footer / Summary -->
+      <div x-show="cart.length > 0" class="p-5 border-t border-slate-200 bg-white space-y-3">
+        <div class="flex items-center justify-between text-sm text-slate-600">
+          <span x-text="lang === 'uz' ? 'Mahsulotlar narxi:' : 'Стоимость товаров:'"></span>
+          <span class="font-semibold text-slate-900" x-text="formatPrice(cartTotal)"></span>
+        </div>
+        <div class="flex items-center justify-between text-sm text-slate-600">
+          <span x-text="lang === 'uz' ? 'Yetkazib berish:' : 'Доставка:'"></span>
+          <span class="font-semibold" :class="isFreeDeliveryEligible ? 'text-emerald-600' : 'text-slate-900'" x-text="isFreeDeliveryEligible ? (lang === 'uz' ? 'Bepul' : 'Бесплатно') : '25 000 ' + t('sum')"></span>
+        </div>
+        <div class="flex items-center justify-between text-base font-extrabold text-slate-900 pt-2 border-t border-slate-100">
+          <span x-text="t('total') + ':'"></span>
+          <span class="text-wmBlue-600 text-lg" x-text="formatPrice(isFreeDeliveryEligible ? cartTotal : cartTotal + 25000)"></span>
+        </div>
+
+        <div class="pt-2 grid grid-cols-1 gap-2">
+          <button 
+            @click="openCheckout()" 
+            class="w-full py-3.5 rounded-xl wm-blue-bg text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+          >
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span x-text="t('checkout_btn')"></span>
+          </button>
+
+          <button 
+            @click="sendTelegramDirectOrder()" 
+            class="w-full py-3 rounded-xl telegram-btn font-bold text-xs shadow-xs flex items-center justify-center gap-2"
+          >
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span x-text="t('telegram_order_btn')"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Product Modal (Quick View & Instructions) -->
+  <div 
+    x-show="isProductModalOpen" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
+    style="display: none;"
+  >
+    <div 
+      x-show="isProductModalOpen"
+      x-transition:enter="transform transition ease-out duration-300"
+      x-transition:enter-start="scale-95 opacity-0"
+      x-transition:enter-end="scale-100 opacity-100"
+      x-transition:leave="transform transition ease-in duration-200"
+      x-transition:leave-start="scale-100 opacity-100"
+      x-transition:leave-end="scale-95 opacity-0"
+      @click.away="closeProductModal()" 
+      class="bg-white rounded-3xl shadow-2xl max-w-3xl w-full overflow-hidden relative max-h-[90vh] flex flex-col"
+    >
+      <button 
+        @click="closeProductModal()" 
+        class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors"
+      >
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="overflow-y-auto flex-1 p-6 sm:p-8" x-show="selectedProduct">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8">
+          
+          <!-- Dynamic Packaging-Matched Image Column in Modal -->
+          <div :class="getProductBg(selectedProduct)" class="md:col-span-5 flex flex-col items-center justify-center rounded-2xl p-6 border border-slate-200/80 shadow-xs transition-colors duration-300">
+            <img 
+              :src="selectedProduct?.image" 
+              :alt="selectedProduct?.name_ru" 
+              class="max-h-72 w-full object-contain drop-shadow-md"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x400/ffffff/0032a0?text=World+Medicine';"
+            >
+            <div class="mt-3 text-center" x-show="selectedProduct?.dosage_ru">
+              <span class="text-xs font-semibold text-slate-500" x-text="lang === 'uz' ? selectedProduct?.dosage_uz : selectedProduct?.dosage_ru"></span>
+            </div>
+          </div>
+
+          <!-- Info Column -->
+          <div class="md:col-span-7 space-y-4">
+            
+            <div>
+              <span class="text-xs font-bold text-wmBlue-600 uppercase tracking-wider" x-text="lang === 'uz' ? selectedProduct?.pharm_group_uz : selectedProduct?.pharm_group_ru"></span>
+              <h2 class="text-2xl font-extrabold text-slate-900 mt-1" x-text="lang === 'uz' ? selectedProduct?.name_uz : selectedProduct?.name_ru"></h2>
+            </div>
+
+            <!-- Price Box -->
+            <div class="p-3.5 rounded-2xl bg-wmBlue-50 border border-wmBlue-100 flex items-center justify-between">
+              <div>
+                <span class="text-[11px] text-slate-500" x-text="lang === 'uz' ? 'Katalog narxi:' : 'Цена в каталоге:'"></span>
+                <div class="text-xl font-black text-slate-900" x-text="selectedProduct ? formatPrice(selectedProduct.price) : ''"></div>
+              </div>
+
+              <!-- Quantity Selector & Add -->
+              <div class="flex items-center gap-2">
+                <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1">
+                  <button @click="modalQty = Math.max(1, modalQty - 1)" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-xs font-bold">-</button>
+                  <span class="w-8 text-center text-xs font-bold" x-text="modalQty"></span>
+                  <button @click="modalQty++" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-xs font-bold">+</button>
+                </div>
+                <button 
+                  @click="addToCart(selectedProduct, modalQty); closeProductModal(); isCartOpen = true;" 
+                  class="px-4 py-2.5 rounded-xl wm-blue-bg text-white text-xs font-bold shadow-xs transition-all"
+                  x-text="t('add_to_cart')"
+                ></button>
+              </div>
+            </div>
+
+            <!-- Uzum Market Direct Option inside Modal -->
+            <div class="p-3 bg-purple-50 rounded-2xl border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2.5 text-xs">
+                <span class="w-7 h-7 rounded-xl bg-[#7000FF] text-white flex items-center justify-center font-black text-xs shadow-2xs">U</span>
+                <div>
+                  <div class="font-bold text-purple-950" x-text="t('buy_on_uzum')"></div>
+                  <div class="text-[11px] text-purple-700" x-text="t('uzum_delivery_tag')"></div>
+                </div>
+              </div>
+              <a 
+                :href="getUzumUrl(selectedProduct)" 
+                target="_blank" 
+                class="w-full sm:w-auto px-4 py-2 rounded-xl uzum-btn text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-transform transform active:scale-95"
+              >
+                <span>Перейти на Uzum</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+
+            <!-- Description -->
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" x-text="lang === 'uz' ? selectedProduct?.description_uz : selectedProduct?.description_ru"></p>
+
+            <!-- Key Specs -->
+            <div class="space-y-2 pt-2 text-xs">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <strong class="text-slate-900 block mb-0.5" x-text="t('composition') + ':'"></strong>
+                <span class="text-slate-600" x-text="lang === 'uz' ? selectedProduct?.composition_uz : selectedProduct?.composition_ru"></span>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <strong class="text-slate-900 block mb-0.5" x-text="t('indications') + ':'"></strong>
+                <span class="text-slate-600" x-text="lang === 'uz' ? selectedProduct?.indications_uz : selectedProduct?.indications_ru"></span>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <strong class="text-slate-900 block mb-0.5" x-text="t('usage') + ':'"></strong>
+                <span class="text-slate-600" x-text="lang === 'uz' ? selectedProduct?.usage_uz : selectedProduct?.usage_ru"></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div 
+    x-show="isCheckoutModalOpen" 
+    x-transition 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+    style="display: none;"
+  >
+    <div 
+      @click.away="isCheckoutModalOpen = false" 
+      class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 sm:p-8 relative"
+    >
+      <button @click="isCheckoutModalOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 rounded-full wm-blue-bg text-white flex items-center justify-center">
+          <i data-lucide="check-square" class="w-4 h-4"></i>
+        </div>
+        <h3 class="text-lg sm:text-xl font-bold text-slate-900" x-text="t('checkout_btn')"></h3>
+      </div>
+
+      <div class="space-y-4 text-xs sm:text-sm">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1" x-text="lang === 'uz' ? 'Ismingiz:' : 'Ваше имя:'"></label>
+          <input type="text" x-model="checkout.name" placeholder="Aziz Karimov / Алишер" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-wmBlue-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1" x-text="lang === 'uz' ? 'Telefon raqamingiz:' : 'Контактный телефон:'"></label>
+          <input type="tel" x-model="checkout.phone" placeholder="+998 90 123 45 67" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-wmBlue-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1" x-text="lang === 'uz' ? 'Yetkazib berish manzili:' : 'Адрес доставки:'"></label>
+          <input type="text" x-model="checkout.address" placeholder="Ташкент, Чиланзар, ул. Мукими, дом 15, кв. 4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-wmBlue-500 focus:outline-none">
+        </div>
+
+        <!-- Order total preview -->
+        <div class="p-3 bg-wmBlue-50 rounded-xl border border-wmBlue-100 flex items-center justify-between">
+          <span class="font-semibold text-slate-700" x-text="t('total') + ':'"></span>
+          <span class="font-extrabold text-wmBlue-700 text-base" x-text="formatPrice(isFreeDeliveryEligible ? cartTotal : cartTotal + 25000)"></span>
+        </div>
+
+        <div class="pt-2 space-y-2">
+          <button 
+            @click="submitOrder()" 
+            class="w-full py-3.5 rounded-xl wm-blue-bg text-white font-bold text-sm shadow-md transition-all"
+            x-text="lang === 'uz' ? 'Buyurtmani tasdiqlash' : 'Подтвердить и отправить заказ'"
+          ></button>
+
+          <button 
+            @click="sendTelegramDirectOrder()" 
+            class="w-full py-3 rounded-xl telegram-btn font-bold text-xs shadow-xs flex items-center justify-center gap-2"
+          >
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span x-text="t('telegram_order_btn')"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Success Modal -->
+  <div 
+    x-show="isOrderSuccessModalOpen" 
+    x-transition 
+    class="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+    style="display: none;"
+  >
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="check" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-xl font-bold text-slate-900 mb-2" x-text="lang === 'uz' ? 'Buyurtmangiz qabul qilindi!' : 'Спасибо! Ваш заказ принят'"></h3>
+      <p class="text-xs sm:text-sm text-slate-500 mb-6" x-text="lang === 'uz' ? 'Operatorimiz tez orada siz bilan bog\'lanadi va yetkazib berish vaqtini tasdiqlaydi.' : 'Наш менеджер свяжется с вами в течение 10-15 минут для подтверждения деталей доставки.'"></p>
+      <button 
+        @click="isOrderSuccessModalOpen = false" 
+        class="w-full py-3.5 rounded-xl wm-blue-bg text-white font-bold text-sm shadow-xs transition-colors"
+        x-text="lang === 'uz' ? 'Katalogga qaytish' : 'Вернуться в каталог'"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div 
+    x-show="toast.visible" 
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-4"
+    class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 border border-slate-800"
+    style="display: none;"
+  >
+    <div class="w-2 h-2 rounded-full bg-wmCyan-400 animate-ping"></div>
+    <span x-text="toast.message"></span>
+  </div>
+
+  <!-- Footer (World Medicine Brand Colors) -->
+  <footer class="bg-[#00174c] text-[#cbd5e1] pt-14 pb-8 border-t border-[#002275] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        
+        <div class="space-y-3 md:col-span-2">
+          <div class="flex items-center gap-3">
+            <img 
+              src="https://www.worldmedicine.uz/themes/template-ru/images/icons/logo/logo.svg" 
+              alt="World Medicine" 
+              class="h-8 w-auto brightness-0 invert"
+            >
+          </div>
+          <p class="text-xs text-slate-300 max-w-md leading-relaxed" x-text="lang === 'uz' ? 'World Medicine — xalqaro farmatsevtika kompaniyasi bo\'lib, yuqori sifatli retseptsiz dorilar va tabiiy BFQ vositalarini taqdim etadi.' : 'World Medicine — международная фармацевтическая компания, производящая высококачественные безрецептурные препараты и биологически активные комплексы.'"></p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 World Medicine Uzbekistan. <span x-text="lang === 'uz' ? 'Barcha huquqlar himoyalangan.' : 'Все права защищены.'"></span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3" x-text="lang === 'uz' ? 'Bo\'limlar' : 'Разделы каталога'"></h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#" @click.prevent="selectedCategory = 'vitamins_minerals'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Vitaminlar va minerallar' : 'Витамины и минералы'"></a></li>
+            <li><a href="#" @click.prevent="selectedCategory = 'joints_muscles'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Bo\'g\'imlar va mushaklar' : 'Суставы и мышцы'"></a></li>
+            <li><a href="#" @click.prevent="selectedCategory = 'gastro'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Oshqozon-ichak trakti' : 'Гастроэнтерология'"></a></li>
+            <li><a href="#" @click.prevent="selectedCategory = 'nervous_sedative'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Asab tizimi va uyqu' : 'Нервная система и сон'"></a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3" x-text="lang === 'uz' ? 'Bog\'lanish' : 'Контакты и поддержка'"></h4>
+          <ul class="space-y-2 text-xs">
+            <li class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-3.5 h-3.5 text-wmCyan-400"></i>
+              <span>+998 (71) 200-00-00</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="send" class="w-3.5 h-3.5 text-sky-400"></i>
+              <a href="https://t.me/worldmedicineuz" target="_blank" class="hover:text-wmCyan-300">@worldmedicineuz</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-wmCyan-400"></i>
+              <span x-text="lang === 'uz' ? 'Toshkent sh., O\'zbekiston' : 'г. Ташкент, Узбекистан'"></span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-6 border-t border-[#002275] text-[11px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        <p x-text="lang === 'uz' ? 'Retseptsiz beriladigan dori vositalari va biologik faol qo\'shimchalar. Qo\'llashdan oldin yo\'riqnoma bilan tanishib chiqing.' : 'Безрецептурные лекарственные средства и биологически активные добавки к пище. Перед применением ознакомьтесь с инструкцией.'"></p>
+        <div class="flex items-center gap-4">
+          <span class="text-wmCyan-400 font-semibold">World Medicine Corporate Style</span>
+          <span>•</span>
+          <span class="text-slate-400">DAMAAR Format</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

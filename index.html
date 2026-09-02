@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=7.5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=8.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=7.5"></script>
-  <script src="assets/js/app.js?v=7.5"></script>
+  <script src="assets/js/products-data.js?v=8.0"></script>
+  <script src="assets/js/app.js?v=8.0"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -765,12 +765,18 @@
                     x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"
                   ></h3>
 
-                  <!-- Rating & Quality Badge -->
+                  <!-- Corporate 5-Star Rating & Quality Badge -->
                   <div class="flex items-center justify-between gap-2 pt-0.5">
-                    <div class="flex items-center gap-1 text-xs text-amber-500">
-                      <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
-                      <span class="font-black text-slate-800 text-xs" x-text="prod.rating"></span>
-                      <span class="text-slate-400 text-[11px]" x-text="'(' + prod.reviews_count + ')'"></span>
+                    <div class="flex items-center gap-1">
+                      <!-- 5 Solid Corporate Stars in World Medicine Navy -->
+                      <div class="flex items-center gap-0.5 text-[#001f66]">
+                        <svg class="w-3.5 h-3.5 fill-[#001f66] text-[#001f66]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-[#001f66] text-[#001f66]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-[#001f66] text-[#001f66]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-[#001f66] text-[#001f66]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-[#001f66] text-[#001f66]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      </div>
+                      <span class="text-xs font-black text-slate-800 ml-0.5" x-text="'(' + (prod.rating || '5') + '/5)'"></span>
                     </div>
                     <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">GMP EU</span>
                   </div>

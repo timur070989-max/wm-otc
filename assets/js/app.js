@@ -245,16 +245,16 @@ document.addEventListener('alpine:init', () => {
           uz: "Tarkibi va faol moddalar"
         },
         indications: {
-          ru: "Показания к применению",
-          uz: "Qo'llanilishi"
+          ru: "Рекомендации к применению",
+          uz: "Qo'llash bo'yicha tavsiyalar"
         },
         usage: {
           ru: "Способ применения и дозы",
           uz: "Qo'llash usuli va dozalari"
         },
         pharm_group: {
-          ru: "Фарм. группа",
-          uz: "Farm. guruhi"
+          ru: "Направление",
+          uz: "Yo'nalishi"
         },
         form_release: {
           ru: "Форма выпуска",

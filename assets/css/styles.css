@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   
   /* World Medicine Corporate Brandbook Colors */
   --wm-blue: #0032a0;
-  --wm-blue-dark: #002275;
+  --wm-blue-dark: #001f66;
   --wm-blue-light: #e8f0fe;
   --wm-cyan: #3bbdd2;
   --wm-cyan-light: #e6f8fa;
@@ -15,45 +16,74 @@
   --bg-main: #f4f7fc;
   --bg-card: #ffffff;
   
-  --color-text-main: #111827;
-  --color-text-muted: #64748b;
+  --color-text-main: #0f172a;
+  --color-text-muted: #475569;
   --color-border: #e2e8f0;
   
-  --shadow-soft: 0 4px 20px -2px rgba(0, 50, 160, 0.06);
-  --shadow-hover: 0 20px 40px -6px rgba(0, 50, 160, 0.14);
+  --shadow-soft: 0 8px 24px -4px rgba(0, 34, 117, 0.06), 0 2px 6px -1px rgba(0, 34, 117, 0.04);
+  --shadow-hover: 0 20px 40px -8px rgba(0, 34, 117, 0.16), 0 4px 12px -2px rgba(0, 34, 117, 0.08);
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   color: var(--color-text-main);
-  background-image: 
-    radial-gradient(circle at 90% 5%, rgba(0, 50, 160, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 10% 45%, rgba(59, 189, 210, 0.04) 0%, transparent 35%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
 }
 
 /* Glassmorphism & Header */
 .glass-header {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(0, 31, 102, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+/* Luxury Gradient Text & Highlights */
+.luxury-gradient-text {
+  background: linear-gradient(135deg, #001f66 0%, #0032a0 60%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxury-gold-badge {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  color: #b45309;
+  border: 1px solid #fde68a;
 }
 
 /* World Medicine Product Cards */
 .product-card {
   background: var(--bg-card);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(199, 220, 254, 0.7);
   border-radius: 1.25rem;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: var(--shadow-soft);
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(0, 50, 160, 0.35);
+  transform: translateY(-6px);
+  border-color: rgba(0, 50, 160, 0.45);
   box-shadow: var(--shadow-hover);
 }
 

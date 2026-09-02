@@ -1098,6 +1098,15 @@ const WM_AWARDS = [
 
 const WM_CERTIFICATES = [
   {
+    id: "cert-halal",
+    code: "HALAL",
+    title_ru: "Сертификат Халяль (Halal Certified)",
+    title_uz: "Halol sertifikati (Halal Certified)",
+    subtitle_ru: "Подтверждение халяльности и чистоты ингредиентов по международным исламским стандартам",
+    subtitle_uz: "Xalqaro islom standartlari bo'yicha ingredientlarning tozaligi va halolligi tasdig'i",
+    image: "https://www.worldmedicine.uz/uploads/articles/1686/article-original.jpg"
+  },
+  {
     id: "cert-gmp",
     code: "GMP",
     title_ru: "GMP (Good Manufacturing Practice)",

@@ -189,8 +189,8 @@ document.addEventListener('alpine:init', () => {
           uz: "Filtrlarni tozalash"
         },
         found_products: {
-          ru: "Найдено препаратов",
-          uz: "Topilgan preparatlar"
+          ru: "Найдено позиций",
+          uz: "Topilgan mahsulotlar"
         },
         add_to_cart: {
           ru: "В корзину",
@@ -213,8 +213,8 @@ document.addEventListener('alpine:init', () => {
           uz: "Savatingiz bo'sh"
         },
         empty_cart_desc: {
-          ru: "Выберите нужные препараты в каталоге и добавьте их в корзину",
-          uz: "Katalogdan kerakli preparatlarni tanlang va savatga qo'shing"
+          ru: "Выберите нужные комплексы и БАД в каталоге и добавьте их в корзину",
+          uz: "Katalogdan kerakli BFQ vositalarini tanlang va savatga qo'shing"
         },
         total: {
           ru: "Итого к оплате",

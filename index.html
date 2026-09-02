@@ -589,33 +589,10 @@
           ></h2>
         </div>
 
-        <!-- Modern Glassy Category Pills Bar -->
-        <div class="flex items-center justify-center flex-wrap gap-2 mb-6 max-w-5xl mx-auto">
-          <button 
-            @click="selectedCategory = 'all'" 
-            :class="selectedCategory === 'all' ? 'bg-[#001f66] text-white shadow-md' : 'bg-white/80 hover:bg-white text-slate-700 hover:text-[#001f66] border border-wmBlue-200/80'"
-            class="px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
-          >
-            <span x-text="t('all_categories')"></span>
-            <span class="text-[10px] px-1.5 py-0.2 rounded-full opacity-80" :class="selectedCategory === 'all' ? 'bg-white/20' : 'bg-slate-100 text-slate-600'" x-text="products.length"></span>
-          </button>
-
-          <template x-for="cat in categories" :key="cat.id">
-            <button 
-              @click="selectedCategory = cat.id; selectedSymptom = null;" 
-              :class="selectedCategory === cat.id ? 'bg-[#001f66] text-white shadow-md' : 'bg-white/80 hover:bg-white text-slate-700 hover:text-[#001f66] border border-wmBlue-200/80'"
-              class="px-4 py-2 rounded-full text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
-            >
-              <span x-text="lang === 'uz' ? cat.name_uz : cat.name_ru"></span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded-full opacity-80" :class="selectedCategory === cat.id ? 'bg-white/20' : 'bg-slate-100 text-slate-600'" x-text="products.filter(p => p.category_id === cat.id).length"></span>
-            </button>
-          </template>
-        </div>
-
-        <!-- Instant Search & Quick Sort Toolbar -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 max-w-5xl mx-auto mb-8">
+        <!-- Clean Sorting Controls & Search (Centered, Glassy White) -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pb-2 mb-8 max-w-2xl mx-auto">
           <!-- Search Input -->
-          <div class="relative w-full sm:w-80">
+          <div class="relative w-full sm:w-72">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
             <input 
               type="text" 
@@ -632,29 +609,25 @@
             </button>
           </div>
 
-          <!-- Sort Controls & Reset Filters -->
-          <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-            <div class="flex items-center gap-2 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-wmBlue-200 shadow-xs text-xs font-bold text-slate-800">
-              <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-wmBlue-700"></i>
-              <span class="text-slate-500" x-text="lang === 'uz' ? 'Saralash:' : 'Сортировка:'"></span>
-              <select x-model="sortBy" class="bg-transparent font-black focus:outline-none cursor-pointer text-slate-950">
-                <option value="popular" x-text="lang === 'uz' ? 'Ommabopligi bo\'yicha' : 'По популярности'"></option>
-                <option value="price_asc" x-text="lang === 'uz' ? 'Narx: arzonroqdan' : 'По цене (сначала дешевле)'"></option>
-                <option value="price_desc" x-text="lang === 'uz' ? 'Narx: qimmatroqdan' : 'По цене (сначала дороже)'"></option>
-                <option value="name" x-text="lang === 'uz' ? 'Nomi bo\'yicha (A-Z)' : 'По названию (А-Я)'"></option>
-              </select>
-            </div>
-
-            <button 
-              x-show="selectedSymptom || selectedCategory !== 'all' || searchQuery" 
-              @click="resetAllFilters()" 
-              class="px-4 py-2.5 rounded-2xl bg-white hover:bg-rose-50 text-rose-600 border border-rose-200 text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs"
-              title="Сбросить все фильтры"
-            >
-              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-              <span x-text="t('reset_filters')"></span>
-            </button>
+          <div class="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-wmBlue-200/80 shadow-xs text-xs font-bold text-slate-800">
+            <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-wmBlue-700"></i>
+            <span class="text-slate-500" x-text="lang === 'uz' ? 'Saralash:' : 'Сортировка:'"></span>
+            <select x-model="sortBy" class="bg-transparent font-black focus:outline-none cursor-pointer text-slate-950">
+              <option value="popular" x-text="lang === 'uz' ? 'Ommabopligi bo\'yicha' : 'По популярности'"></option>
+              <option value="price_asc" x-text="lang === 'uz' ? 'Narx: arzonroqdan' : 'По цене (сначала дешевле)'"></option>
+              <option value="price_desc" x-text="lang === 'uz' ? 'Narx: qimmatroqdan' : 'По цене (сначала дороже)'"></option>
+              <option value="name" x-text="lang === 'uz' ? 'Nomi bo\'yicha (A-Z)' : 'По названию (А-Я)'"></option>
+            </select>
           </div>
+
+          <button 
+            x-show="selectedSymptom || searchQuery" 
+            @click="resetAllFilters()" 
+            class="px-4 py-2.5 rounded-2xl bg-white hover:bg-wmBlue-50 text-wmBlue-800 border border-wmBlue-300 text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs"
+          >
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            <span x-text="lang === 'uz' ? 'Barchasini ko\'rsatish' : 'Показать все'"></span>
+          </button>
         </div>
 
         <!-- Products Grid (Clean background, Large product images, 2 Rows = 8 items per page) -->
@@ -1310,7 +1283,7 @@
               class="h-8 w-auto brightness-0 invert"
             >
           </div>
-          <p class="text-xs text-slate-300 max-w-md leading-relaxed" x-text="lang === 'uz' ? 'World Medicine — xalqaro farmatsevtika kompaniyasi bo\'lib, yuqori sifatli retseptsiz dorilar va tabiiy BFQ vositalarini taqdim etadi.' : 'World Medicine — международная фармацевтическая компания, производящая высококачественные безрецептурные препараты и биологически активные комплексы.'"></p>
+          <p class="text-xs text-slate-300 max-w-md leading-relaxed" x-text="lang === 'uz' ? 'World Medicine — xalqaro farmatsevtika kompaniyasi bo\'lib, yuqori sifatli tabiiy BFQ vositalari va salomatlik formulalarini taqdim etadi.' : 'World Medicine — международная компания, производящая высококачественные биологически активные добавки (БАД), витаминно-минеральные комплексы и формулы здоровья.'"></p>
           <div class="text-[11px] text-slate-400">
             © 2026 World Medicine Uzbekistan. <span x-text="lang === 'uz' ? 'Barcha huquqlar himoyalangan.' : 'Все права защищены.'"></span>
           </div>
@@ -1319,7 +1292,7 @@
         <div>
           <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3" x-text="lang === 'uz' ? 'Bo\'limlar' : 'Разделы каталога'"></h4>
           <ul class="space-y-2 text-xs">
-            <li><a href="#" @click.prevent="selectedCategory = 'vitamins_minerals'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Vitaminlar va minerallar' : 'Витамины и минералы'"></a></li>
+            <li><a href="#" @click.prevent="selectedCategory = 'vitamins_minerals'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Vitaminlar va BFQ' : 'Витамины и БАД'"></a></li>
             <li><a href="#" @click.prevent="selectedCategory = 'joints_muscles'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Bo\'g\'imlar va mushaklar' : 'Суставы и мышцы'"></a></li>
             <li><a href="#" @click.prevent="selectedCategory = 'gastro'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Oshqozon-ichak trakti' : 'Гастроэнтерология'"></a></li>
             <li><a href="#" @click.prevent="selectedCategory = 'nervous_sedative'; scrollToCatalog()" class="hover:text-wmCyan-300 transition-colors" x-text="lang === 'uz' ? 'Asab tizimi va uyqu' : 'Нервная система и сон'"></a></li>
@@ -1347,11 +1320,11 @@
       </div>
 
       <div class="pt-6 border-t border-[#002275] text-[11px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-        <p x-text="lang === 'uz' ? 'Retseptsiz beriladigan dori vositalari va biologik faol qo\'shimchalar. Qo\'llashdan oldin yo\'riqnoma bilan tanishib chiqing.' : 'Безрецептурные лекарственные средства и биологически активные добавки к пище. Перед применением ознакомьтесь с инструкцией.'"></p>
+        <p x-text="lang === 'uz' ? 'Biologik faol qo\'shimchalar (BFQ). Dori vositasi hisoblanmaydi. Qo\'llashdan oldin yo\'riqnoma bilan tanishib chiqing.' : 'Биологически активные добавки к пище (БАД). Не являются лекарственными средствами. Перед применением ознакомьтесь с инструкцией.'"></p>
         <div class="flex items-center gap-4">
-          <span class="text-wmCyan-400 font-semibold">World Medicine Corporate Style</span>
+          <span class="text-wmCyan-400 font-semibold">World Medicine Quality</span>
           <span>•</span>
-          <span class="text-slate-400">OTC Catalog</span>
+          <span class="text-slate-400">Dietary Supplements (БАД)</span>
         </div>
       </div>
     </div>

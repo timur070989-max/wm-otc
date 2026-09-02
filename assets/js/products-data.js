@@ -1207,7 +1207,7 @@ const WM_PRODUCTS = [
 ];
 
 const WM_CATEGORIES = [
-  { id: "all", name_ru: "Все препараты", name_uz: "Barcha dorilar", icon: "sparkles", count: 24 },
+  { id: "all", name_ru: "Все БАД и комплексы", name_uz: "Barcha BFQ va majmualar", icon: "sparkles", count: 24 },
   { id: "vitamins_minerals", name_ru: "Витамины и БАД", name_uz: "Vitaminlar va BFQ", icon: "heart-pulse", count: 8 },
   { id: "gastro", name_ru: "Гастроэнтерология и ЖКТ", name_uz: "Oshqozon va ichak", icon: "activity", count: 6 },
   { id: "joints_muscles", name_ru: "Суставы и мышцы", name_uz: "Bo'g'im va mushaklar", icon: "shield-plus", count: 5 },

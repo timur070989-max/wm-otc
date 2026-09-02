@@ -165,12 +165,12 @@ document.addEventListener('alpine:init', () => {
     t(key) {
       const dict = {
         catalog_title: {
-          ru: "Наши рекомендации",
-          uz: "Bizning tavsiyamiz"
+          ru: "Формулы красоты, молодости и здоровья",
+          uz: "Go'zallik, yoshlik va salomatlik formulalari"
         },
         catalog_subtitle: {
-          ru: "Европейское качество и доказанная эффективность для здоровья всей семьи",
-          uz: "Butun oila salomatligi uchun Yevropa sifati va isbotlangan samaradorlik"
+          ru: "Европейские премиум-формулы: естественное сияние, бодрость, молодость и гармония каждый день",
+          uz: "Premium Yevropa formulalari: tabiiy jilo, yoshlik nuri, tetiklik va har kungi mukammal uyg'unlik"
         },
         search_placeholder: {
           ru: "Поиск по названию, симптому или веществу...",

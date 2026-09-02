@@ -1104,7 +1104,7 @@ const WM_CERTIFICATES = [
     title_uz: "Halol sertifikati (Nova Cert International)",
     subtitle_ru: "Стандарт TS OIC SMIIC 1:2011 • Сертификат № NCK-2023/00339 (WORD-0339)",
     subtitle_uz: "TS OIC SMIIC 1:2011 standarti • Sertifikat № NCK-2023/00339 (WORD-0339)",
-    image: "assets/img/certificates/halal_logo.svg"
+    image: "assets/img/certificates/halal_logo.svg?v=7.0"
   },
   {
     id: "cert-gmp",

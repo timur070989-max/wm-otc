@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=6.5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=7.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=6.5"></script>
-  <script src="assets/js/app.js?v=6.5"></script>
+  <script src="assets/js/products-data.js?v=7.0"></script>
+  <script src="assets/js/app.js?v=7.0"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -358,7 +358,114 @@
           <div class="lg:col-span-4 flex flex-col items-center justify-center order-1 lg:order-2">
             <div class="w-full h-[440px] sm:h-[490px] lg:h-[530px] relative flex items-center justify-center select-none">
               
-              <!-- SVG Interactive Connector Lines (Saturated, High-Contrast & Clearly Visible) -->
+                            <!-- SVG Interactive Connector Lines (High-Contrast Clean Dashed Lines) -->
+              <svg class="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-15" viewBox="0 0 400 530" preserveAspectRatio="none">
+                <defs>
+                  <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="glow"/>
+                    <feMerge>
+                      <feMergeNode in="glow"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Left 1 -> Head (196, 138) -->
+                <path 
+                  d="M 0 135 C 90 135, 130 138, 196 138" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'head_stress' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'head_stress' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'head_stress' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'head_stress' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'head_stress' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Left 2 -> Joints / Arm (144, 255) -->
+                <path 
+                  d="M 0 225 C 60 225, 100 255, 144 255" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'joints_pain' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'joints_pain' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'joints_pain' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'joints_pain' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'joints_pain' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Left 3 -> Stomach (196, 292) -->
+                <path 
+                  d="M 0 315 C 90 315, 130 292, 196 292" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'heartburn_bloat' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'heartburn_bloat' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'heartburn_bloat' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'heartburn_bloat' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'heartburn_bloat' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Left 4 -> Cold / Throat (196, 202) -->
+                <path 
+                  d="M 0 405 C 90 405, 130 202, 196 202" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'cold_fever' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'cold_fever' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'cold_fever' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'cold_fever' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'cold_fever' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right 1 -> Heart / Immunity (196, 244) -->
+                <path 
+                  d="M 400 135 C 310 135, 260 244, 196 244" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'fatigue_immunity' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'fatigue_immunity' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'fatigue_immunity' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'fatigue_immunity' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'fatigue_immunity' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right 2 -> Pregnancy / Center (196, 340) -->
+                <path 
+                  d="M 400 225 C 310 225, 270 340, 196 340" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'pregnancy_growth' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'pregnancy_growth' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'pregnancy_growth' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'pregnancy_growth' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'pregnancy_growth' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right 3 -> Legs / Veins (200, 419) -->
+                <path 
+                  d="M 400 315 C 310 315, 270 419, 200 419" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'tired_legs' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'tired_legs' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'tired_legs' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'tired_legs' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'tired_legs' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+
+                <!-- Right 4 -> Skin / Shoulder (224, 223) -->
+                <path 
+                  d="M 400 405 C 310 405, 280 223, 224 223" 
+                  fill="none" 
+                  :stroke="selectedSymptom === 'skin_wounds' ? '#0032a0' : '#003896'" 
+                  :stroke-width="selectedSymptom === 'skin_wounds' ? '3.8' : '2.2'" 
+                  :stroke-dasharray="selectedSymptom === 'skin_wounds' ? 'none' : '6 4'"
+                  :opacity="selectedSymptom === 'skin_wounds' ? '1' : '0.85'"
+                  :filter="selectedSymptom === 'skin_wounds' ? 'url(#lineGlow)' : 'none'"
+                  class="transition-all duration-300"
+                />
+              </svg>
               
 
               <!-- 3D Rotating Woman Model in Corporate Colors -->

@@ -1099,12 +1099,12 @@ const WM_AWARDS = [
 const WM_CERTIFICATES = [
   {
     id: "cert-halal",
-    code: "HALAL / SMIIC",
+    code: "HALAL / SMIIC 1",
     title_ru: "Сертификат Халяль (Nova Cert International)",
     title_uz: "Halol sertifikati (Nova Cert International)",
     subtitle_ru: "Стандарт TS OIC SMIIC 1:2011 • Сертификат № NCK-2023/00339 (WORD-0339)",
     subtitle_uz: "TS OIC SMIIC 1:2011 standarti • Sertifikat № NCK-2023/00339 (WORD-0339)",
-    image: "https://www.worldmedicine.uz/uploads/articles/1686/article-original.jpg"
+    image: "assets/img/certificates/halal_logo.svg"
   },
   {
     id: "cert-gmp",
@@ -1123,14 +1123,5 @@ const WM_CERTIFICATES = [
     subtitle_ru: "Система менеджмента качества",
     subtitle_uz: "Sifat menejmenti tizimi",
     image: "https://www.worldmedicine.uz/uploads/articles/1697/article-original.jpg"
-  },
-  {
-    id: "cert-iso13485",
-    code: "ISO 13485",
-    title_ru: "ISO 13485:2016",
-    title_uz: "ISO 13485:2016",
-    subtitle_ru: "Качество и безопасность продукции",
-    subtitle_uz: "Mahsulotlar xavfsizligi va sifati",
-    image: "https://www.worldmedicine.uz/uploads/articles/1700/article-original.jpg"
   }
 ];

@@ -1099,11 +1099,11 @@ const WM_AWARDS = [
 const WM_CERTIFICATES = [
   {
     id: "cert-halal",
-    code: "HALAL",
-    title_ru: "Сертификат Халяль (Halal Certified)",
-    title_uz: "Halol sertifikati (Halal Certified)",
-    subtitle_ru: "Подтверждение халяльности и чистоты ингредиентов по международным исламским стандартам",
-    subtitle_uz: "Xalqaro islom standartlari bo'yicha ingredientlarning tozaligi va halolligi tasdig'i",
+    code: "HALAL / SMIIC",
+    title_ru: "Сертификат Халяль (Nova Cert International)",
+    title_uz: "Halol sertifikati (Nova Cert International)",
+    subtitle_ru: "Стандарт TS OIC SMIIC 1:2011 • Сертификат № NCK-2023/00339 (WORD-0339)",
+    subtitle_uz: "TS OIC SMIIC 1:2011 standarti • Sertifikat № NCK-2023/00339 (WORD-0339)",
     image: "https://www.worldmedicine.uz/uploads/articles/1686/article-original.jpg"
   },
   {

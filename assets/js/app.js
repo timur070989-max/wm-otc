@@ -662,3 +662,81 @@ document.addEventListener('alpine:init', () => {
     }
   }));
 });
+
+
+/**
+ * Vibecoded Motion Layer
+ * -----------------------
+ * Scroll-triggered reveal animations + cursor-following spotlight on
+ * product cards + subtle hero video parallax on scroll.
+ * Runs independently of Alpine so it survives every filter/pagination
+ * re-render (tracked via MutationObserver) without extra wiring.
+ * Respects prefers-reduced-motion throughout.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- 1. Scroll reveal (fade + rise into view) --- */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  function observeReveals() {
+    document.querySelectorAll('.reveal-on-scroll:not(.reveal-observed)').forEach((el) => {
+      el.classList.add('reveal-observed');
+      if (prefersReducedMotion) {
+        el.classList.add('revealed');
+      } else {
+        revealObserver.observe(el);
+      }
+    });
+  }
+
+  observeReveals();
+  // Alpine re-renders the product grid on every filter/page/language change,
+  // so new cards keep appearing after the initial load — pick them up too.
+  new MutationObserver(observeReveals).observe(document.body, { childList: true, subtree: true });
+
+  /* --- 2. Cursor-following spotlight on product cards --- */
+  if (!prefersReducedMotion) {
+    let spotlightPending = false;
+    let lastPointerEvent = null;
+
+    document.addEventListener('mousemove', (e) => {
+      lastPointerEvent = e;
+      if (spotlightPending) return;
+      spotlightPending = true;
+      requestAnimationFrame(() => {
+        spotlightPending = false;
+        const card = lastPointerEvent.target.closest && lastPointerEvent.target.closest('.product-card');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--spot-x', (lastPointerEvent.clientX - rect.left) + 'px');
+        card.style.setProperty('--spot-y', (lastPointerEvent.clientY - rect.top) + 'px');
+      });
+    }, { passive: true });
+  }
+
+  /* --- 3. Hero video parallax on scroll --- */
+  const heroVideo = document.getElementById('heroBgVideo');
+  if (heroVideo && !prefersReducedMotion) {
+    let parallaxPending = false;
+    const applyParallax = () => {
+      parallaxPending = false;
+      const offset = Math.min(Math.max(window.scrollY * 0.12, 0), 90);
+      heroVideo.style.transform = 'scale(1.12) translateY(' + offset + 'px)';
+    };
+    window.addEventListener('scroll', () => {
+      if (!parallaxPending) {
+        parallaxPending = true;
+        requestAnimationFrame(applyParallax);
+      }
+    }, { passive: true });
+    applyParallax();
+  }
+});

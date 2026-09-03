@@ -740,15 +740,15 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-  /* --- 4. Interactive 3D Model Look-At Mouse (Tracks Cursor Position) --- */
+    /* --- 4. Interactive 3D Model Look-At Mouse (Smooth Cursor Tracking) --- */
   const bodyViewer = document.getElementById('bodyViewer');
   const symptomsSection = document.getElementById('symptoms-guide');
 
   if (bodyViewer && symptomsSection) {
-    const baseAzimuth = 0;      // deg (front facing)
-    const baseElevation = 78;   // deg
-    const maxAzimuth = 32;      // max turn angle left/right (+/- 32 deg)
-    const maxElevation = 12;    // max tilt up/down (+/- 12 deg)
+    const baseAzimuth = 0;      // front-facing center
+    const baseElevation = 78;   // base eye level
+    const maxAzimuth = 45;      // wide turn angle (+/- 45 deg)
+    const maxElevation = 14;    // tilt up/down (+/- 14 deg)
 
     let targetAzimuth = baseAzimuth;
     let targetElevation = baseElevation;
@@ -757,53 +757,60 @@ document.addEventListener('DOMContentLoaded', () => {
     let isTracking = false;
     let modelRaf = null;
 
-    function animateModelCamera() {
-      // Smooth cubic lerp
-      const factor = 0.085;
-      currentAzimuth += (targetAzimuth - currentAzimuth) * factor;
-      currentElevation += (targetElevation - currentElevation) * factor;
+    function render3DFrame() {
+      // Smooth responsive lerp
+      const ease = 0.12;
+      currentAzimuth += (targetAzimuth - currentAzimuth) * ease;
+      currentElevation += (targetElevation - currentElevation) * ease;
 
-      bodyViewer.cameraOrbit = `${currentAzimuth.toFixed(2)}deg ${currentElevation.toFixed(2)}deg 105%`;
+      const orbitStr = `${currentAzimuth.toFixed(2)}deg ${currentElevation.toFixed(2)}deg 105%`;
+      bodyViewer.cameraOrbit = orbitStr;
+      bodyViewer.setAttribute('camera-orbit', orbitStr);
 
-      if (Math.abs(targetAzimuth - currentAzimuth) > 0.04 || Math.abs(targetElevation - currentElevation) > 0.04 || isTracking) {
-        modelRaf = requestAnimationFrame(animateModelCamera);
+      if (Math.abs(targetAzimuth - currentAzimuth) > 0.05 || Math.abs(targetElevation - currentElevation) > 0.05 || isTracking) {
+        modelRaf = requestAnimationFrame(render3DFrame);
       } else {
         modelRaf = null;
       }
     }
 
-    document.addEventListener('mousemove', (e) => {
-      const rect = symptomsSection.getBoundingClientRect();
-      const margin = 100; // active zone extends slightly around section
+    // Track mouse position relative to the 3D model center
+    function handlePointer(clientX, clientY) {
+      const rect = bodyViewer.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-      if (
-        e.clientY < rect.top - margin ||
-        e.clientY > rect.bottom + margin ||
-        e.clientX < rect.left - margin ||
-        e.clientX > rect.right + margin
-      ) {
-        if (isTracking) {
-          isTracking = false;
-          targetAzimuth = baseAzimuth;
-          targetElevation = baseElevation;
-          if (!modelRaf) modelRaf = requestAnimationFrame(animateModelCamera);
-        }
-        return;
-      }
+      // Distance from center of 3D model
+      const deltaX = clientX - centerX;
+      const deltaY = clientY - centerY;
 
-      isTracking = true;
-      // Normalized coordinates: -1 (far left) to +1 (far right)
-      const normX = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width) * 2 - 1));
-      const normY = Math.max(-1, Math.min(1, ((e.clientY - rect.top) / rect.height) * 2 - 1));
+      // Normalize across window width/height
+      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.45)));
+      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.45)));
 
-      // Cursor on right -> Model turns right to look at cursor
-      targetAzimuth = normX * maxAzimuth;
-      // Cursor on top -> Camera raises slightly to look up at cursor
+      // Invert azimuth so rotating camera makes model FACE towards mouse
+      targetAzimuth = -normX * maxAzimuth;
       targetElevation = baseElevation + normY * maxElevation;
 
+      isTracking = true;
       if (!modelRaf) {
-        modelRaf = requestAnimationFrame(animateModelCamera);
+        modelRaf = requestAnimationFrame(render3DFrame);
+      }
+    }
+
+    window.addEventListener('pointermove', (e) => {
+      // Check if symptoms section is reasonably visible in viewport
+      const secRect = symptomsSection.getBoundingClientRect();
+      if (secRect.bottom > 0 && secRect.top < window.innerHeight) {
+        handlePointer(e.clientX, e.clientY);
       }
     }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+      isTracking = false;
+      targetAzimuth = baseAzimuth;
+      targetElevation = baseElevation;
+      if (!modelRaf) modelRaf = requestAnimationFrame(render3DFrame);
+    });
   }
 });

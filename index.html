@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=9.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=9.5">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=9.0"></script>
-  <script src="assets/js/app.js?v=9.0"></script>
+  <script src="assets/js/products-data.js?v=9.5"></script>
+  <script src="assets/js/app.js?v=9.5"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -475,8 +475,10 @@
                 alt="World Medicine 3D Human Anatomy Map"
                 loading="eager"
                 reveal="auto"
+                interaction-prompt="none"
                 camera-orbit="0deg 78deg 105%"
-                interpolation-decay="200"
+                min-camera-orbit="-60deg 60deg 105%"
+                max-camera-orbit="60deg 95deg 105%"
                 shadow-intensity="1.5"
                 shadow-softness="0.8"
                 exposure="1.1"

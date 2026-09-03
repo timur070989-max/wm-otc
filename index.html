@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=32.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=34.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=32.0"></script>
-  <script src="assets/js/app.js?v=32.0"></script>
+  <script src="assets/js/products-data.js?v=34.0"></script>
+  <script src="assets/js/app.js?v=34.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -95,7 +95,7 @@
   </div>
 
   <!-- Clean Pure White Header with Corporate Blue Logo -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all duration-300">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md /90 shadow-xs transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3">
       <div class="flex items-center justify-between gap-4 lg:gap-8">
         
@@ -215,7 +215,7 @@
   </header>
 
   <!-- Hero Section: Full-Width Video with Soft Seamless Gradient Under Text (No Sharp Boundaries) -->
-  <section class="relative overflow-hidden pt-8 sm:pt-12 lg:pt-14 pb-12 sm:pb-16 lg:pb-20 border-b border-slate-200">
+  <section class="relative overflow-hidden pt-8 sm:pt-12 lg:pt-14 pb-8 sm:pb-10 lg:pb-12 bg-white">
     
     <!-- Full-Width Background Video -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -417,348 +417,105 @@
   <div class="bg-white relative overflow-hidden">
 
     <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section -->
-    <section id="symptoms-guide" class="pt-4 pb-6 sm:pt-5 sm:pb-8 relative">
-      
-
-
+    <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section (Clean Pure White, Symmetrical, Hover Reveal) -->
+    <section id="symptoms-guide" class="pt-6 pb-10 sm:pt-8 sm:pb-14 relative bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <!-- Section Header: Inspiring Consumer Question -->
-        <div class="text-center max-w-3xl mx-auto mb-1 sm:mb-2 reveal-on-scroll">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8 reveal-on-scroll">
           <h2
             class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight"
-            x-text="lang === 'uz' ? 'Maqsadingizni tanlang — shaxsiy salomatlik va go\'zallik formulasini kashf eting' : 'Выберите вашу цель — откройте персональную формулу здоровья и красоты'"
+            x-text="lang === 'uz' ? 'Maqsadingizni tanlang — shaxsiy salomatlik va go'zallik formulasini kashf eting' : 'Выберите вашу цель — откройте персональную формулу здоровья и красоты'"
           ></h2>
         </div>
 
-        <!-- 3-Column Layout: Left Symptoms (4) + Center 3D Human with Connector Lines + Right Symptoms (4) -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-2 items-center relative">
+        <!-- 3-Column Symmetrical Layout: Left 4 Symptoms + Center Human Character + Right 4 Symptoms -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center relative">
           
-          <!-- Left Column: 4 Symptoms (100% Borderless, Large Clear Typography) -->
-          <div class="lg:col-span-4 flex flex-col gap-2.5 sm:gap-3.5 order-2 lg:order-1">
+          <!-- Left Column: 4 Symptoms (Hover-Reveal Corporate Style) -->
+          <div class="lg:col-span-4 flex flex-col gap-3 sm:gap-4 order-2 lg:order-1">
             <template x-for="sym in symptoms.slice(0, 4)" :key="sym.id">
               <div 
                 @click="selectSymptomFilter(sym.id)" 
-                :class="selectedSymptom === sym.id ? 'bg-gradient-to-r from-[#0032a0] to-[#002275] text-white shadow-xl ring-2 ring-wmBlue-300 scale-[1.02]' : 'bg-transparent text-slate-950 hover:text-[#0032a0]'"
-                class="flex items-center gap-3.5 p-2 sm:p-2.5 rounded-xl transition-all duration-200 cursor-pointer group select-none relative"
+                :class="selectedSymptom === sym.id ? 'bg-[#001f66] text-white shadow-xl scale-[1.03] ring-2 ring-[#0032a0]' : 'bg-slate-50/60 hover:bg-[#001f66] text-slate-700 hover:text-white hover:shadow-lg hover:scale-[1.02] border border-slate-100 hover:border-transparent'"
+                class="flex items-center gap-3.5 p-3 sm:p-3.5 rounded-2xl transition-all duration-300 cursor-pointer group select-none relative"
               >
-                <!-- Modern Corporate Gradient Icon Badge -->
+                <!-- Icon Badge -->
                 <div 
-                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white shadow-inner' : 'bg-white/90 text-[#0032a0] group-hover:scale-110 group-hover:bg-white border border-wmBlue-200/80'"
-                  class="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 relative shadow-sm"
+                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white' : 'bg-white text-[#0032a0] group-hover:bg-white/20 group-hover:text-white border border-slate-200/80 group-hover:border-transparent shadow-xs'"
+                  class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 relative"
                 >
-                  <!-- Glowing Accent Dot -->
-                  <span 
-                    :class="selectedSymptom === sym.id ? 'bg-wmCyan-300' : 'bg-wmCyan-500'" 
-                    class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white"
-                  ></span>
-
-                  <!-- Modern Lucide Icon -->
-                  <i :data-lucide="sym.icon" class="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.2]"></i>
+                  <i :data-lucide="sym.icon" class="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[2]"></i>
                 </div>
 
-                <!-- Symptom Title: Large, Bold & Ultra Clear -->
-                <div class="text-base sm:text-lg lg:text-[17.5px] font-black leading-tight tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
-
-                <!-- Right Connector Dot (Desktop) -->
-                <div 
-                  :class="selectedSymptom === sym.id ? 'bg-wmCyan-400 scale-125 ring-2 ring-white' : 'bg-[#003896] opacity-85 group-hover:opacity-100 group-hover:scale-110'"
-                  class="hidden lg:block ml-auto w-2.5 h-2.5 rounded-full transition-all"
-                ></div>
+                <!-- Symptom Title -->
+                <div class="text-sm sm:text-base font-bold leading-snug tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
               </div>
             </template>
           </div>
 
-          <!-- Center Column: 3D Human Anatomy Model with Clean Static 8 Hotspots & Connector Lines -->
+          <!-- Center Column: Fluid Multi-Pose Head Human Character (Pure & Clean, No Lines, No Dots) -->
           <div class="lg:col-span-4 flex flex-col items-center justify-center order-1 lg:order-2">
-            <div class="w-full h-[440px] sm:h-[490px] lg:h-[530px] relative flex items-center justify-center select-none">
+            <div id="humanFigureContainer" class="w-full h-[420px] sm:h-[480px] lg:h-[510px] relative flex items-center justify-center select-none transition-transform duration-100 ease-out will-change-transform">
               
-                            <!-- SVG Interactive Connector Lines (High-Contrast Clean Dashed Lines) -->
-              <svg class="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-15" viewBox="0 0 400 530" preserveAspectRatio="none">
-                <defs>
-                  <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="3" result="glow"/>
-                    <feMerge>
-                      <feMergeNode in="glow"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                <!-- Left 1 -> Head (196, 138) -->
-                <path 
-                  d="M 0 135 C 90 135, 130 138, 196 138" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'head_stress' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'head_stress' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'head_stress' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'head_stress' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'head_stress' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Left 2 -> Joints / Arm (144, 255) -->
-                <path 
-                  d="M 0 225 C 60 225, 100 255, 144 255" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'joints_pain' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'joints_pain' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'joints_pain' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'joints_pain' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'joints_pain' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Left 3 -> Stomach (196, 292) -->
-                <path 
-                  d="M 0 315 C 90 315, 130 292, 196 292" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'heartburn_bloat' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'heartburn_bloat' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'heartburn_bloat' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'heartburn_bloat' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'heartburn_bloat' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Left 4 -> Cold / Throat (196, 202) -->
-                <path 
-                  d="M 0 405 C 90 405, 130 202, 196 202" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'cold_fever' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'cold_fever' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'cold_fever' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'cold_fever' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'cold_fever' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right 1 -> Heart / Immunity (196, 244) -->
-                <path 
-                  d="M 400 135 C 310 135, 260 244, 196 244" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'fatigue_immunity' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'fatigue_immunity' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'fatigue_immunity' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'fatigue_immunity' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'fatigue_immunity' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right 2 -> Pregnancy / Center (196, 340) -->
-                <path 
-                  d="M 400 225 C 310 225, 270 340, 196 340" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'pregnancy_growth' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'pregnancy_growth' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'pregnancy_growth' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'pregnancy_growth' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'pregnancy_growth' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right 3 -> Legs / Veins (200, 419) -->
-                <path 
-                  d="M 400 315 C 310 315, 270 419, 200 419" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'tired_legs' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'tired_legs' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'tired_legs' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'tired_legs' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'tired_legs' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-
-                <!-- Right 4 -> Skin / Shoulder (224, 223) -->
-                <path 
-                  d="M 400 405 C 310 405, 280 223, 224 223" 
-                  fill="none" 
-                  :stroke="selectedSymptom === 'skin_wounds' ? '#0032a0' : '#003896'" 
-                  :stroke-width="selectedSymptom === 'skin_wounds' ? '3.8' : '2.2'" 
-                  :stroke-dasharray="selectedSymptom === 'skin_wounds' ? 'none' : '6 4'"
-                  :opacity="selectedSymptom === 'skin_wounds' ? '1' : '0.85'"
-                  :filter="selectedSymptom === 'skin_wounds' ? 'url(#lineGlow)' : 'none'"
-                  class="transition-all duration-300"
-                />
-              </svg>
-              
-
-                            <!-- AI Multi-Pose Anatomy Gaze (100% Fixed Body, Head Turns into Direction of Cursor) -->
-              <!-- AI Multi-Pose Anatomy Gaze (100% Fixed Body, Head Turns into Direction of Cursor) -->
-              <div class="relative w-full h-[450px] sm:h-[500px] lg:h-[540px] flex items-center justify-center select-none pointer-events-none">
-                <!-- Base / Center Pose -->
-                <img 
-                  id="poseCenter" 
-                  src="assets/img/anatomy/pose_center.png?v=5" 
-                  alt="World Medicine Anatomy Center" 
-                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-100 transition-opacity duration-300 ease-out will-change-opacity"
-                >
-                <!-- Left-Looking Pose -->
-                <img 
-                  id="poseLeft" 
-                  src="assets/img/anatomy/pose_left.png?v=5" 
-                  alt="World Medicine Anatomy Left" 
-                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-0 transition-opacity duration-300 ease-out will-change-opacity"
-                >
-                <!-- Right-Looking Pose -->
-                <img 
-                  id="poseRight" 
-                  src="assets/img/anatomy/pose_right.png?v=5" 
-                  alt="World Medicine Anatomy Right" 
-                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-0 transition-opacity duration-300 ease-out will-change-opacity"
-                >
-                <!-- Up-Looking Pose -->
-                <img 
-                  id="poseUp" 
-                  src="assets/img/anatomy/pose_up.png?v=5" 
-                  alt="World Medicine Anatomy Up" 
-                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-0 transition-opacity duration-300 ease-out will-change-opacity"
-                >
-              </div>
-
-              <!-- 8 Anatomical Static Interactive Hotspots (Beauty & Wellness Zones) -->
-              <div class="absolute inset-0 pointer-events-auto z-20">
+              <!-- Multi-Pose AI Character Layers -->
+              <div class="relative w-full h-full flex items-center justify-center pointer-events-none">
                 
-                <!-- 1. Head / Stress (Ясность ума и антистресс) -->
-                <button 
-                  @click="selectSymptomFilter('head_stress')" 
-                  :class="{'active': selectedSymptom === 'head_stress'}"
-                  style="top: 26%; left: 49%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Ясность ума и антистресс"
+                <!-- Pose 1: Center (Forward) -->
+                <img 
+                  id="poseCenter"
+                  src="assets/img/anatomy/pose_center.png?v=6" 
+                  alt="Anatomy Center" 
+                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-100 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
                 >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
 
-                <!-- 2. Cold / Throat (Свежесть дыхания и защита) -->
-                <button 
-                  @click="selectSymptomFilter('cold_fever')" 
-                  :class="{'active': selectedSymptom === 'cold_fever'}"
-                  style="top: 38%; left: 49%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Свежесть дыхания и защита"
+                <!-- Pose 2: Left Gaze -->
+                <img 
+                  id="poseLeft"
+                  src="assets/img/anatomy/pose_left.png?v=6" 
+                  alt="Anatomy Left" 
+                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
                 >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
 
-                <!-- 3. Heart / Immunity (Энергия и сияние молодости) -->
-                <button 
-                  @click="selectSymptomFilter('fatigue_immunity')" 
-                  :class="{'active': selectedSymptom === 'fatigue_immunity'}"
-                  style="top: 46%; left: 49%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Энергия и сияние молодости"
+                <!-- Pose 3: Right Gaze -->
+                <img 
+                  id="poseRight"
+                  src="assets/img/anatomy/pose_right.png?v=6" 
+                  alt="Anatomy Right" 
+                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
                 >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
 
-                <!-- 4. Joints / Arm (Гибкость и грация суставов) -->
-                <button 
-                  @click="selectSymptomFilter('joints_pain')" 
-                  :class="{'active': selectedSymptom === 'joints_pain'}"
-                  style="top: 48%; left: 36%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Гибкость и грация суставов"
+                <!-- Pose 4: Upward Gaze -->
+                <img 
+                  id="poseUp"
+                  src="assets/img/anatomy/pose_up.png?v=6" 
+                  alt="Anatomy Up" 
+                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
                 >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
-
-                <!-- 5. Skin / Shoulder (Бархатная кожа и сияние) -->
-                <button 
-                  @click="selectSymptomFilter('skin_wounds')" 
-                  :class="{'active': selectedSymptom === 'skin_wounds'}"
-                  style="top: 42%; left: 56%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Бархатная кожа и сияние"
-                >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
-
-                <!-- 6. Stomach / Gastro (Легкость и плоский живот) -->
-                <button 
-                  @click="selectSymptomFilter('heartburn_bloat')" 
-                  :class="{'active': selectedSymptom === 'heartburn_bloat'}"
-                  style="top: 55%; left: 49%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Легкость и плоский живот"
-                >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
-
-                <!-- 7. Pregnancy & Growth (Сияние материнства) -->
-                <button 
-                  @click="selectSymptomFilter('pregnancy_growth')" 
-                  :class="{'active': selectedSymptom === 'pregnancy_growth'}"
-                  style="top: 64%; left: 49%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Сияние материнства"
-                >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
-
-                <!-- 8. Legs & Veins (Стройные легкие ноги) -->
-                <button 
-                  @click="selectSymptomFilter('tired_legs')" 
-                  :class="{'active': selectedSymptom === 'tired_legs'}"
-                  style="top: 79%; left: 50%;"
-                  class="absolute -translate-x-1/2 -translate-y-1/2 hotspot-3d group cursor-pointer"
-                  title="Стройные легкие ноги"
-                >
-                  <div class="hotspot-point"></div>
-                  <div class="hotspot-pulse"></div>
-                  
-                </button>
 
               </div>
 
             </div>
           </div>
 
-          <!-- Right Column: 4 Symptoms (100% Borderless, Large Clear Typography) -->
-          <div class="lg:col-span-4 flex flex-col gap-2.5 sm:gap-3.5 order-3">
+          <!-- Right Column: 4 Symptoms (Hover-Reveal Corporate Style) -->
+          <div class="lg:col-span-4 flex flex-col gap-3 sm:gap-4 order-3">
             <template x-for="sym in symptoms.slice(4, 8)" :key="sym.id">
               <div 
                 @click="selectSymptomFilter(sym.id)" 
-                :class="selectedSymptom === sym.id ? 'bg-gradient-to-r from-[#0032a0] to-[#002275] text-white shadow-xl ring-2 ring-wmBlue-300 scale-[1.02]' : 'bg-transparent text-slate-950 hover:text-[#0032a0]'"
-                class="flex items-center gap-3.5 p-2 sm:p-2.5 rounded-xl transition-all duration-200 cursor-pointer group select-none relative"
+                :class="selectedSymptom === sym.id ? 'bg-[#001f66] text-white shadow-xl scale-[1.03] ring-2 ring-[#0032a0]' : 'bg-slate-50/60 hover:bg-[#001f66] text-slate-700 hover:text-white hover:shadow-lg hover:scale-[1.02] border border-slate-100 hover:border-transparent'"
+                class="flex items-center gap-3.5 p-3 sm:p-3.5 rounded-2xl transition-all duration-300 cursor-pointer group select-none relative"
               >
-                <!-- Left Connector Dot (Desktop) -->
+                <!-- Icon Badge -->
                 <div 
-                  :class="selectedSymptom === sym.id ? 'bg-wmCyan-400 scale-125 ring-2 ring-white' : 'bg-[#003896] opacity-85 group-hover:opacity-100 group-hover:scale-110'"
-                  class="hidden lg:block mr-1 w-2.5 h-2.5 rounded-full transition-all"
-                ></div>
-
-                <!-- Modern Corporate Gradient Icon Badge -->
-                <div 
-                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white shadow-inner' : 'bg-white/90 text-[#0032a0] group-hover:scale-110 group-hover:bg-white border border-wmBlue-200/80'"
-                  class="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 relative shadow-sm"
+                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white' : 'bg-white text-[#0032a0] group-hover:bg-white/20 group-hover:text-white border border-slate-200/80 group-hover:border-transparent shadow-xs'"
+                  class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 relative"
                 >
-                  <!-- Glowing Accent Dot -->
-                  <span 
-                    :class="selectedSymptom === sym.id ? 'bg-wmCyan-300' : 'bg-wmCyan-500'" 
-                    class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white"
-                  ></span>
-
-                  <!-- Modern Lucide Icon -->
-                  <i :data-lucide="sym.icon" class="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.2]"></i>
+                  <i :data-lucide="sym.icon" class="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[2]"></i>
                 </div>
 
-                <!-- Symptom Title: Large, Bold & Ultra Clear -->
-                <div class="text-base sm:text-lg lg:text-[17.5px] font-black leading-tight tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
+                <!-- Symptom Title -->
+                <div class="text-sm sm:text-base font-bold leading-snug tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
               </div>
             </template>
           </div>
@@ -1162,7 +919,7 @@
       class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between"
     >
       <!-- Cart Header -->
-      <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+      <div class="p-5  flex items-center justify-between bg-slate-50">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-full wm-blue-bg text-white flex items-center justify-center">
             <i data-lucide="shopping-bag" class="w-4 h-4"></i>

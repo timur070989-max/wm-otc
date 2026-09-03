@@ -742,60 +742,90 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function initMultiPoseTracking() {
+  (function initFluidPoseTracking() {
     const poseCenter = document.getElementById('poseCenter');
     const poseLeft = document.getElementById('poseLeft');
     const poseRight = document.getElementById('poseRight');
     const poseUp = document.getElementById('poseUp');
+    const container = document.getElementById('humanFigureContainer');
     const symptomsSection = document.getElementById('symptoms-guide');
 
     if (!poseCenter || !symptomsSection) return;
 
-    let activePose = 'center';
+    let targetNx = 0;
+    let targetNy = 0;
+    let currentNx = 0;
+    let currentNy = 0;
+    let isTracking = false;
+    let animFrame = null;
 
-    function setPose(pose) {
-      if (activePose === pose) return;
-      activePose = pose;
+    function updateFrame() {
+      // Smooth linear interpolation (lerp) for 60fps fluid tracking
+      currentNx += (targetNx - currentNx) * 0.12;
+      currentNy += (targetNy - currentNy) * 0.12;
 
-      // Update opacities smoothly
-      if (poseCenter) poseCenter.style.opacity = (pose === 'center') ? '1' : '0';
-      if (poseLeft) poseLeft.style.opacity = (pose === 'left') ? '1' : '0';
-      if (poseRight) poseRight.style.opacity = (pose === 'right') ? '1' : '0';
-      if (poseUp) poseUp.style.opacity = (pose === 'up') ? '1' : '0';
+      // Calculate smooth weights based on cursor position
+      // Left vs Right weight
+      const rightWeight = Math.max(0, Math.min(1, (currentNx - 0.05) / 0.45));
+      const leftWeight = Math.max(0, Math.min(1, (-currentNx - 0.05) / 0.45));
+      
+      // Upward weight
+      const upWeight = Math.max(0, Math.min(1, (-currentNy - 0.1) / 0.45));
+      
+      // Center weight takes whatever is remaining
+      const centerWeight = Math.max(0, 1 - leftWeight - rightWeight - upWeight * 0.8);
+
+      // Apply smooth opacity blending across frames
+      if (poseCenter) poseCenter.style.opacity = centerWeight.toFixed(3);
+      if (poseLeft) poseLeft.style.opacity = leftWeight.toFixed(3);
+      if (poseRight) poseRight.style.opacity = rightWeight.toFixed(3);
+      if (poseUp) poseUp.style.opacity = upWeight.toFixed(3);
+
+      // Subtle 3D sub-pixel micro-tilt for lifelike depth
+      if (container) {
+        const tiltX = (currentNy * -3.5).toFixed(2);
+        const tiltY = (currentNx * 5.0).toFixed(2);
+        container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      }
+
+      if (isTracking || Math.abs(currentNx) > 0.005 || Math.abs(currentNy) > 0.005) {
+        animFrame = requestAnimationFrame(updateFrame);
+      } else {
+        animFrame = null;
+      }
     }
 
     function handlePointer(clientX, clientY) {
-      const rect = poseCenter.getBoundingClientRect();
+      const rect = symptomsSection.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height * 0.35; // Head level
+      const centerY = rect.top + rect.height * 0.45;
 
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      const normX = deltaX / (window.innerWidth * 0.32);
-      const normY = deltaY / (window.innerHeight * 0.32);
+      targetNx = Math.max(-1, Math.min(1, deltaX / (rect.width * 0.45)));
+      targetNy = Math.max(-1, Math.min(1, deltaY / (rect.height * 0.45)));
 
-      // Determine gaze direction:
-      if (normY < -0.42 && Math.abs(normX) < 0.55) {
-        setPose('up');      // Looking up towards upper symptoms / mind & sleep
-      } else if (normX < -0.22) {
-        setPose('left');    // Looking left towards left symptoms
-      } else if (normX > 0.22) {
-        setPose('right');   // Looking right towards right symptoms
-      } else {
-        setPose('center');  // Looking straight ahead
+      isTracking = true;
+      if (!animFrame) {
+        animFrame = requestAnimationFrame(updateFrame);
       }
     }
 
     window.addEventListener('pointermove', (e) => {
       const secRect = symptomsSection.getBoundingClientRect();
-      if (secRect.bottom > -100 && secRect.top < window.innerHeight + 100) {
+      if (secRect.bottom > -50 && secRect.top < window.innerHeight + 50) {
         handlePointer(e.clientX, e.clientY);
       }
     }, { passive: true });
 
-    document.addEventListener('mouseleave', () => {
-      setPose('center');
+    symptomsSection.addEventListener('mouseleave', () => {
+      targetNx = 0;
+      targetNy = 0;
+      isTracking = false;
+      if (!animFrame) {
+        animFrame = requestAnimationFrame(updateFrame);
+      }
     });
   })();
 

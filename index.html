@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=8.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=9.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=8.0"></script>
-  <script src="assets/js/app.js?v=8.0"></script>
+  <script src="assets/js/products-data.js?v=9.0"></script>
+  <script src="assets/js/app.js?v=9.0"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -309,9 +309,9 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Section Header: Inspiring Consumer Question -->
-        <div class="text-center max-w-3xl mx-auto mb-1 sm:mb-2">
-          <h2 
-            class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight" 
+        <div class="text-center max-w-3xl mx-auto mb-1 sm:mb-2 reveal-on-scroll">
+          <h2
+            class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight"
             x-text="lang === 'uz' ? 'Maqsadingizni tanlang — shaxsiy salomatlik va go\'zallik formulasini kashf eting' : 'Выберите вашу цель — откройте персональную формулу здоровья и красоты'"
           ></h2>
         </div>
@@ -642,9 +642,9 @@
       <div id="catalog-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Catalog Header -->
-        <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
-          <h2 
-            class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight" 
+        <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8 reveal-on-scroll">
+          <h2
+            class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight"
             x-text="t('catalog_title')"
           ></h2>
         </div>
@@ -692,8 +692,11 @@
 
         <!-- Products Grid (Clean background, Large product images, 2 Rows = 8 items per page) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-          <template x-for="prod in paginatedProducts" :key="prod.id">
-            <div class="product-card bg-white rounded-2xl border border-blue-200/80 shadow-[0_8px_20px_-4px_rgba(0,34,117,0.08),0_3px_6px_-2px_rgba(0,34,117,0.04)] hover:shadow-[0_16px_32px_-6px_rgba(0,34,117,0.16)] hover:border-wmBlue-500 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+          <template x-for="(prod, prodIdx) in paginatedProducts" :key="prod.id">
+            <div
+              class="product-card reveal-on-scroll bg-white rounded-2xl border border-blue-200/80 shadow-[0_8px_20px_-4px_rgba(0,34,117,0.08),0_3px_6px_-2px_rgba(0,34,117,0.04)] hover:shadow-[0_16px_32px_-6px_rgba(0,34,117,0.16)] hover:border-wmBlue-500 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              :style="'--reveal-delay: ' + ((prodIdx % 4) * 90) + 'ms'"
+            >
               
               <div>
                 <!-- Dynamic Packaging-Matched Pedestal Image Container -->
@@ -880,8 +883,8 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Main Super Header -->
-        <div class="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
-          <h2 
+        <div class="text-center max-w-4xl mx-auto mb-8 sm:mb-10 reveal-on-scroll">
+          <h2
             class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight leading-tight"
             x-text="lang === 'uz' ? 'Nega millionlab insonlar World Medicine go\'zallik va salomatlik formulalarini tanlashadi?' : 'Почему миллионы семей выбирают формулы здоровья и красоты World Medicine?'"
           ></h2>
@@ -898,8 +901,11 @@
 
           <!-- Awards Cards Grid (3 Columns, Compact) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            <template x-for="award in awards" :key="award.id">
-              <div class="bg-white/95 rounded-2xl border-2 border-white/80 hover:border-wmBlue-500 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between group backdrop-blur-xs">
+            <template x-for="(award, awardIdx) in awards" :key="award.id">
+              <div
+                class="reveal-on-scroll bg-white/95 rounded-2xl border-2 border-white/80 hover:border-wmBlue-500 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between group backdrop-blur-xs"
+                :style="'--reveal-delay: ' + ((awardIdx % 3) * 100) + 'ms'"
+              >
                 
                 <!-- Award Image Container -->
                 <div>
@@ -956,8 +962,11 @@
 
           <!-- Certificates Cards Grid (3 Columns, Compact) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            <template x-for="cert in certificates" :key="cert.id">
-              <div class="bg-white/95 rounded-2xl border-2 border-white/80 hover:border-wmBlue-500 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between group p-4 sm:p-5 text-center items-center backdrop-blur-xs">
+            <template x-for="(cert, certIdx) in certificates" :key="cert.id">
+              <div
+                class="reveal-on-scroll bg-white/95 rounded-2xl border-2 border-white/80 hover:border-wmBlue-500 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-between group p-4 sm:p-5 text-center items-center backdrop-blur-xs"
+                :style="'--reveal-delay: ' + ((certIdx % 3) * 100) + 'ms'"
+              >
                 
                 <div class="w-full flex flex-col items-center">
                   <!-- Certificate Image Container -->

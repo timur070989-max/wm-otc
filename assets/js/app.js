@@ -740,61 +740,95 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-      /* --- 4. Interactive 3D Model Fast Look-At Mouse (High-Speed Head Tracking) --- */
+        /* --- 4. Interactive 3D Model: Head-Only Rotation (Body 100% Fixed) --- */
   const bodyViewer = document.getElementById('bodyViewer');
   const symptomsSection = document.getElementById('symptoms-guide');
 
   if (bodyViewer && symptomsSection) {
-    const baseAzimuth = 0;      // front-facing center
-    const baseElevation = 78;   // base eye level
-    const maxAzimuth = 52;      // wide turn angle (+/- 52 deg)
-    const maxElevation = 16;    // tilt up/down (+/- 16 deg)
-
-    let targetAzimuth = baseAzimuth;
-    let targetElevation = baseElevation;
-    let currentAzimuth = baseAzimuth;
-    let currentElevation = baseElevation;
+    let headNode = null;
+    let targetYaw = 0;    // Y rotation (left/right)
+    let targetPitch = 0;  // X rotation (up/down)
+    let currentYaw = 0;
+    let currentPitch = 0;
     let isTracking = false;
-    let modelRaf = null;
+    let headRaf = null;
 
-    function render3DFrame() {
-      // High-speed snappy response (ease = 0.26)
-      const ease = 0.26;
-      currentAzimuth += (targetAzimuth - currentAzimuth) * ease;
-      currentElevation += (targetElevation - currentElevation) * ease;
+    function findHeadNode() {
+      if (headNode) return headNode;
+      const symbols = Object.getOwnPropertySymbols(bodyViewer);
+      for (const sym of symbols) {
+        const obj = bodyViewer[sym];
+        if (obj) {
+          const root = obj.scene || obj.currentGLTF?.scene || (obj.traverse ? obj : null);
+          if (root && root.traverse) {
+            root.traverse((child) => {
+              if (child.name === 'Head_Node' || child.name === 'Head_Mesh') {
+                headNode = child;
+              }
+            });
+          }
+        }
+      }
+      return headNode;
+    }
 
-      const orbitStr = `${currentAzimuth.toFixed(1)}deg ${currentElevation.toFixed(1)}deg 105%`;
-      bodyViewer.cameraOrbit = orbitStr;
-      bodyViewer.setAttribute('camera-orbit', orbitStr);
+    bodyViewer.addEventListener('load', () => {
+      findHeadNode();
+    });
 
-      if (Math.abs(targetAzimuth - currentAzimuth) > 0.08 || Math.abs(targetElevation - currentElevation) > 0.08 || isTracking) {
-        modelRaf = requestAnimationFrame(render3DFrame);
+    function animateHead() {
+      findHeadNode();
+      const ease = 0.22;
+      currentYaw += (targetYaw - currentYaw) * ease;
+      currentPitch += (targetPitch - currentPitch) * ease;
+
+      if (headNode) {
+        // Rotate only head bone/node
+        headNode.rotation.y = currentYaw;
+        headNode.rotation.x = currentPitch;
+        headNode.rotation.z = -currentYaw * 0.15; // Natural subtle head tilt
+        
+        // Ensure bodyViewer re-renders frame
+        const symbols = Object.getOwnPropertySymbols(bodyViewer);
+        for (const sym of symbols) {
+          const obj = bodyViewer[sym];
+          if (obj && obj.setDirty) {
+            obj.setDirty();
+          }
+        }
       } else {
-        modelRaf = null;
+        // Fallback: subtle micro orbit if head node not yet initialized
+        const orbitStr = `${(currentYaw * -40).toFixed(1)}deg ${(78 + currentPitch * 15).toFixed(1)}deg 105%`;
+        bodyViewer.cameraOrbit = orbitStr;
+      }
+
+      if (Math.abs(targetYaw - currentYaw) > 0.005 || Math.abs(targetPitch - currentPitch) > 0.005 || isTracking) {
+        headRaf = requestAnimationFrame(animateHead);
+      } else {
+        headRaf = null;
       }
     }
 
-    // Track mouse position relative to the 3D model center
     function handlePointer(clientX, clientY) {
       const rect = bodyViewer.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
+      const centerY = rect.top + rect.height * 0.35; // Head center
 
-      // Distance from center of 3D model
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      // Normalize with higher sensitivity (narrower divisor = faster turn)
-      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.35)));
-      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.35)));
+      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.32)));
+      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.32)));
 
-      // Invert azimuth so model turns FACE directly towards mouse position
-      targetAzimuth = -normX * maxAzimuth;
-      targetElevation = baseElevation + normY * maxElevation; // Natural tilt: mouse UP -> tilts up with cursor
+      // Target head rotations in radians:
+      // normX > 0 (mouse to right) -> head turns right (positive Y rotation)
+      targetYaw = normX * 0.65;    // up to ~37 degrees turn
+      // normY < 0 (mouse up) -> head tilts up (negative X rotation)
+      targetPitch = normY * 0.40;  // up to ~23 degrees tilt
 
       isTracking = true;
-      if (!modelRaf) {
-        modelRaf = requestAnimationFrame(render3DFrame);
+      if (!headRaf) {
+        headRaf = requestAnimationFrame(animateHead);
       }
     }
 
@@ -807,13 +841,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('mouseleave', () => {
       isTracking = false;
-      targetAzimuth = baseAzimuth;
-      targetElevation = baseElevation;
-      if (!modelRaf) modelRaf = requestAnimationFrame(render3DFrame);
+      targetYaw = 0;
+      targetPitch = 0;
+      if (!headRaf) headRaf = requestAnimationFrame(animateHead);
     });
   }
 
-    /* --- 5. Realistic Blue Morpho Butterfly Cursor with Glow Trail --- */
+/* --- 5. Realistic Blue Morpho Butterfly Cursor with Glow Trail --- */
   (function initButterflyCursor() {
     const section = document.getElementById('symptoms-guide');
     if (!section) return;

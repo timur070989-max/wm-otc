@@ -812,4 +812,171 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!modelRaf) modelRaf = requestAnimationFrame(render3DFrame);
     });
   }
+
+  /* --- 5. Fluttering Butterfly Cursor with Subtle Glow Trail --- */
+  (function initButterflyCursor() {
+    const section = document.getElementById('symptoms-guide');
+    if (!section) return;
+
+    // Create Canvas for particle trail
+    let canvas = document.getElementById('butterflyTrailCanvas');
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.id = 'butterflyTrailCanvas';
+      document.body.appendChild(canvas);
+    }
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+
+    // Create Butterfly DOM element
+    let butterflyWrap = document.querySelector('.butterfly-cursor-wrap');
+    if (!butterflyWrap) {
+      butterflyWrap = document.createElement('div');
+      butterflyWrap.className = 'butterfly-cursor-wrap';
+      butterflyWrap.innerHTML = `
+        <div class="butterfly-body-container">
+          <div class="butterfly-wing butterfly-wing-left"></div>
+          <div class="butterfly-wing butterfly-wing-right"></div>
+          <div class="butterfly-torso"></div>
+        </div>
+      `;
+      document.body.appendChild(butterflyWrap);
+    }
+
+    const container = butterflyWrap.querySelector('.butterfly-body-container');
+
+    // Particle Trail Pool
+    const particles = [];
+    const maxParticles = 40;
+
+    let mouseX = -100, mouseY = -100;
+    let bX = -100, bY = -100;
+    let prevBX = -100, prevBY = -100;
+    let flightAngle = 0;
+    let isInside = false;
+    let tick = 0;
+
+    function addParticle(x, y) {
+      if (particles.length >= maxParticles) {
+        particles.shift();
+      }
+      // Gentle luminous pastel colors
+      const colors = ['#3bbdd2', '#38bdf8', '#fbbf24', '#34d399', '#ffffff'];
+      particles.push({
+        x: x + (Math.random() - 0.5) * 8,
+        y: y + (Math.random() - 0.5) * 8 + 6,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: Math.random() * 0.8 + 0.3,
+        size: Math.random() * 2.5 + 1.2,
+        alpha: 0.85,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+
+    function loop() {
+      tick++;
+      // Clear trail canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isInside) {
+        // Smooth butterfly lag/flight interpolation
+        const ease = 0.18;
+        bX += (mouseX - bX) * ease;
+        bY += (mouseY - bY) * ease;
+
+        // Subtle organic bobbing/floating motion
+        const bobX = Math.sin(tick * 0.1) * 2;
+        const bobY = Math.cos(tick * 0.12) * 2.5;
+
+        // Calculate flight direction angle
+        const dx = bX - prevBX;
+        const dy = bY - prevBY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+
+        if (speed > 1.2) {
+          const targetAngle = (Math.atan2(dy, dx) * 180 / Math.PI) + 90;
+          flightAngle += (targetAngle - flightAngle) * 0.25;
+        }
+
+        prevBX = bX;
+        prevBY = bY;
+
+        butterflyWrap.style.transform = `translate(${bX + bobX}px, ${bY + bobY}px)`;
+        container.style.transform = `rotate(${flightAngle}deg)`;
+
+        // Emit subtle trail particles while moving or hovering
+        if (tick % 2 === 0) {
+          addParticle(bX, bY);
+        }
+      }
+
+      // Draw and update particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.024; // fade over ~600ms
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = p.color;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    window.addEventListener('pointermove', (e) => {
+      const rect = section.getBoundingClientRect();
+      if (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      ) {
+        if (!isInside) {
+          isInside = true;
+          bX = e.clientX;
+          bY = e.clientY;
+          prevBX = e.clientX;
+          prevBY = e.clientY;
+          butterflyWrap.classList.add('active');
+          canvas.classList.add('active');
+        }
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      } else {
+        if (isInside) {
+          isInside = false;
+          butterflyWrap.classList.remove('active');
+          canvas.classList.remove('active');
+        }
+      }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+      if (isInside) {
+        isInside = false;
+        butterflyWrap.classList.remove('active');
+        canvas.classList.remove('active');
+      }
+    });
+  })();
 });

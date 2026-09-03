@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=26.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=27.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=26.0"></script>
-  <script src="assets/js/app.js?v=26.0"></script>
+  <script src="assets/js/products-data.js?v=27.0"></script>
+  <script src="assets/js/app.js?v=27.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -331,64 +331,69 @@
     </div>
   </section>
 
-  <!-- Luxury Trust & Authority Bar (Thorne / Solgar Style) -->
-  <section class="border-y border-slate-200/80 bg-white/80 backdrop-blur-md relative z-20 py-4 sm:py-5 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 text-center">
+  <!-- Floating Luxury Trust & Quality Card (Picture 2 Style) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30 -mt-6 sm:-mt-8">
+    <div class="bg-white rounded-2xl sm:rounded-3xl shadow-[0_15px_40px_rgba(0,31,102,0.08)] border border-slate-100 p-4 sm:p-5 lg:p-6 transition-all">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-2 items-center">
         
-        <div class="flex items-center justify-center gap-3 p-2">
-          <div class="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
-            <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <!-- 1. Halal Certified -->
+        <div class="flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50/80 transition-all group">
+          <div class="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-100/90 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
           </div>
-          <div class="text-left">
-            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Halol sertifikati (Halal)' : 'Сертификат Халяль (Halal)'"></div>
-            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? '100% toza va halol formulalar' : '100% чистые халяльные формулы'"></div>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Halol sertifikati' : 'Сертификат Халяль'"></div>
+            <div class="text-[11px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? '100% toza formulalar' : '100% чистые формулы'"></div>
           </div>
         </div>
 
-        <div class="flex items-center justify-center gap-3 p-2">
-          <div class="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200/80 flex items-center justify-center text-[#0032a0] shrink-0 shadow-2xs">
+        <!-- 2. European GMP Standard -->
+        <div class="flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50/80 transition-all group">
+          <div class="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100/90 flex items-center justify-center text-[#0032a0] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
             <i data-lucide="shield-check" class="w-5 h-5"></i>
           </div>
-          <div class="text-left">
-            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Yevropa GMP standarti' : 'Европейский стандарт GMP'"></div>
-            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? '100% xalqaro sifat nazorati' : 'Строгий контроль качества ЕС'"></div>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'GMP Standarti' : 'Стандарт GMP'"></div>
+            <div class="text-[11px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Yevropa sifati nazorati' : 'Контроль качества ЕС'"></div>
           </div>
         </div>
 
-        <div class="flex items-center justify-center gap-3 p-2">
-          <div class="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-amber-600 shrink-0 shadow-2xs">
+        <!-- 3. Bio-Available Formulas -->
+        <div class="flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50/80 transition-all group">
+          <div class="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-100/90 flex items-center justify-center text-amber-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
             <i data-lucide="sparkles" class="w-5 h-5"></i>
           </div>
-          <div class="text-left">
-            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Yuqori bio-o\'zlashuvchanlik' : 'Биодоступные формулы'"></div>
-            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? 'Maksimal foydali ta\'sir' : 'Легкое и быстрое усвоение'"></div>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Bio-o\'zlashuvchan' : 'Биодоступность'"></div>
+            <div class="text-[11px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Tezkor o\'zlashtirish' : 'Быстрое усвоение'"></div>
           </div>
         </div>
 
-        <div class="flex items-center justify-center gap-3 p-2">
-          <div class="w-10 h-10 rounded-2xl bg-purple-50 border border-purple-200/80 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs">
+        <!-- 4. Uzum 1-Day Delivery -->
+        <div class="flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50/80 transition-all group">
+          <div class="w-11 h-11 rounded-2xl bg-purple-50 border border-purple-100/90 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
             <i data-lucide="zap" class="w-5 h-5"></i>
           </div>
-          <div class="text-left">
-            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? 'Uzum orqali 1 kunda' : 'Доставка за 1 день'"></div>
-            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? 'Butun O\'zbekiston bo\'ylab' : 'Экспресс по всему Узбекистану'"></div>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Yetkazish 1 kunda' : 'Доставка за 1 день'"></div>
+            <div class="text-[11px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Uzum Market orqali' : 'Через Uzum Market'"></div>
           </div>
         </div>
 
-        <div class="flex items-center justify-center gap-3 p-2">
-          <div class="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+        <!-- 5. 25+ Years of Trust -->
+        <div class="flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50/80 transition-all group col-span-2 md:col-span-1">
+          <div class="w-11 h-11 rounded-2xl bg-teal-50 border border-teal-100/90 flex items-center justify-center text-teal-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
             <i data-lucide="award" class="w-5 h-5"></i>
           </div>
-          <div class="text-left">
-            <div class="text-xs sm:text-sm font-black text-slate-900" x-text="lang === 'uz' ? '25+ yillik tajriba' : '25+ лет доверия'"></div>
-            <div class="text-[11px] text-slate-500 font-medium" x-text="lang === 'uz' ? 'Millionlab xaridorlar tanlovi' : 'Выбор миллионов семей'"></div>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? '25+ yil ishonch' : '25+ лет доверия'"></div>
+            <div class="text-[11px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Millionlab oilalar tanlovi' : 'Выбор миллионов семей'"></div>
           </div>
         </div>
 
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- Master Unified Saturated Corporate Canvas (Seamless Background for All Sections) -->
   <div class="bg-gradient-to-b from-[#eaf2fd] via-[#f8fafc] to-[#edf4fe] relative overflow-hidden">

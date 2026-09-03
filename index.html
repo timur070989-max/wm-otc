@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=34.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=35.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=34.0"></script>
-  <script src="assets/js/app.js?v=34.0"></script>
+  <script src="assets/js/products-data.js?v=35.0"></script>
+  <script src="assets/js/app.js?v=35.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -418,104 +418,177 @@
 
     <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section -->
     <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section (Clean Pure White, Symmetrical, Hover Reveal) -->
-    <section id="symptoms-guide" class="pt-6 pb-10 sm:pt-8 sm:pb-14 relative bg-white">
+    <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section: Radial Orbital Circle Layout -->
+    <section id="symptoms-guide" class="pt-6 pb-12 sm:pt-8 sm:pb-16 relative bg-white overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Section Header -->
-        <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8 reveal-on-scroll">
+        <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-6 reveal-on-scroll">
           <h2
             class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight"
             x-text="lang === 'uz' ? 'Maqsadingizni tanlang — shaxsiy salomatlik va go'zallik formulasini kashf eting' : 'Выберите вашу цель — откройте персональную формулу здоровья и красоты'"
           ></h2>
         </div>
 
-        <!-- 3-Column Symmetrical Layout: Left 4 Symptoms + Center Human Character + Right 4 Symptoms -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center relative">
+        <!-- Desktop Radial Orbit Arena (Hidden on Mobile, Displayed on lg+) -->
+        <div class="hidden lg:block relative w-full max-w-5xl mx-auto h-[640px] xl:h-[680px]">
           
-          <!-- Left Column: 4 Symptoms (Hover-Reveal Corporate Style) -->
-          <div class="lg:col-span-4 flex flex-col gap-3 sm:gap-4 order-2 lg:order-1">
-            <template x-for="sym in symptoms.slice(0, 4)" :key="sym.id">
-              <div 
-                @click="selectSymptomFilter(sym.id)" 
-                :class="selectedSymptom === sym.id ? 'bg-[#001f66] text-white shadow-xl scale-[1.03] ring-2 ring-[#0032a0]' : 'bg-slate-50/60 hover:bg-[#001f66] text-slate-700 hover:text-white hover:shadow-lg hover:scale-[1.02] border border-slate-100 hover:border-transparent'"
-                class="flex items-center gap-3.5 p-3 sm:p-3.5 rounded-2xl transition-all duration-300 cursor-pointer group select-none relative"
-              >
-                <!-- Icon Badge -->
-                <div 
-                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white' : 'bg-white text-[#0032a0] group-hover:bg-white/20 group-hover:text-white border border-slate-200/80 group-hover:border-transparent shadow-xs'"
-                  class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 relative"
-                >
-                  <i :data-lucide="sym.icon" class="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[2]"></i>
-                </div>
+          <!-- Faint Ambient Circle Track in Background (Ultra-Light) -->
+          <div class="absolute inset-0 m-auto w-[520px] h-[520px] rounded-full border border-slate-100 pointer-events-none"></div>
+          <div class="absolute inset-0 m-auto w-[680px] h-[580px] rounded-full border border-slate-100/60 pointer-events-none"></div>
 
-                <!-- Symptom Title -->
-                <div class="text-sm sm:text-base font-bold leading-snug tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
-              </div>
-            </template>
-          </div>
-
-          <!-- Center Column: Fluid Multi-Pose Head Human Character (Pure & Clean, No Lines, No Dots) -->
-          <div class="lg:col-span-4 flex flex-col items-center justify-center order-1 lg:order-2">
-            <div id="humanFigureContainer" class="w-full h-[420px] sm:h-[480px] lg:h-[510px] relative flex items-center justify-center select-none transition-transform duration-100 ease-out will-change-transform">
+          <!-- Central Human Character Container -->
+          <div class="absolute inset-0 m-auto w-[340px] h-[480px] flex items-center justify-center z-10 select-none">
+            <div id="humanFigureContainer" class="w-full h-full relative flex items-center justify-center transition-transform duration-100 ease-out will-change-transform">
               
-              <!-- Multi-Pose AI Character Layers -->
-              <div class="relative w-full h-full flex items-center justify-center pointer-events-none">
-                
-                <!-- Pose 1: Center (Forward) -->
-                <img 
-                  id="poseCenter"
-                  src="assets/img/anatomy/pose_center.png?v=6" 
-                  alt="Anatomy Center" 
-                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-100 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
-                >
-
-                <!-- Pose 2: Left Gaze -->
-                <img 
-                  id="poseLeft"
-                  src="assets/img/anatomy/pose_left.png?v=6" 
-                  alt="Anatomy Left" 
-                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
-                >
-
-                <!-- Pose 3: Right Gaze -->
-                <img 
-                  id="poseRight"
-                  src="assets/img/anatomy/pose_right.png?v=6" 
-                  alt="Anatomy Right" 
-                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
-                >
-
-                <!-- Pose 4: Upward Gaze -->
-                <img 
-                  id="poseUp"
-                  src="assets/img/anatomy/pose_up.png?v=6" 
-                  alt="Anatomy Up" 
-                  class="absolute inset-0 w-full h-full object-contain max-h-[460px] sm:max-h-[500px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_15px_35px_rgba(0,31,102,0.12)] will-change-opacity"
-                >
-
-              </div>
-
+              <!-- Multi-Pose Character Layers -->
+              <img 
+                id="poseCenter"
+                src="assets/img/anatomy/pose_center.png?v=7" 
+                alt="Anatomy Center" 
+                class="absolute inset-0 w-full h-full object-contain max-h-[460px] transition-opacity duration-200 z-10 opacity-100 drop-shadow-[0_20px_40px_rgba(0,31,102,0.12)] will-change-opacity"
+              >
+              <img 
+                id="poseLeft"
+                src="assets/img/anatomy/pose_left.png?v=7" 
+                alt="Anatomy Left" 
+                class="absolute inset-0 w-full h-full object-contain max-h-[460px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_20px_40px_rgba(0,31,102,0.12)] will-change-opacity"
+              >
+              <img 
+                id="poseRight"
+                src="assets/img/anatomy/pose_right.png?v=7" 
+                alt="Anatomy Right" 
+                class="absolute inset-0 w-full h-full object-contain max-h-[460px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_20px_40px_rgba(0,31,102,0.12)] will-change-opacity"
+              >
+              <img 
+                id="poseUp"
+                src="assets/img/anatomy/pose_up.png?v=7" 
+                alt="Anatomy Up" 
+                class="absolute inset-0 w-full h-full object-contain max-h-[460px] transition-opacity duration-200 z-10 opacity-0 drop-shadow-[0_20px_40px_rgba(0,31,102,0.12)] will-change-opacity"
+              >
             </div>
           </div>
 
-          <!-- Right Column: 4 Symptoms (Hover-Reveal Corporate Style) -->
-          <div class="lg:col-span-4 flex flex-col gap-3 sm:gap-4 order-3">
-            <template x-for="sym in symptoms.slice(4, 8)" :key="sym.id">
+          <!-- 8 Radially Positioned Categories with Hover-Reveal -->
+          
+          <!-- 1. Top (12 o'clock): Head / Stress -->
+          <div 
+            @click="selectSymptomFilter(symptoms[0].id)"
+            :class="selectedSymptom === symptoms[0].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute top-[2%] left-1/2 -translate-x-1/2 flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[0].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[0].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[0].title_uz : symptoms[0].title_ru"></span>
+          </div>
+
+          <!-- 2. Top-Right (1:30 o'clock): Skin / Wounds -->
+          <div 
+            @click="selectSymptomFilter(symptoms[7].id)"
+            :class="selectedSymptom === symptoms[7].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute top-[14%] right-[4%] xl:right-[6%] flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[7].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[7].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[7].title_uz : symptoms[7].title_ru"></span>
+          </div>
+
+          <!-- 3. Middle-Right (3 o'clock): Fatigue / Immunity -->
+          <div 
+            @click="selectSymptomFilter(symptoms[4].id)"
+            :class="selectedSymptom === symptoms[4].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute top-[46%] right-[0%] xl:right-[1%] flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[4].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[4].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[4].title_uz : symptoms[4].title_ru"></span>
+          </div>
+
+          <!-- 4. Bottom-Right (4:30 o'clock): Tired Legs / Veins -->
+          <div 
+            @click="selectSymptomFilter(symptoms[6].id)"
+            :class="selectedSymptom === symptoms[6].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute bottom-[16%] right-[4%] xl:right-[6%] flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[6].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[6].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[6].title_uz : symptoms[6].title_ru"></span>
+          </div>
+
+          <!-- 5. Bottom (6 o'clock): Pregnancy & Growth -->
+          <div 
+            @click="selectSymptomFilter(symptoms[5].id)"
+            :class="selectedSymptom === symptoms[5].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute bottom-[2%] left-1/2 -translate-x-1/2 flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[5].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[5].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[5].title_uz : symptoms[5].title_ru"></span>
+          </div>
+
+          <!-- 6. Bottom-Left (7:30 o'clock): Heartburn / Stomach -->
+          <div 
+            @click="selectSymptomFilter(symptoms[2].id)"
+            :class="selectedSymptom === symptoms[2].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute bottom-[16%] left-[4%] xl:left-[6%] flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[2].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[2].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[2].title_uz : symptoms[2].title_ru"></span>
+          </div>
+
+          <!-- 7. Middle-Left (9 o'clock): Joints Pain -->
+          <div 
+            @click="selectSymptomFilter(symptoms[1].id)"
+            :class="selectedSymptom === symptoms[1].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute top-[46%] left-[0%] xl:left-[1%] flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[1].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[1].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[1].title_uz : symptoms[1].title_ru"></span>
+          </div>
+
+          <!-- 8. Top-Left (10:30 o'clock): Cold & Throat -->
+          <div 
+            @click="selectSymptomFilter(symptoms[3].id)"
+            :class="selectedSymptom === symptoms[3].id ? 'bg-[#001f66] text-white shadow-2xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-800 hover:text-white border border-slate-200/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
+            class="absolute top-[14%] left-[4%] xl:left-[6%] flex items-center gap-3 px-4 py-2.5 rounded-2xl shadow-sm transition-all duration-300 cursor-pointer group z-20 select-none whitespace-nowrap"
+          >
+            <div :class="selectedSymptom === symptoms[3].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+              <i :data-lucide="symptoms[3].icon" class="w-4.5 h-4.5 stroke-[2]"></i>
+            </div>
+            <span class="text-xs xl:text-sm font-bold tracking-tight" x-text="lang === 'uz' ? symptoms[3].title_uz : symptoms[3].title_ru"></span>
+          </div>
+
+        </div>
+
+        <!-- Mobile / Tablet Responsive Fallback (Stacked Orbit View) -->
+        <div class="lg:hidden flex flex-col items-center gap-6">
+          
+          <!-- Character in Center -->
+          <div class="w-full h-[360px] sm:h-[420px] relative flex items-center justify-center select-none">
+            <img src="assets/img/anatomy/pose_center.png?v=7" alt="Anatomy" class="max-h-[340px] sm:max-h-[400px] object-contain drop-shadow-md">
+          </div>
+
+          <!-- 2-Column Clean Symmetrical Grid on Mobile -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full">
+            <template x-for="sym in symptoms" :key="sym.id">
               <div 
                 @click="selectSymptomFilter(sym.id)" 
-                :class="selectedSymptom === sym.id ? 'bg-[#001f66] text-white shadow-xl scale-[1.03] ring-2 ring-[#0032a0]' : 'bg-slate-50/60 hover:bg-[#001f66] text-slate-700 hover:text-white hover:shadow-lg hover:scale-[1.02] border border-slate-100 hover:border-transparent'"
-                class="flex items-center gap-3.5 p-3 sm:p-3.5 rounded-2xl transition-all duration-300 cursor-pointer group select-none relative"
+                :class="selectedSymptom === sym.id ? 'bg-[#001f66] text-white shadow-md' : 'bg-slate-50 text-slate-800 border border-slate-200/80'"
+                class="flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer select-none"
               >
-                <!-- Icon Badge -->
-                <div 
-                  :class="selectedSymptom === sym.id ? 'bg-white/20 text-white' : 'bg-white text-[#0032a0] group-hover:bg-white/20 group-hover:text-white border border-slate-200/80 group-hover:border-transparent shadow-xs'"
-                  class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 relative"
-                >
-                  <i :data-lucide="sym.icon" class="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[2]"></i>
+                <div :class="selectedSymptom === sym.id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0]'" class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
+                  <i :data-lucide="sym.icon" class="w-4 h-4 stroke-[2]"></i>
                 </div>
-
-                <!-- Symptom Title -->
-                <div class="text-sm sm:text-base font-bold leading-snug tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></div>
+                <span class="text-xs sm:text-sm font-bold" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></span>
               </div>
             </template>
           </div>

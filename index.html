@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=21.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=22.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=21.0"></script>
-  <script src="assets/js/app.js?v=21.0"></script>
+  <script src="assets/js/products-data.js?v=22.0"></script>
+  <script src="assets/js/app.js?v=22.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -471,21 +471,36 @@
               </svg>
               
 
-                            <!-- 2.5D Interactive Photorealistic Anatomy (Body 100% Fixed, Head Turns to Cursor) -->
+                            <!-- AI Multi-Pose Anatomy Gaze (100% Fixed Body, Head Turns into Direction of Cursor) -->
+              <!-- AI Multi-Pose Anatomy Gaze (100% Fixed Body, Head Turns into Direction of Cursor) -->
               <div class="relative w-full h-[450px] sm:h-[500px] lg:h-[540px] flex items-center justify-center select-none pointer-events-none">
-                <!-- 1. Fixed Body Layer (100% Solid & Crisp) -->
+                <!-- Base / Center Pose -->
                 <img 
-                  src="assets/img/anatomy/woman_body.png?v=2" 
-                  alt="World Medicine Anatomy Body" 
-                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.22)]"
+                  id="poseCenter" 
+                  src="assets/img/anatomy/pose_center.png?v=5" 
+                  alt="World Medicine Anatomy Center" 
+                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-100 transition-opacity duration-300 ease-out will-change-opacity"
                 >
-
-                <!-- 2. Interactive Head Layer (Smooth 3D Perspective Head Turn/Tilt) -->
+                <!-- Left-Looking Pose -->
                 <img 
-                  id="interactiveWomanHead"
-                  src="assets/img/anatomy/woman_head.png?v=2" 
-                  alt="World Medicine Anatomy Head" 
-                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_8px_16px_rgba(0,31,102,0.15)] origin-[50%_35.5%] will-change-transform"
+                  id="poseLeft" 
+                  src="assets/img/anatomy/pose_left.png?v=5" 
+                  alt="World Medicine Anatomy Left" 
+                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-0 transition-opacity duration-300 ease-out will-change-opacity"
+                >
+                <!-- Right-Looking Pose -->
+                <img 
+                  id="poseRight" 
+                  src="assets/img/anatomy/pose_right.png?v=5" 
+                  alt="World Medicine Anatomy Right" 
+                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-0 transition-opacity duration-300 ease-out will-change-opacity"
+                >
+                <!-- Up-Looking Pose -->
+                <img 
+                  id="poseUp" 
+                  src="assets/img/anatomy/pose_up.png?v=5" 
+                  alt="World Medicine Anatomy Up" 
+                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.2)] opacity-0 transition-opacity duration-300 ease-out will-change-opacity"
                 >
               </div>
 

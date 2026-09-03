@@ -740,90 +740,61 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-                    /* --- 4. Interactive 2.5D Layered Anatomy: Head Gaze Tracking (Body 100% Fixed) --- */
-  (function initLayeredHeadTracking() {
-    const headEl = document.getElementById('interactiveWomanHead');
+                      /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
+  (function initMultiPoseTracking() {
+    const poseCenter = document.getElementById('poseCenter');
+    const poseLeft = document.getElementById('poseLeft');
+    const poseRight = document.getElementById('poseRight');
+    const poseUp = document.getElementById('poseUp');
     const symptomsSection = document.getElementById('symptoms-guide');
-    if (!headEl || !symptomsSection) return;
 
-    let targetRotZ = 0;   // head tilt (deg)
-    let targetRotY = 0;   // head turn (deg)
-    let targetRotX = 0;   // head nod (deg)
-    let targetX = 0;      // parallax translation (px)
-    let targetY = 0;      // parallax translation (px)
+    if (!poseCenter || !symptomsSection) return;
 
-    let curRotZ = 0;
-    let curRotY = 0;
-    let curRotX = 0;
-    let curX = 0;
-    let curY = 0;
+    let activePose = 'center';
 
-    let isTracking = false;
-    let headRaf = null;
+    function setPose(pose) {
+      if (activePose === pose) return;
+      activePose = pose;
 
-    function renderHeadFrame() {
-      const ease = 0.18;
-      curRotZ += (targetRotZ - curRotZ) * ease;
-      curRotY += (targetRotY - curRotY) * ease;
-      curRotX += (targetRotX - curRotX) * ease;
-      curX += (targetX - curX) * ease;
-      curY += (targetY - curY) * ease;
-
-      headEl.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0) rotate(${curRotZ.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) rotateX(${curRotX.toFixed(2)}deg)`;
-
-      if (
-        Math.abs(targetRotZ - curRotZ) > 0.05 ||
-        Math.abs(targetRotY - curRotY) > 0.05 ||
-        Math.abs(targetRotX - curRotX) > 0.05 ||
-        Math.abs(targetX - curX) > 0.05 ||
-        isTracking
-      ) {
-        headRaf = requestAnimationFrame(renderHeadFrame);
-      } else {
-        headRaf = null;
-      }
+      // Update opacities smoothly
+      if (poseCenter) poseCenter.style.opacity = (pose === 'center') ? '1' : '0';
+      if (poseLeft) poseLeft.style.opacity = (pose === 'left') ? '1' : '0';
+      if (poseRight) poseRight.style.opacity = (pose === 'right') ? '1' : '0';
+      if (poseUp) poseUp.style.opacity = (pose === 'up') ? '1' : '0';
     }
 
     function handlePointer(clientX, clientY) {
-      const rect = headEl.getBoundingClientRect();
+      const rect = poseCenter.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height * 0.35; // Head center
+      const centerY = rect.top + rect.height * 0.35; // Head level
 
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.35)));
-      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.35)));
+      const normX = deltaX / (window.innerWidth * 0.32);
+      const normY = deltaY / (window.innerHeight * 0.32);
 
-      // Organic 2.5D head turn & tilt values:
-      // normX > 0 (cursor right) -> head turns right and tilts gently towards mouse
-      targetRotZ = normX * 11;     // +/- 11 deg tilt
-      targetRotY = normX * 18;     // +/- 18 deg 3D yaw turn
-      targetRotX = -normY * 12;    // +/- 12 deg 3D pitch nod (mouse UP -> look UP)
-      targetX = normX * 6;         // +/- 6px parallax
-      targetY = normY * 4;         // +/- 4px parallax
-
-      isTracking = true;
-      if (!headRaf) {
-        headRaf = requestAnimationFrame(renderHeadFrame);
+      // Determine gaze direction:
+      if (normY < -0.42 && Math.abs(normX) < 0.55) {
+        setPose('up');      // Looking up towards upper symptoms / mind & sleep
+      } else if (normX < -0.22) {
+        setPose('left');    // Looking left towards left symptoms
+      } else if (normX > 0.22) {
+        setPose('right');   // Looking right towards right symptoms
+      } else {
+        setPose('center');  // Looking straight ahead
       }
     }
 
     window.addEventListener('pointermove', (e) => {
       const secRect = symptomsSection.getBoundingClientRect();
-      if (secRect.bottom > -150 && secRect.top < window.innerHeight + 150) {
+      if (secRect.bottom > -100 && secRect.top < window.innerHeight + 100) {
         handlePointer(e.clientX, e.clientY);
       }
     }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
-      isTracking = false;
-      targetRotZ = 0;
-      targetRotY = 0;
-      targetRotX = 0;
-      targetX = 0;
-      targetY = 0;
-      if (!headRaf) headRaf = requestAnimationFrame(renderHeadFrame);
+      setPose('center');
     });
   })();
 

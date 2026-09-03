@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=20.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=21.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=20.0"></script>
-  <script src="assets/js/app.js?v=20.0"></script>
+  <script src="assets/js/products-data.js?v=21.0"></script>
+  <script src="assets/js/app.js?v=21.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -471,19 +471,23 @@
               </svg>
               
 
-                            <!-- 3D Interactive Woman Model (Pristine Front-Facing View) -->
-              <model-viewer
-                id="bodyViewer"
-                src="assets/models/woman_sitting_corporate.glb?v=100"
-                alt="World Medicine 3D Human Anatomy Map"
-                loading="eager"
-                reveal="auto"
-                camera-orbit="0deg 78deg 105%"
-                shadow-intensity="1.5"
-                shadow-softness="0.8"
-                exposure="1.1"
-                class="w-full h-full pointer-events-none"
-              ></model-viewer>
+                            <!-- 2.5D Interactive Photorealistic Anatomy (Body 100% Fixed, Head Turns to Cursor) -->
+              <div class="relative w-full h-[450px] sm:h-[500px] lg:h-[540px] flex items-center justify-center select-none pointer-events-none">
+                <!-- 1. Fixed Body Layer (100% Solid & Crisp) -->
+                <img 
+                  src="assets/img/anatomy/woman_body.png?v=2" 
+                  alt="World Medicine Anatomy Body" 
+                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,31,102,0.22)]"
+                >
+
+                <!-- 2. Interactive Head Layer (Smooth 3D Perspective Head Turn/Tilt) -->
+                <img 
+                  id="interactiveWomanHead"
+                  src="assets/img/anatomy/woman_head.png?v=2" 
+                  alt="World Medicine Anatomy Head" 
+                  class="absolute inset-0 w-full h-full object-contain filter drop-shadow-[0_8px_16px_rgba(0,31,102,0.15)] origin-[50%_35.5%] will-change-transform"
+                >
+              </div>
 
               <!-- 8 Anatomical Static Interactive Hotspots (Beauty & Wellness Zones) -->
               <div class="absolute inset-0 pointer-events-auto z-20">

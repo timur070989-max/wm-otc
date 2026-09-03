@@ -740,8 +740,92 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-                  /* --- 4. Interactive 3D Model: Stable Fixed Front-Facing Presentation --- */
-  // The 3D model is locked front-facing in pristine corporate posture while the butterfly flutters around it
+                    /* --- 4. Interactive 2.5D Layered Anatomy: Head Gaze Tracking (Body 100% Fixed) --- */
+  (function initLayeredHeadTracking() {
+    const headEl = document.getElementById('interactiveWomanHead');
+    const symptomsSection = document.getElementById('symptoms-guide');
+    if (!headEl || !symptomsSection) return;
+
+    let targetRotZ = 0;   // head tilt (deg)
+    let targetRotY = 0;   // head turn (deg)
+    let targetRotX = 0;   // head nod (deg)
+    let targetX = 0;      // parallax translation (px)
+    let targetY = 0;      // parallax translation (px)
+
+    let curRotZ = 0;
+    let curRotY = 0;
+    let curRotX = 0;
+    let curX = 0;
+    let curY = 0;
+
+    let isTracking = false;
+    let headRaf = null;
+
+    function renderHeadFrame() {
+      const ease = 0.18;
+      curRotZ += (targetRotZ - curRotZ) * ease;
+      curRotY += (targetRotY - curRotY) * ease;
+      curRotX += (targetRotX - curRotX) * ease;
+      curX += (targetX - curX) * ease;
+      curY += (targetY - curY) * ease;
+
+      headEl.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0) rotate(${curRotZ.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) rotateX(${curRotX.toFixed(2)}deg)`;
+
+      if (
+        Math.abs(targetRotZ - curRotZ) > 0.05 ||
+        Math.abs(targetRotY - curRotY) > 0.05 ||
+        Math.abs(targetRotX - curRotX) > 0.05 ||
+        Math.abs(targetX - curX) > 0.05 ||
+        isTracking
+      ) {
+        headRaf = requestAnimationFrame(renderHeadFrame);
+      } else {
+        headRaf = null;
+      }
+    }
+
+    function handlePointer(clientX, clientY) {
+      const rect = headEl.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height * 0.35; // Head center
+
+      const deltaX = clientX - centerX;
+      const deltaY = clientY - centerY;
+
+      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.35)));
+      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.35)));
+
+      // Organic 2.5D head turn & tilt values:
+      // normX > 0 (cursor right) -> head turns right and tilts gently towards mouse
+      targetRotZ = normX * 11;     // +/- 11 deg tilt
+      targetRotY = normX * 18;     // +/- 18 deg 3D yaw turn
+      targetRotX = -normY * 12;    // +/- 12 deg 3D pitch nod (mouse UP -> look UP)
+      targetX = normX * 6;         // +/- 6px parallax
+      targetY = normY * 4;         // +/- 4px parallax
+
+      isTracking = true;
+      if (!headRaf) {
+        headRaf = requestAnimationFrame(renderHeadFrame);
+      }
+    }
+
+    window.addEventListener('pointermove', (e) => {
+      const secRect = symptomsSection.getBoundingClientRect();
+      if (secRect.bottom > -150 && secRect.top < window.innerHeight + 150) {
+        handlePointer(e.clientX, e.clientY);
+      }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+      isTracking = false;
+      targetRotZ = 0;
+      targetRotY = 0;
+      targetRotX = 0;
+      targetX = 0;
+      targetY = 0;
+      if (!headRaf) headRaf = requestAnimationFrame(renderHeadFrame);
+    });
+  })();
 
 /* --- 5. Realistic Blue Morpho Butterfly Cursor with Glow Trail --- */
   (function initButterflyCursor() {

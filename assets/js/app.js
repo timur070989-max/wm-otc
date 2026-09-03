@@ -813,12 +813,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* --- 5. Fluttering Butterfly Cursor with Subtle Glow Trail --- */
+    /* --- 5. Realistic Blue Morpho Butterfly Cursor with Glow Trail --- */
   (function initButterflyCursor() {
     const section = document.getElementById('symptoms-guide');
     if (!section) return;
 
-    // Create Canvas for particle trail
     let canvas = document.getElementById('butterflyTrailCanvas');
     if (!canvas) {
       canvas = document.createElement('canvas');
@@ -834,26 +833,100 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    // Create Butterfly DOM element
     let butterflyWrap = document.querySelector('.butterfly-cursor-wrap');
     if (!butterflyWrap) {
       butterflyWrap = document.createElement('div');
       butterflyWrap.className = 'butterfly-cursor-wrap';
       butterflyWrap.innerHTML = `
         <div class="butterfly-body-container">
-          <div class="butterfly-wing butterfly-wing-left"></div>
-          <div class="butterfly-wing butterfly-wing-right"></div>
-          <div class="butterfly-torso"></div>
+          <!-- Realistic Left Wing (Forewing + Hindwing) -->
+          <div class="butterfly-wing-wrap butterfly-wing-wrap-left">
+            <svg viewBox="0 0 100 120" class="wing-svg" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="morphoBlueL" x1="100%" y1="50%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#001f66"/>
+                  <stop offset="25%" stop-color="#0052cc"/>
+                  <stop offset="60%" stop-color="#00e5ff"/>
+                  <stop offset="85%" stop-color="#80ffff"/>
+                  <stop offset="100%" stop-color="#ffffff"/>
+                </linearGradient>
+                <linearGradient id="edgeDarkL" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#050a1f"/>
+                  <stop offset="85%" stop-color="#0a194f"/>
+                  <stop offset="100%" stop-color="#0032a0"/>
+                </linearGradient>
+              </defs>
+              <path d="M 98,62 C 90,45 70,12 35,2 C 15,-4 2,12 1,28 C 0,44 12,58 30,68 C 45,75 75,76 98,64 Z" fill="url(#edgeDarkL)" />
+              <path d="M 96,60 C 88,44 68,16 38,6 C 22,2 10,16 9,28 C 8,40 18,52 34,60 C 48,67 76,68 96,60 Z" fill="url(#morphoBlueL)" opacity="0.95" />
+              <path d="M 95,60 C 65,45 35,30 18,22 M 95,60 C 60,50 30,42 16,38 M 95,60 C 70,55 45,56 26,56" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
+              <circle cx="6" cy="18" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="4" cy="28" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="8" cy="40" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="16" cy="52" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <path d="M 96,62 C 85,68 60,70 42,76 C 24,82 18,98 28,110 C 38,120 62,118 78,102 C 88,92 95,78 98,64 Z" fill="url(#edgeDarkL)" />
+              <path d="M 94,64 C 83,70 60,72 45,78 C 30,84 25,96 34,105 C 42,112 62,110 74,98 C 84,88 92,76 94,64 Z" fill="url(#morphoBlueL)" opacity="0.92" />
+              <path d="M 94,64 C 70,80 48,92 38,102 M 94,64 C 78,88 65,102 54,106" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.5"/>
+              <circle cx="28" cy="106" r="1.4" fill="#ffffff" opacity="0.9"/>
+              <circle cx="42" cy="114" r="1.4" fill="#ffffff" opacity="0.9"/>
+              <circle cx="60" cy="114" r="1.4" fill="#ffffff" opacity="0.9"/>
+            </svg>
+          </div>
+
+          <!-- Realistic Right Wing (Forewing + Hindwing) -->
+          <div class="butterfly-wing-wrap butterfly-wing-wrap-right">
+            <svg viewBox="0 0 100 120" class="wing-svg" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="morphoBlueR" x1="0%" y1="50%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#001f66"/>
+                  <stop offset="25%" stop-color="#0052cc"/>
+                  <stop offset="60%" stop-color="#00e5ff"/>
+                  <stop offset="85%" stop-color="#80ffff"/>
+                  <stop offset="100%" stop-color="#ffffff"/>
+                </linearGradient>
+                <linearGradient id="edgeDarkR" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#050a1f"/>
+                  <stop offset="85%" stop-color="#0a194f"/>
+                  <stop offset="100%" stop-color="#0032a0"/>
+                </linearGradient>
+              </defs>
+              <path d="M 2,62 C 10,45 30,12 65,2 C 85,-4 98,12 99,28 C 100,44 88,58 70,68 C 55,75 25,76 2,64 Z" fill="url(#edgeDarkR)" />
+              <path d="M 4,60 C 12,44 32,16 62,6 C 78,2 90,16 91,28 C 92,40 82,52 66,60 C 52,67 24,68 4,60 Z" fill="url(#morphoBlueR)" opacity="0.95" />
+              <path d="M 5,60 C 35,45 65,30 82,22 M 5,60 C 40,50 70,42 84,38 M 5,60 C 30,55 55,56 74,56" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.6"/>
+              <circle cx="94" cy="18" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="96" cy="28" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="92" cy="40" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="84" cy="52" r="1.5" fill="#ffffff" opacity="0.9"/>
+              <path d="M 4,62 C 15,68 40,70 58,76 C 76,82 82,98 72,110 C 62,120 38,118 22,102 C 12,92 5,78 2,64 Z" fill="url(#edgeDarkR)" />
+              <path d="M 6,64 C 17,70 40,72 55,78 C 70,84 75,96 66,105 C 58,112 38,110 26,98 C 16,88 8,76 6,64 Z" fill="url(#morphoBlueR)" opacity="0.92" />
+              <path d="M 6,64 C 30,80 52,92 62,102 M 6,64 C 22,88 35,102 46,106" stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.5"/>
+              <circle cx="72" cy="106" r="1.4" fill="#ffffff" opacity="0.9"/>
+              <circle cx="58" cy="114" r="1.4" fill="#ffffff" opacity="0.9"/>
+              <circle cx="40" cy="114" r="1.4" fill="#ffffff" opacity="0.9"/>
+            </svg>
+          </div>
+
+          <!-- Realistic Center Body & Curved Antennae -->
+          <svg viewBox="0 0 40 120" class="butterfly-center-body" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 18,30 C 14,18 8,10 2,8" stroke="#050a1f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="2" cy="8" r="1.6" fill="#00e5ff"/>
+            <path d="M 22,30 C 26,18 32,10 38,8" stroke="#050a1f" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="38" cy="8" r="1.6" fill="#00e5ff"/>
+            <ellipse cx="20" cy="32" rx="3.5" ry="3.5" fill="#050a1f"/>
+            <circle cx="17.5" cy="31" r="1.2" fill="#00e5ff"/>
+            <circle cx="22.5" cy="31" r="1.2" fill="#00e5ff"/>
+            <ellipse cx="20" cy="45" rx="4" ry="9" fill="#050a1f"/>
+            <ellipse cx="20" cy="45" rx="2.2" ry="7" fill="#0044cc" opacity="0.8"/>
+            <ellipse cx="20" cy="68" rx="3.2" ry="15" fill="#0a1128"/>
+            <ellipse cx="20" cy="68" rx="1.8" ry="12" fill="#0066ff" opacity="0.7"/>
+          </svg>
         </div>
       `;
       document.body.appendChild(butterflyWrap);
     }
 
     const container = butterflyWrap.querySelector('.butterfly-body-container');
-
-    // Particle Trail Pool
     const particles = [];
-    const maxParticles = 40;
+    const maxParticles = 45;
 
     let mouseX = -100, mouseY = -100;
     let bX = -100, bY = -100;
@@ -866,42 +939,37 @@ document.addEventListener('DOMContentLoaded', () => {
       if (particles.length >= maxParticles) {
         particles.shift();
       }
-      // Gentle luminous pastel colors
-      const colors = ['#3bbdd2', '#38bdf8', '#fbbf24', '#34d399', '#ffffff'];
+      const colors = ['#00e5ff', '#38bdf8', '#80ffff', '#fbbf24', '#ffffff'];
       particles.push({
-        x: x + (Math.random() - 0.5) * 8,
-        y: y + (Math.random() - 0.5) * 8 + 6,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: Math.random() * 0.8 + 0.3,
-        size: Math.random() * 2.5 + 1.2,
-        alpha: 0.85,
+        x: x + (Math.random() - 0.5) * 10,
+        y: y + (Math.random() - 0.5) * 10 + 8,
+        vx: (Math.random() - 0.5) * 0.9,
+        vy: Math.random() * 0.9 + 0.4,
+        size: Math.random() * 2.8 + 1.4,
+        alpha: 0.9,
         color: colors[Math.floor(Math.random() * colors.length)]
       });
     }
 
     function loop() {
       tick++;
-      // Clear trail canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       if (isInside) {
-        // Smooth butterfly lag/flight interpolation
-        const ease = 0.18;
+        const ease = 0.2;
         bX += (mouseX - bX) * ease;
         bY += (mouseY - bY) * ease;
 
-        // Subtle organic bobbing/floating motion
-        const bobX = Math.sin(tick * 0.1) * 2;
-        const bobY = Math.cos(tick * 0.12) * 2.5;
+        const bobX = Math.sin(tick * 0.11) * 2.5;
+        const bobY = Math.cos(tick * 0.13) * 3;
 
-        // Calculate flight direction angle
         const dx = bX - prevBX;
         const dy = bY - prevBY;
         const speed = Math.sqrt(dx * dx + dy * dy);
 
         if (speed > 1.2) {
           const targetAngle = (Math.atan2(dy, dx) * 180 / Math.PI) + 90;
-          flightAngle += (targetAngle - flightAngle) * 0.25;
+          flightAngle += (targetAngle - flightAngle) * 0.28;
         }
 
         prevBX = bX;
@@ -910,18 +978,16 @@ document.addEventListener('DOMContentLoaded', () => {
         butterflyWrap.style.transform = `translate(${bX + bobX}px, ${bY + bobY}px)`;
         container.style.transform = `rotate(${flightAngle}deg)`;
 
-        // Emit subtle trail particles while moving or hovering
         if (tick % 2 === 0) {
           addParticle(bX, bY);
         }
       }
 
-      // Draw and update particles
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.alpha -= 0.024; // fade over ~600ms
+        p.alpha -= 0.022;
 
         if (p.alpha <= 0) {
           particles.splice(i, 1);
@@ -930,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.save();
         ctx.globalAlpha = p.alpha;
-        ctx.shadowBlur = 6;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = p.color;
         ctx.fillStyle = p.color;
         ctx.beginPath();

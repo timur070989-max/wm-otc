@@ -319,8 +319,9 @@ h1, h2, h3, h4, .font-display {
   will-change: transform;
 }
 
+
 /* ============================================
-   Luminous Fluttering Butterfly Cursor
+   Luminous Realistic Blue Morpho Butterfly Cursor
    ============================================ */
 #symptoms-guide,
 #symptoms-guide a,
@@ -337,8 +338,8 @@ h1, h2, h3, h4, .font-display {
   z-index: 9999;
   opacity: 0;
   transform: translate(-50%, -50%);
-  transition: opacity 0.3s ease;
-  perspective: 600px;
+  transition: opacity 0.35s ease;
+  perspective: 700px;
 }
 
 .butterfly-cursor-wrap.active {
@@ -347,58 +348,59 @@ h1, h2, h3, h4, .font-display {
 
 .butterfly-body-container {
   position: relative;
-  width: 34px;
-  height: 34px;
+  width: 58px;
+  height: 58px;
   transform-style: preserve-3d;
-  filter: drop-shadow(0 0 10px rgba(59, 189, 210, 0.75)) drop-shadow(0 2px 8px rgba(0, 31, 102, 0.45));
+  filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.85)) drop-shadow(0 4px 12px rgba(0, 31, 102, 0.5));
 }
 
-/* Wing Flapping 3D Animations */
-.butterfly-wing {
+.butterfly-wing-wrap {
   position: absolute;
-  top: 2px;
-  width: 17px;
-  height: 28px;
-  background: linear-gradient(135deg, rgba(59, 189, 210, 0.95) 0%, rgba(14, 165, 233, 0.9) 45%, rgba(245, 158, 11, 0.85) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.6);
+  top: 0;
+  width: 30px;
+  height: 56px;
   transform-style: preserve-3d;
 }
 
-.butterfly-wing-left {
+.butterfly-wing-wrap-left {
   left: 0;
-  border-radius: 85% 15% 75% 25% / 85% 25% 75% 15%;
-  transform-origin: right center;
-  animation: flapLeft 0.14s ease-in-out infinite alternate;
+  transform-origin: 100% 50%;
+  animation: flapRealisticLeft 0.14s ease-in-out infinite alternate;
 }
 
-.butterfly-wing-right {
+.butterfly-wing-wrap-right {
   right: 0;
-  border-radius: 15% 85% 25% 75% / 25% 85% 15% 75%;
-  transform-origin: left center;
-  animation: flapRight 0.14s ease-in-out infinite alternate;
+  transform-origin: 0% 50%;
+  animation: flapRealisticRight 0.14s ease-in-out infinite alternate;
 }
 
-.butterfly-torso {
+.wing-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.butterfly-center-body {
   position: absolute;
   left: 50%;
-  top: 5px;
-  width: 3.5px;
-  height: 22px;
-  background: #00174c;
-  border-radius: 4px;
+  top: 0;
+  width: 18px;
+  height: 56px;
   transform: translateX(-50%);
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  pointer-events: none;
+  overflow: visible;
 }
 
-@keyframes flapLeft {
-  0% { transform: rotateY(0deg) rotateZ(-5deg); }
-  100% { transform: rotateY(70deg) rotateZ(12deg); }
+@keyframes flapRealisticLeft {
+  0% { transform: rotateY(0deg) rotateZ(-3deg); }
+  100% { transform: rotateY(70deg) rotateZ(8deg); }
 }
 
-@keyframes flapRight {
-  0% { transform: rotateY(0deg) rotateZ(5deg); }
-  100% { transform: rotateY(-70deg) rotateZ(-12deg); }
+@keyframes flapRealisticRight {
+  0% { transform: rotateY(0deg) rotateZ(3deg); }
+  100% { transform: rotateY(-70deg) rotateZ(-8deg); }
 }
 
 /* Butterfly Particle Trail Canvas */
@@ -408,7 +410,7 @@ h1, h2, h3, h4, .font-display {
   pointer-events: none;
   z-index: 9998;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
 }
 
 #butterflyTrailCanvas.active {

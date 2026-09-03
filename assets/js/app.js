@@ -742,57 +742,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function initFluidPoseTracking() {
+  (function init5DirectionPoseTracking() {
     const poseCenter = document.getElementById('poseCenter');
     const poseLeft = document.getElementById('poseLeft');
     const poseRight = document.getElementById('poseRight');
     const poseUp = document.getElementById('poseUp');
+    const poseDown = document.getElementById('poseDown');
     const container = document.getElementById('humanFigureContainer');
     const symptomsSection = document.getElementById('symptoms-guide');
 
     if (!poseCenter || !symptomsSection) return;
 
-    let targetNx = 0;
-    let targetNy = 0;
-    let currentNx = 0;
-    let currentNy = 0;
-    let isTracking = false;
-    let animFrame = null;
+    let activePose = 'center';
 
-    function updateFrame() {
-      // Smooth linear interpolation (lerp) for 60fps fluid tracking
-      currentNx += (targetNx - currentNx) * 0.12;
-      currentNy += (targetNy - currentNy) * 0.12;
+    function setDominantPose(pose) {
+      if (activePose === pose) return;
+      activePose = pose;
 
-      // Calculate smooth weights based on cursor position
-      // Left vs Right weight
-      const rightWeight = Math.max(0, Math.min(1, (currentNx - 0.05) / 0.45));
-      const leftWeight = Math.max(0, Math.min(1, (-currentNx - 0.05) / 0.45));
-      
-      // Upward weight
-      const upWeight = Math.max(0, Math.min(1, (-currentNy - 0.1) / 0.45));
-      
-      // Center weight takes whatever is remaining
-      const centerWeight = Math.max(0, 1 - leftWeight - rightWeight - upWeight * 0.8);
-
-      // Apply smooth opacity blending across frames
-      if (poseCenter) poseCenter.style.opacity = centerWeight.toFixed(3);
-      if (poseLeft) poseLeft.style.opacity = leftWeight.toFixed(3);
-      if (poseRight) poseRight.style.opacity = rightWeight.toFixed(3);
-      if (poseUp) poseUp.style.opacity = upWeight.toFixed(3);
-
-      // Subtle 3D sub-pixel micro-tilt for lifelike depth
-      if (container) {
-        const tiltX = (currentNy * -3.5).toFixed(2);
-        const tiltY = (currentNx * 5.0).toFixed(2);
-        container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-      }
-
-      if (isTracking || Math.abs(currentNx) > 0.005 || Math.abs(currentNy) > 0.005) {
-        animFrame = requestAnimationFrame(updateFrame);
-      } else {
-        animFrame = null;
-      }
+      // Clean, ghost-free discrete switching (100% solid, no double faces)
+      if (poseCenter) poseCenter.style.opacity = (pose === 'center') ? '1' : '0';
+      if (poseLeft) poseLeft.style.opacity = (pose === 'left') ? '1' : '0';
+      if (poseRight) poseRight.style.opacity = (pose === 'right') ? '1' : '0';
+      if (poseUp) poseUp.style.opacity = (pose === 'up') ? '1' : '0';
+      if (poseDown) poseDown.style.opacity = (pose === 'down') ? '1' : '0';
     }
 
     function handlePointer(clientX, clientY) {
@@ -803,12 +775,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      targetNx = Math.max(-1, Math.min(1, deltaX / (rect.width * 0.45)));
-      targetNy = Math.max(-1, Math.min(1, deltaY / (rect.height * 0.45)));
+      const normX = deltaX / (rect.width * 0.35);
+      const normY = deltaY / (rect.height * 0.35);
 
-      isTracking = true;
-      if (!animFrame) {
-        animFrame = requestAnimationFrame(updateFrame);
+      // 5-Direction Gaze Detection:
+      if (normY < -0.32 && Math.abs(normX) < 0.5) {
+        setDominantPose('up');      // Looking UP towards top categories
+      } else if (normY > 0.28 && Math.abs(normX) < 0.5) {
+        setDominantPose('down');    // Looking DOWN towards bottom categories
+      } else if (normX < -0.18) {
+        setDominantPose('left');    // Looking LEFT towards left categories
+      } else if (normX > 0.18) {
+        setDominantPose('right');   // Looking RIGHT towards right categories
+      } else {
+        setDominantPose('center');  // Looking STRAIGHT ahead
+      }
+
+      // Subtle 3D perspective tilt
+      if (container) {
+        const tiltX = Math.max(-4, Math.min(4, normY * -3)).toFixed(1);
+        const tiltY = Math.max(-5, Math.min(5, normX * 4)).toFixed(1);
+        container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       }
     }
 
@@ -820,12 +807,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     symptomsSection.addEventListener('mouseleave', () => {
-      targetNx = 0;
-      targetNy = 0;
-      isTracking = false;
-      if (!animFrame) {
-        animFrame = requestAnimationFrame(updateFrame);
-      }
+      setDominantPose('center');
+      if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
     });
   })();
 

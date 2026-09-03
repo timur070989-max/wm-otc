@@ -740,110 +740,73 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-        /* --- 4. Interactive 3D Model: Head-Only Rotation (Body 100% Fixed) --- */
+          /* --- 4. Interactive 3D Model: Head-Focused Gaze Tracking --- */
   const bodyViewer = document.getElementById('bodyViewer');
   const symptomsSection = document.getElementById('symptoms-guide');
 
   if (bodyViewer && symptomsSection) {
-    let headNode = null;
-    let targetYaw = 0;    // Y rotation (left/right)
-    let targetPitch = 0;  // X rotation (up/down)
-    let currentYaw = 0;
-    let currentPitch = 0;
+    const baseAzimuth = 0;      // center front-facing
+    const baseElevation = 78;   // head eye level
+    const maxAzimuth = 28;      // focused head turn (+/- 28 deg)
+    const maxElevation = 10;    // subtle vertical tilt (+/- 10 deg)
+
+    let targetAzimuth = baseAzimuth;
+    let targetElevation = baseElevation;
+    let currentAzimuth = baseAzimuth;
+    let currentElevation = baseElevation;
     let isTracking = false;
-    let headRaf = null;
+    let modelRaf = null;
 
-    function findHeadNode() {
-      if (headNode) return headNode;
-      const symbols = Object.getOwnPropertySymbols(bodyViewer);
-      for (const sym of symbols) {
-        const obj = bodyViewer[sym];
-        if (obj) {
-          const root = obj.scene || obj.currentGLTF?.scene || (obj.traverse ? obj : null);
-          if (root && root.traverse) {
-            root.traverse((child) => {
-              if (child.name === 'Head_Node' || child.name === 'Head_Mesh') {
-                headNode = child;
-              }
-            });
-          }
-        }
-      }
-      return headNode;
-    }
+    function render3DFrame() {
+      // Snappy and responsive head gaze tracking
+      const ease = 0.24;
+      currentAzimuth += (targetAzimuth - currentAzimuth) * ease;
+      currentElevation += (targetElevation - currentElevation) * ease;
 
-    bodyViewer.addEventListener('load', () => {
-      findHeadNode();
-    });
+      const orbitStr = `${currentAzimuth.toFixed(1)}deg ${currentElevation.toFixed(1)}deg 105%`;
+      bodyViewer.cameraOrbit = orbitStr;
+      bodyViewer.setAttribute('camera-orbit', orbitStr);
 
-    function animateHead() {
-      findHeadNode();
-      const ease = 0.22;
-      currentYaw += (targetYaw - currentYaw) * ease;
-      currentPitch += (targetPitch - currentPitch) * ease;
-
-      if (headNode) {
-        // Rotate only head bone/node
-        headNode.rotation.y = currentYaw;
-        headNode.rotation.x = currentPitch;
-        headNode.rotation.z = -currentYaw * 0.15; // Natural subtle head tilt
-        
-        // Ensure bodyViewer re-renders frame
-        const symbols = Object.getOwnPropertySymbols(bodyViewer);
-        for (const sym of symbols) {
-          const obj = bodyViewer[sym];
-          if (obj && obj.setDirty) {
-            obj.setDirty();
-          }
-        }
+      if (Math.abs(targetAzimuth - currentAzimuth) > 0.05 || Math.abs(targetElevation - currentElevation) > 0.05 || isTracking) {
+        modelRaf = requestAnimationFrame(render3DFrame);
       } else {
-        // Fallback: subtle micro orbit if head node not yet initialized
-        const orbitStr = `${(currentYaw * -40).toFixed(1)}deg ${(78 + currentPitch * 15).toFixed(1)}deg 105%`;
-        bodyViewer.cameraOrbit = orbitStr;
-      }
-
-      if (Math.abs(targetYaw - currentYaw) > 0.005 || Math.abs(targetPitch - currentPitch) > 0.005 || isTracking) {
-        headRaf = requestAnimationFrame(animateHead);
-      } else {
-        headRaf = null;
+        modelRaf = null;
       }
     }
 
     function handlePointer(clientX, clientY) {
       const rect = bodyViewer.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height * 0.35; // Head center
+      const centerY = rect.top + rect.height * 0.35; // Focused on head
 
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.32)));
-      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.32)));
+      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.35)));
+      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.35)));
 
-      // Target head rotations in radians:
-      // normX > 0 (mouse to right) -> head turns right (positive Y rotation)
-      targetYaw = normX * 0.65;    // up to ~37 degrees turn
-      // normY < 0 (mouse up) -> head tilts up (negative X rotation)
-      targetPitch = normY * 0.40;  // up to ~23 degrees tilt
+      // Invert azimuth so model turns head/face directly towards mouse
+      targetAzimuth = -normX * maxAzimuth;
+      targetElevation = baseElevation + normY * maxElevation;
 
       isTracking = true;
-      if (!headRaf) {
-        headRaf = requestAnimationFrame(animateHead);
+      if (!modelRaf) {
+        modelRaf = requestAnimationFrame(render3DFrame);
       }
     }
 
     window.addEventListener('pointermove', (e) => {
       const secRect = symptomsSection.getBoundingClientRect();
-      if (secRect.bottom > -200 && secRect.top < window.innerHeight + 200) {
+      if (secRect.bottom > -100 && secRect.top < window.innerHeight + 100) {
         handlePointer(e.clientX, e.clientY);
       }
     }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
       isTracking = false;
-      targetYaw = 0;
-      targetPitch = 0;
-      if (!headRaf) headRaf = requestAnimationFrame(animateHead);
+      targetAzimuth = baseAzimuth;
+      targetElevation = baseElevation;
+      if (!modelRaf) modelRaf = requestAnimationFrame(render3DFrame);
     });
   }
 

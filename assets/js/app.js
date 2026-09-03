@@ -740,127 +740,147 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-            /* --- 4. Interactive 3D Model: GPU Head-Only Rotation (Body 100% Fixed) --- */
-  const bodyViewer = document.getElementById('bodyViewer');
-  const symptomsSection = document.getElementById('symptoms-guide');
+              /* --- 4. Interactive 3D Model: Three.js Head-Only Rotation (Body 100% Fixed) --- */
+  (function initThreeBodyViewer() {
+    const container = document.getElementById('threeBodyContainer');
+    const symptomsSection = document.getElementById('symptoms-guide');
+    if (!container || !symptomsSection || typeof THREE === 'undefined') return;
 
-  if (bodyViewer && symptomsSection) {
-    let headUniforms = null;
-    let targetYaw = 0;    // Y rotation (left/right) in radians
-    let targetPitch = 0;  // X rotation (up/down) in radians
-    let currentYaw = 0;
-    let currentPitch = 0;
+    const width = container.clientWidth || 380;
+    const height = container.clientHeight || 500;
+
+    // 1. Scene & 100% Fixed Static Camera (Never Rotates!)
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 50);
+    camera.position.set(0, 0.05, 3.1);
+    camera.lookAt(0, 0.05, 0);
+
+    // 2. High-Fidelity Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.3);
+    dirLight1.position.set(3, 4, 4);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.8);
+    dirLight2.position.set(-3, 2, 2);
+    scene.add(dirLight2);
+
+    const floorLight = new THREE.DirectionalLight(0x0032a0, 0.4);
+    floorLight.position.set(0, -3, 2);
+    scene.add(floorLight);
+
+    // 3. WebGL Renderer with Alpha & Antialiasing
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    container.appendChild(renderer.domElement);
+
+    // Uniforms for GPU Head-Only Rotation
+    const customUniforms = {
+      uHeadYaw: { value: 0.0 },
+      uHeadPitch: { value: 0.0 }
+    };
+
+    let targetYaw = 0.0;
+    let targetPitch = 0.0;
+    let currentYaw = 0.0;
+    let currentPitch = 0.0;
     let isTracking = false;
-    let headRaf = null;
 
-    function hookHeadShader() {
-      const symbols = Object.getOwnPropertySymbols(bodyViewer);
-      for (const sym of symbols) {
-        const obj = bodyViewer[sym];
-        if (obj) {
-          const scene = obj.scene || obj.currentGLTF?.scene || (obj.traverse ? obj : null);
-          if (scene && scene.traverse) {
-            scene.traverse((child) => {
-              if (child.isMesh && child.material && !child.material._headHooked) {
-                child.material._headHooked = true;
-                const mat = child.material;
+    // 4. Load pristine original 3D model
+    const loader = new THREE.GLTFLoader();
+    loader.load('assets/models/woman_sitting_corporate.glb?v=70', (gltf) => {
+      const model = gltf.scene;
 
-                // Create custom uniforms
-                const customUniforms = {
-                  uHeadYaw: { value: 0.0 },
-                  uHeadPitch: { value: 0.0 }
-                };
-                headUniforms = customUniforms;
+      model.traverse((child) => {
+        if (child.isMesh && child.material) {
+          child.material = child.material.clone();
+          const mat = child.material;
 
-                mat.onBeforeCompile = (shader) => {
-                  shader.uniforms.uHeadYaw = customUniforms.uHeadYaw;
-                  shader.uniforms.uHeadPitch = customUniforms.uHeadPitch;
+          mat.onBeforeCompile = (shader) => {
+            shader.uniforms.uHeadYaw = customUniforms.uHeadYaw;
+            shader.uniforms.uHeadPitch = customUniforms.uHeadPitch;
 
-                  // Inject uniforms definition before begin_vertex
-                  shader.vertexShader = `
-                    uniform float uHeadYaw;
-                    uniform float uHeadPitch;
-                  ` + shader.vertexShader;
+            shader.vertexShader = `
+              uniform float uHeadYaw;
+              uniform float uHeadPitch;
+            ` + shader.vertexShader;
 
-                  // Inject GPU Head-Deformation logic:
-                  // y < 0.46: Body, legs, torso remain 100% STATIC (factor = 0)
-                  // y between 0.46 and 0.68: Smooth natural organic neck flexion (smoothstep)
-                  // y > 0.68: Head turns and nods directly towards cursor (factor = 1)
-                  const vertexDeformLogic = `
-                    #include <begin_vertex>
-                    
-                    float headFactor = smoothstep(0.46, 0.68, position.y);
-                    if (headFactor > 0.001) {
-                      vec3 pivot = vec3(0.0, 0.56, 0.0);
-                      vec3 p = transformed - pivot;
-                      
-                      // Horizontal Yaw rotation around Y axis
-                      float angleY = uHeadYaw * headFactor;
-                      float cY = cos(angleY);
-                      float sY = sin(angleY);
-                      mat2 rotY = mat2(cY, -sY, sY, cY);
-                      p.xz = rotY * p.xz;
-                      
-                      // Vertical Pitch tilt around X axis
-                      float angleX = uHeadPitch * headFactor;
-                      float cX = cos(angleX);
-                      float sX = sin(angleX);
-                      mat2 rotX = mat2(cX, -sX, sX, cX);
-                      p.yz = rotX * p.yz;
-                      
-                      transformed = p + pivot;
-                    }
-                  `;
-
-                  shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', vertexDeformLogic);
-                };
-
-                mat.needsUpdate = true;
+            // Vertex logic:
+            // position.y < 0.46: Body, shoulders, arms, legs are 100% FIXED (headFactor = 0)
+            // position.y = 0.46..0.68: Smooth organic neck bend
+            // position.y > 0.68: Head turns and nods towards cursor
+            const vertexDeform = `
+              #include <begin_vertex>
+              
+              float headFactor = smoothstep(0.46, 0.68, position.y);
+              if (headFactor > 0.001) {
+                vec3 pivot = vec3(0.0, 0.56, 0.0);
+                vec3 p = transformed - pivot;
+                
+                // Yaw rotation around Y axis
+                float angleY = uHeadYaw * headFactor;
+                float cY = cos(angleY);
+                float sY = sin(angleY);
+                mat2 rotY = mat2(cY, -sY, sY, cY);
+                p.xz = rotY * p.xz;
+                
+                // Pitch tilt around X axis
+                float angleX = uHeadPitch * headFactor;
+                float cX = cos(angleX);
+                float sX = sin(angleX);
+                mat2 rotX = mat2(cX, -sX, sX, cX);
+                p.yz = rotX * p.yz;
+                
+                transformed = p + pivot;
               }
-            });
-          }
-        }
-      }
-    }
+            `;
 
-    bodyViewer.addEventListener('load', () => {
-      hookHeadShader();
+            shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', vertexDeform);
+          };
+          mat.needsUpdate = true;
+        }
+      });
+
+      // Position model comfortably in center of view
+      model.position.set(0, -0.62, 0);
+      model.scale.set(1.28, 1.28, 1.28);
+      scene.add(model);
     });
 
-    function markSceneDirty() {
-      const symbols = Object.getOwnPropertySymbols(bodyViewer);
-      for (const sym of symbols) {
-        const obj = bodyViewer[sym];
-        if (obj && typeof obj.setDirty === 'function') {
-          obj.setDirty();
-        }
-      }
-    }
-
-    function animateHeadFrame() {
-      hookHeadShader();
+    // 5. Render loop (smooth head interpolation at 60fps)
+    function animate() {
+      requestAnimationFrame(animate);
 
       const ease = 0.22;
       currentYaw += (targetYaw - currentYaw) * ease;
       currentPitch += (targetPitch - currentPitch) * ease;
 
-      if (headUniforms) {
-        headUniforms.uHeadYaw.value = currentYaw;
-        headUniforms.uHeadPitch.value = currentPitch;
-        markSceneDirty();
-      }
+      customUniforms.uHeadYaw.value = currentYaw;
+      customUniforms.uHeadPitch.value = currentPitch;
 
-      if (Math.abs(targetYaw - currentYaw) > 0.003 || Math.abs(targetPitch - currentPitch) > 0.003 || isTracking) {
-        headRaf = requestAnimationFrame(animateHeadFrame);
-      } else {
-        headRaf = null;
-      }
+      renderer.render(scene, camera);
     }
+    animate();
 
+    // 6. Resize handling
+    window.addEventListener('resize', () => {
+      const newW = container.clientWidth || 380;
+      const newH = container.clientHeight || 500;
+      camera.aspect = newW / newH;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newW, newH);
+    }, { passive: true });
+
+    // 7. Cursor pointer tracking
     function handlePointer(clientX, clientY) {
-      const rect = bodyViewer.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height * 0.35; // Head center
+      const centerY = rect.top + rect.height * 0.35; // Head height
 
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
@@ -868,17 +888,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.35)));
       const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.35)));
 
-      // Target head rotations:
+      // Target head angles:
       // normX > 0 (cursor right) -> head turns right (positive Y rotation)
-      targetYaw = normX * 0.65;    // ~37 degrees max yaw
+      targetYaw = normX * 0.72;    // ~41 degrees max turn
       // normY > 0 (cursor down) -> head tilts down (positive X rotation)
       // normY < 0 (cursor up) -> head tilts up (negative X rotation)
-      targetPitch = normY * 0.38;  // ~22 degrees max pitch
+      targetPitch = normY * 0.42;  // ~24 degrees max tilt
 
       isTracking = true;
-      if (!headRaf) {
-        headRaf = requestAnimationFrame(animateHeadFrame);
-      }
     }
 
     window.addEventListener('pointermove', (e) => {
@@ -892,9 +909,8 @@ document.addEventListener('DOMContentLoaded', () => {
       isTracking = false;
       targetYaw = 0;
       targetPitch = 0;
-      if (!headRaf) headRaf = requestAnimationFrame(animateHeadFrame);
     });
-  }
+  })();
 
 /* --- 5. Realistic Blue Morpho Butterfly Cursor with Glow Trail --- */
   (function initButterflyCursor() {

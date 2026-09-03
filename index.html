@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=17.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=18.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,11 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=17.0"></script>
-  <script src="assets/js/app.js?v=17.0"></script>
+  <script src="assets/js/products-data.js?v=18.0"></script>
+  <script src="assets/js/app.js?v=18.0"></script>
+  <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -468,21 +471,8 @@
               </svg>
               
 
-              <!-- 3D Interactive Woman Model (100% Fixed Static Body, GPU Head-Only Rotation) -->
-              <model-viewer
-                id="bodyViewer"
-                src="assets/models/woman_sitting_corporate.glb?v=60"
-                alt="World Medicine 3D Human Anatomy Map"
-                loading="eager"
-                reveal="auto"
-                interaction-prompt="none"
-                camera-orbit="0deg 78deg 105%"
-                camera-target="0m 0.65m 0m"
-                shadow-intensity="1.5"
-                shadow-softness="0.8"
-                exposure="1.1"
-                class="w-full h-full pointer-events-none"
-              ></model-viewer>
+              <!-- 3D Interactive Woman Model (100% Fixed Static Body, Only Head Rotates) -->
+              <div id="threeBodyContainer" class="w-full h-full relative flex items-center justify-center pointer-events-none"></div>
 
               <!-- 8 Anatomical Static Interactive Hotspots (Beauty & Wellness Zones) -->
               <div class="absolute inset-0 pointer-events-auto z-20">

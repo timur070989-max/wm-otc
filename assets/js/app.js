@@ -26,6 +26,7 @@ document.addEventListener('alpine:init', () => {
     
     // UI state
     isCartOpen: false,
+    isMobileMenuOpen: false,
     isProductModalOpen: false,
     isCheckoutModalOpen: false,
     isOrderSuccessModalOpen: false,

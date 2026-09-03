@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=22.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=23.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,49 +63,120 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=22.0"></script>
-  <script src="assets/js/app.js?v=22.0"></script>
+  <script src="assets/js/products-data.js?v=23.0"></script>
+  <script src="assets/js/app.js?v=23.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
-  <!-- Header with Official White Logo on Corporate Navy -->
-  <header class="sticky top-0 z-40 bg-[#001f66] border-b border-[#00174c] shadow-md transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
-      <div class="flex items-center justify-between gap-4">
+  <!-- Top Announcement Bar (Luxury DTC Trust Strip) -->
+  <div class="bg-[#001238] border-b border-white/10 text-white text-[11px] sm:text-xs py-2 px-4 relative z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2 overflow-hidden whitespace-nowrap">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#3bbdd2]/20 border border-[#3bbdd2]/30 text-[#80e5ff] font-bold text-[10px] uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#3bbdd2] animate-pulse"></span>
+          Uzum 1-Day
+        </span>
+        <span class="text-slate-300 truncate" x-text="lang === 'uz' ? 'O\'zbekiston bo\'ylab Uzum orqali 1 kunda bepul yetkazib berish' : 'Бесплатная экспресс-доставка по всему Узбекистану через Uzum за 1 день'"></span>
+      </div>
+      <div class="hidden md:flex items-center gap-5 shrink-0 text-slate-300 font-medium">
+        <span class="flex items-center gap-1.5 text-emerald-400">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span x-text="lang === 'uz' ? 'Halol & GMP Sertifikatlangan' : '100% Халяль & GMP Сертификат'"></span>
+        </span>
+        <a href="tel:+998712000000" class="flex items-center gap-1.5 hover:text-white transition-colors">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-[#3bbdd2]"></i>
+          <span>+998 (71) 200-00-00</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Luxury Sticky Header with Full Navigation -->
+  <header class="sticky top-0 z-40 bg-[#001f66]/95 backdrop-blur-md border-b border-white/10 shadow-lg transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
+      <div class="flex items-center justify-between gap-4 lg:gap-8">
         
         <!-- Official White World Medicine Logo -->
         <a href="#" class="flex items-center gap-3 shrink-0 group">
           <img 
             src="https://www.worldmedicine.uz/themes/template-ru/images/icons/logo/logo.svg" 
             alt="World Medicine" 
-            class="h-9 sm:h-11 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105"
+            class="h-8 sm:h-10 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105"
           >
         </a>
 
-        <!-- Controls: Language Selector first, then Cart -->
-        <div class="flex items-center gap-3">
+        <!-- Desktop Navigation Menu Links -->
+        <nav class="hidden lg:flex items-center gap-1.5 xl:gap-2">
+          <a 
+            href="#symptoms-guide" 
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1.5"
+          >
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#3bbdd2]"></i>
+            <span x-text="lang === 'uz' ? 'Salomatlik maqsadlari' : 'Цели здоровья'"></span>
+          </a>
+          <a 
+            href="#products-catalog" 
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1.5"
+          >
+            <i data-lucide="pill" class="w-3.5 h-3.5 text-[#3bbdd2]"></i>
+            <span x-text="lang === 'uz' ? 'Katalog' : 'Каталог БАД'"></span>
+          </a>
+          <a 
+            href="#certificates-section" 
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1.5"
+          >
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span x-text="lang === 'uz' ? 'Halol & GMP' : 'Халяль & Сертификаты'"></span>
+          </a>
+          <a 
+            href="#awards-section" 
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1.5"
+          >
+            <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span x-text="lang === 'uz' ? 'Mukofotlar' : 'Награды'"></span>
+          </a>
+          <a 
+            href="#footer" 
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1.5"
+          >
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-300"></i>
+            <span x-text="lang === 'uz' ? 'Kontaktlar' : 'Контакты'"></span>
+          </a>
+        </nav>
+
+        <!-- Right Controls: Quick Search, Language Switcher, Cart, and Mobile Toggle -->
+        <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
           
-          <!-- Language Selector (First on the right) -->
+          <!-- Search Scroll Shortcut -->
+          <a 
+            href="#products-catalog" 
+            class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-all flex items-center justify-center cursor-pointer"
+            :title="lang === 'uz' ? 'Qidirish' : 'Поиск по каталогу'"
+          >
+            <i data-lucide="search" class="w-4 h-4 text-[#80e5ff]"></i>
+          </a>
+
+          <!-- Language Selector -->
           <div class="flex items-center bg-white/10 p-1 rounded-full border border-white/15 text-xs font-bold text-white">
             <button 
               @click="setLang('ru')" 
               :class="lang === 'ru' ? 'bg-[#0032a0] text-white shadow-xs' : 'text-slate-300 hover:text-white'"
-              class="px-2.5 py-1 rounded-full transition-all"
+              class="px-2.5 py-1 rounded-full transition-all cursor-pointer"
             >RU</button>
             <button 
               @click="setLang('uz')" 
               :class="lang === 'uz' ? 'bg-[#0032a0] text-white shadow-xs' : 'text-slate-300 hover:text-white'"
-              class="px-2.5 py-1 rounded-full transition-all"
+              class="px-2.5 py-1 rounded-full transition-all cursor-pointer"
             >UZ</button>
           </div>
 
           <!-- Cart Trigger Button (White Background, Corporate Navy Text) -->
           <button 
             @click="isCartOpen = true" 
-            class="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-[#001f66] text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all transform active:scale-95 cursor-pointer"
+            class="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-[#001f66] text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all transform active:scale-95 cursor-pointer"
           >
             <i data-lucide="shopping-bag" class="w-4 h-4 text-[#001f66]"></i>
             <span class="hidden sm:inline" x-text="t('cart_title')"></span>
@@ -115,9 +186,76 @@
               class="inline-flex items-center justify-center bg-[#001f66] text-white text-[11px] font-black rounded-full h-5 min-w-[20px] px-1 shadow-xs"
             ></span>
           </button>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button 
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
+            class="lg:hidden p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-all flex items-center justify-center cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            <i :data-lucide="isMobileMenuOpen ? 'x' : 'menu'" class="w-5 h-5 text-white"></i>
+          </button>
         </div>
 
       </div>
+
+      <!-- Mobile Dropdown Navigation Drawer -->
+      <div 
+        x-show="isMobileMenuOpen" 
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-2"
+        class="lg:hidden mt-3 pt-3 border-t border-white/15 space-y-1.5 pb-2"
+      >
+        <a 
+          @click="isMobileMenuOpen = false"
+          href="#symptoms-guide" 
+          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-white hover:bg-white/10 transition-colors"
+        >
+          <i data-lucide="sparkles" class="w-4 h-4 text-[#3bbdd2]"></i>
+          <span x-text="lang === 'uz' ? 'Salomatlik maqsadlari (3D)' : 'Цели здоровья и анатомия'"></span>
+        </a>
+        <a 
+          @click="isMobileMenuOpen = false"
+          href="#products-catalog" 
+          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-white hover:bg-white/10 transition-colors"
+        >
+          <i data-lucide="pill" class="w-4 h-4 text-[#3bbdd2]"></i>
+          <span x-text="lang === 'uz' ? 'Mahsulotlar katalogi' : 'Каталог продукции'"></span>
+        </a>
+        <a 
+          @click="isMobileMenuOpen = false"
+          href="#certificates-section" 
+          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-white hover:bg-white/10 transition-colors"
+        >
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+          <span x-text="lang === 'uz' ? 'Halol & GMP Sertifikatlari' : 'Халяль & GMP Сертификаты'"></span>
+        </a>
+        <a 
+          @click="isMobileMenuOpen = false"
+          href="#awards-section" 
+          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-white hover:bg-white/10 transition-colors"
+        >
+          <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+          <span x-text="lang === 'uz' ? 'Xalqaro mukofotlar' : 'Международные награды'"></span>
+        </a>
+        <a 
+          @click="isMobileMenuOpen = false"
+          href="#footer" 
+          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-white hover:bg-white/10 transition-colors"
+        >
+          <i data-lucide="map-pin" class="w-4 h-4 text-sky-300"></i>
+          <span x-text="lang === 'uz' ? 'Aloqa va dorixonalar' : 'Контакты и аптеки'"></span>
+        </a>
+        <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-slate-300 px-3">
+          <span>Горячая линия:</span>
+          <a href="tel:+998712000000" class="font-bold text-white hover:text-[#3bbdd2]">+998 (71) 200-00-00</a>
+        </div>
+      </div>
+
     </div>
   </header>
 

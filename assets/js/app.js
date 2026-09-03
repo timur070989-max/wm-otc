@@ -740,15 +740,15 @@ document.addEventListener('DOMContentLoaded', () => {
     applyParallax();
   }
 
-    /* --- 4. Interactive 3D Model Look-At Mouse (Smooth Cursor Tracking) --- */
+      /* --- 4. Interactive 3D Model Fast Look-At Mouse (High-Speed Head Tracking) --- */
   const bodyViewer = document.getElementById('bodyViewer');
   const symptomsSection = document.getElementById('symptoms-guide');
 
   if (bodyViewer && symptomsSection) {
     const baseAzimuth = 0;      // front-facing center
     const baseElevation = 78;   // base eye level
-    const maxAzimuth = 45;      // wide turn angle (+/- 45 deg)
-    const maxElevation = 14;    // tilt up/down (+/- 14 deg)
+    const maxAzimuth = 52;      // wide turn angle (+/- 52 deg)
+    const maxElevation = 16;    // tilt up/down (+/- 16 deg)
 
     let targetAzimuth = baseAzimuth;
     let targetElevation = baseElevation;
@@ -758,16 +758,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let modelRaf = null;
 
     function render3DFrame() {
-      // Smooth responsive lerp
-      const ease = 0.12;
+      // High-speed snappy response (ease = 0.26)
+      const ease = 0.26;
       currentAzimuth += (targetAzimuth - currentAzimuth) * ease;
       currentElevation += (targetElevation - currentElevation) * ease;
 
-      const orbitStr = `${currentAzimuth.toFixed(2)}deg ${currentElevation.toFixed(2)}deg 105%`;
+      const orbitStr = `${currentAzimuth.toFixed(1)}deg ${currentElevation.toFixed(1)}deg 105%`;
       bodyViewer.cameraOrbit = orbitStr;
       bodyViewer.setAttribute('camera-orbit', orbitStr);
 
-      if (Math.abs(targetAzimuth - currentAzimuth) > 0.05 || Math.abs(targetElevation - currentElevation) > 0.05 || isTracking) {
+      if (Math.abs(targetAzimuth - currentAzimuth) > 0.08 || Math.abs(targetElevation - currentElevation) > 0.08 || isTracking) {
         modelRaf = requestAnimationFrame(render3DFrame);
       } else {
         modelRaf = null;
@@ -784,11 +784,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      // Normalize across window width/height
-      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.45)));
-      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.45)));
+      // Normalize with higher sensitivity (narrower divisor = faster turn)
+      const normX = Math.max(-1, Math.min(1, deltaX / (window.innerWidth * 0.35)));
+      const normY = Math.max(-1, Math.min(1, deltaY / (window.innerHeight * 0.35)));
 
-      // Invert azimuth so rotating camera makes model FACE towards mouse
+      // Invert azimuth so model turns FACE directly towards mouse position
       targetAzimuth = -normX * maxAzimuth;
       targetElevation = baseElevation + normY * maxElevation;
 
@@ -799,9 +799,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('pointermove', (e) => {
-      // Check if symptoms section is reasonably visible in viewport
       const secRect = symptomsSection.getBoundingClientRect();
-      if (secRect.bottom > 0 && secRect.top < window.innerHeight) {
+      if (secRect.bottom > -200 && secRect.top < window.innerHeight + 200) {
         handlePointer(e.clientX, e.clientY);
       }
     }, { passive: true });

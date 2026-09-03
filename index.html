@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=16.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=17.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=16.0"></script>
-  <script src="assets/js/app.js?v=16.0"></script>
+  <script src="assets/js/products-data.js?v=17.0"></script>
+  <script src="assets/js/app.js?v=17.0"></script>
 </head>
 <body x-data="catalogApp()" class="antialiased min-h-screen flex flex-col selection:bg-wmBlue-500 selection:text-white">
 
@@ -468,20 +468,16 @@
               </svg>
               
 
-              <!-- 3D Interactive Woman Model (Body Fixed, Only Head Rotates to Cursor) -->
-              <!-- 3D Interactive Woman Model (Pristine Mesh, Focused Head Gaze) -->
+              <!-- 3D Interactive Woman Model (100% Fixed Static Body, GPU Head-Only Rotation) -->
               <model-viewer
                 id="bodyViewer"
-                src="assets/models/woman_sitting_corporate.glb?v=50"
+                src="assets/models/woman_sitting_corporate.glb?v=60"
                 alt="World Medicine 3D Human Anatomy Map"
                 loading="eager"
                 reveal="auto"
                 interaction-prompt="none"
-                interpolation-decay="40"
                 camera-orbit="0deg 78deg 105%"
-                camera-target="0m 0.68m 0m"
-                min-camera-orbit="-35deg 68deg 105%"
-                max-camera-orbit="35deg 88deg 105%"
+                camera-target="0m 0.65m 0m"
                 shadow-intensity="1.5"
                 shadow-softness="0.8"
                 exposure="1.1"

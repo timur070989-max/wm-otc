@@ -739,4 +739,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
     applyParallax();
   }
+
+  /* --- 4. Interactive 3D Model Look-At Mouse (Tracks Cursor Position) --- */
+  const bodyViewer = document.getElementById('bodyViewer');
+  const symptomsSection = document.getElementById('symptoms-guide');
+
+  if (bodyViewer && symptomsSection) {
+    const baseAzimuth = 0;      // deg (front facing)
+    const baseElevation = 78;   // deg
+    const maxAzimuth = 32;      // max turn angle left/right (+/- 32 deg)
+    const maxElevation = 12;    // max tilt up/down (+/- 12 deg)
+
+    let targetAzimuth = baseAzimuth;
+    let targetElevation = baseElevation;
+    let currentAzimuth = baseAzimuth;
+    let currentElevation = baseElevation;
+    let isTracking = false;
+    let modelRaf = null;
+
+    function animateModelCamera() {
+      // Smooth cubic lerp
+      const factor = 0.085;
+      currentAzimuth += (targetAzimuth - currentAzimuth) * factor;
+      currentElevation += (targetElevation - currentElevation) * factor;
+
+      bodyViewer.cameraOrbit = `${currentAzimuth.toFixed(2)}deg ${currentElevation.toFixed(2)}deg 105%`;
+
+      if (Math.abs(targetAzimuth - currentAzimuth) > 0.04 || Math.abs(targetElevation - currentElevation) > 0.04 || isTracking) {
+        modelRaf = requestAnimationFrame(animateModelCamera);
+      } else {
+        modelRaf = null;
+      }
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = symptomsSection.getBoundingClientRect();
+      const margin = 100; // active zone extends slightly around section
+
+      if (
+        e.clientY < rect.top - margin ||
+        e.clientY > rect.bottom + margin ||
+        e.clientX < rect.left - margin ||
+        e.clientX > rect.right + margin
+      ) {
+        if (isTracking) {
+          isTracking = false;
+          targetAzimuth = baseAzimuth;
+          targetElevation = baseElevation;
+          if (!modelRaf) modelRaf = requestAnimationFrame(animateModelCamera);
+        }
+        return;
+      }
+
+      isTracking = true;
+      // Normalized coordinates: -1 (far left) to +1 (far right)
+      const normX = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width) * 2 - 1));
+      const normY = Math.max(-1, Math.min(1, ((e.clientY - rect.top) / rect.height) * 2 - 1));
+
+      // Cursor on right -> Model turns right to look at cursor
+      targetAzimuth = normX * maxAzimuth;
+      // Cursor on top -> Camera raises slightly to look up at cursor
+      targetElevation = baseElevation + normY * maxElevation;
+
+      if (!modelRaf) {
+        modelRaf = requestAnimationFrame(animateModelCamera);
+      }
+    }, { passive: true });
+  }
 });

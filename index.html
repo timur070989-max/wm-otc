@@ -468,17 +468,15 @@
               </svg>
               
 
-              <!-- 3D Rotating Woman Model in Corporate Colors -->
+              <!-- 3D Interactive Woman Model (Tracks Cursor / Head Follows Mouse) -->
               <model-viewer
                 id="bodyViewer"
                 src="assets/models/woman_sitting_corporate.glb?v=30"
                 alt="World Medicine 3D Human Anatomy Map"
                 loading="eager"
                 reveal="auto"
-                auto-rotate
-                auto-rotate-delay="0"
-                rotation-per-second="12deg"
                 camera-orbit="0deg 78deg 105%"
+                interpolation-decay="200"
                 shadow-intensity="1.5"
                 shadow-softness="0.8"
                 exposure="1.1"

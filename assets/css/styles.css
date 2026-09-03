@@ -251,3 +251,70 @@ h1, h2, h3, h4, .font-display {
   50% { transform: scale(1.6); opacity: 0; }
   100% { transform: scale(1.6); opacity: 0; }
 }
+
+/* ============================================
+   Scroll Reveal Engine
+   Elements fade + rise into view as the user
+   scrolls (paired with the IntersectionObserver
+   in app.js). Use --reveal-delay for stagger.
+   ============================================ */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================
+   Product Card Cursor Spotlight
+   A soft light sweeps across the card following
+   the cursor (--spot-x/--spot-y set in app.js).
+   Sits above the content on a blend mode so it
+   tints rather than hides the image/text/badges,
+   and stays pointer-events:none so nothing under
+   it loses clickability.
+   ============================================ */
+.product-card {
+  --spot-x: 50%;
+  --spot-y: 50%;
+}
+
+.product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(340px circle at var(--spot-x) var(--spot-y), rgba(59, 189, 210, 0.85), transparent 62%);
+  mix-blend-mode: overlay;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.product-card:hover::after {
+  opacity: 1;
+}
+
+/* Hero background video: base scale gives the
+   parallax translateY in app.js room to move
+   without exposing empty edges. */
+#heroBgVideo {
+  transform: scale(1.12);
+  will-change: transform;
+}

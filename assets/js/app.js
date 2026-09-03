@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Invert azimuth so model turns FACE directly towards mouse position
       targetAzimuth = -normX * maxAzimuth;
-      targetElevation = baseElevation + normY * maxElevation;
+      targetElevation = baseElevation - normY * maxElevation; // Inverted: mouse UP -> model looks UP
 
       isTracking = true;
       if (!modelRaf) {

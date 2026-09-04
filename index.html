@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=38.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=39.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=38.0"></script>
-  <script src="assets/js/app.js?v=38.0"></script>
+  <script src="assets/js/products-data.js?v=39.0"></script>
+  <script src="assets/js/app.js?v=39.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -438,19 +438,15 @@
           <!-- Faint Ambient Circle Track in Background (Clean & Subtle) -->
           <div class="absolute inset-0 m-auto w-[360px] h-[360px] rounded-full border border-slate-100 pointer-events-none"></div>
 
-          <!-- Central Human Character Video (Smooth AI Animation Loop from Desktop Video) -->
+          <!-- Central Human Character Canvas (120 Ultra-Smooth Frames @ 0.1s step with 360° Gaze Tracking) -->
           <div class="absolute inset-0 m-auto w-[280px] sm:w-[320px] h-[360px] flex items-center justify-center z-10 select-none">
             <div id="humanFigureContainer" class="w-full h-full relative flex items-center justify-center transition-transform duration-150 ease-out will-change-transform">
-              <video 
-                id="humanVideo"
-                autoplay 
-                loop 
-                muted 
-                playsinline 
-                class="w-full h-full object-contain max-h-[350px] mix-blend-multiply drop-shadow-[0_15px_35px_rgba(0,31,102,0.08)]"
-              >
-                <source src="assets/videos/character_turn.mp4?v=1" type="video/mp4">
-              </video>
+              <canvas 
+                id="humanFrameCanvas" 
+                width="540" 
+                height="540" 
+                class="w-full h-full object-contain max-h-[350px] drop-shadow-[0_15px_35px_rgba(0,31,102,0.08)] cursor-pointer"
+              ></canvas>
             </div>
           </div>
 
@@ -557,15 +553,12 @@
         <!-- Mobile / Tablet Responsive Orbit View -->
         <div class="lg:hidden flex flex-col items-center gap-4">
           <div class="w-full h-[280px] sm:h-[320px] relative flex items-center justify-center select-none">
-            <video 
-              autoplay 
-              loop 
-              muted 
-              playsinline 
-              class="w-full h-full object-contain max-h-[280px] sm:max-h-[320px] mix-blend-multiply drop-shadow-sm"
-            >
-              <source src="assets/videos/character_turn.mp4?v=1" type="video/mp4">
-            </video>
+            <canvas 
+              id="humanFrameCanvasMobile" 
+              width="540" 
+              height="540" 
+              class="w-full h-full object-contain max-h-[280px] sm:max-h-[320px] drop-shadow-sm"
+            ></canvas>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
             <template x-for="sym in symptoms" :key="sym.id">

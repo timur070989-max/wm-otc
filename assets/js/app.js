@@ -742,17 +742,85 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function initHumanVideoTracking() {
-    const video = document.getElementById('humanVideo');
+  (function init120FramePlayer() {
+    const TOTAL_FRAMES = 120;
+    const canvasDesktop = document.getElementById('humanFrameCanvas');
+    const canvasMobile = document.getElementById('humanFrameCanvasMobile');
     const container = document.getElementById('humanFigureContainer');
     const symptomsSection = document.getElementById('symptoms-guide');
 
-    if (!video || !symptomsSection) return;
+    if (!canvasDesktop && !canvasMobile) return;
 
-    // Ensure video plays smoothly
-    video.play().catch(() => {});
+    const ctxDesktop = canvasDesktop ? canvasDesktop.getContext('2d') : null;
+    const ctxMobile = canvasMobile ? canvasMobile.getContext('2d') : null;
+
+    // Preload all 120 frames
+    const frames = [];
+    let loadedCount = 0;
+    let currentFrameIdx = 0;
+    let targetFrameIdx = 0;
+    let isUserHovering = false;
+    let idleAnimTimer = null;
+
+    function drawFrame(idx) {
+      const frameImg = frames[idx];
+      if (!frameImg || !frameImg.complete) return;
+
+      if (ctxDesktop) {
+        ctxDesktop.clearRect(0, 0, canvasDesktop.width, canvasDesktop.height);
+        ctxDesktop.drawImage(frameImg, 0, 0, canvasDesktop.width, canvasDesktop.height);
+      }
+      if (ctxMobile) {
+        ctxMobile.clearRect(0, 0, canvasMobile.width, canvasMobile.height);
+        ctxMobile.drawImage(frameImg, 0, 0, canvasMobile.width, canvasMobile.height);
+      }
+    }
+
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      const numStr = String(i).padStart(3, '0');
+      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=1`;
+      img.onload = () => {
+        loadedCount++;
+        if (i === 0 && !isUserHovering) {
+          drawFrame(0);
+        }
+      };
+      frames.push(img);
+    }
+
+    // Smooth animation loop for frame transition (lerp)
+    let animLoopRunning = false;
+    function animateFrames() {
+      if (isUserHovering) {
+        // Smoothly interpolate towards target frame
+        const diff = targetFrameIdx - currentFrameIdx;
+        if (Math.abs(diff) > 0.4) {
+          currentFrameIdx += diff * 0.25;
+          const displayIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(currentFrameIdx)));
+          drawFrame(displayIdx);
+        }
+      }
+      requestAnimationFrame(animateFrames);
+    }
+    requestAnimationFrame(animateFrames);
+
+    // Idle continuous playback when mouse is not active
+    let idleIndex = 0;
+    function startIdleAnimation() {
+      if (idleAnimTimer) clearInterval(idleAnimTimer);
+      idleAnimTimer = setInterval(() => {
+        if (!isUserHovering && frames.length > 0) {
+          idleIndex = (idleIndex + 1) % TOTAL_FRAMES;
+          currentFrameIdx = idleIndex;
+          drawFrame(idleIndex);
+        }
+      }, 100); // 10 fps (0.1s step)
+    }
+    startIdleAnimation();
 
     function handlePointer(clientX, clientY) {
+      if (!symptomsSection) return;
       const rect = symptomsSection.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height * 0.45;
@@ -760,42 +828,38 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      const normX = deltaX / (rect.width * 0.35);
-      const normY = deltaY / (rect.height * 0.35);
+      // Calculate angle from 0 to 2*PI
+      let angle = Math.atan2(deltaY, deltaX); // -PI to PI
+      if (angle < 0) angle += 2 * Math.PI;    // 0 to 2*PI
 
-      // Subtle 3D perspective tilt
+      // Map angle to frame index 0..119
+      targetFrameIdx = Math.round((angle / (2 * Math.PI)) * (TOTAL_FRAMES - 1));
+      isUserHovering = true;
+
+      // Subtle 3D tilt
       if (container) {
+        const normX = deltaX / (rect.width * 0.35);
+        const normY = deltaY / (rect.height * 0.35);
         const tiltX = Math.max(-4, Math.min(4, normY * -3)).toFixed(1);
         const tiltY = Math.max(-5, Math.min(5, normX * 4)).toFixed(1);
         container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       }
-
-      // Smooth interactive video scrub when duration is loaded
-      if (video.duration && !isNaN(video.duration)) {
-        // Calculate angle on 360 circle (from 0 to 2*PI)
-        let angle = Math.atan2(deltaY, deltaX); // -PI to PI
-        if (angle < 0) angle += 2 * Math.PI;    // 0 to 2*PI
-        const targetTime = (angle / (2 * Math.PI)) * video.duration;
-        // Smoothly adjust video time if paused or hovering
-        if (video.paused) {
-          video.currentTime = targetTime;
-        }
-      }
     }
 
     window.addEventListener('pointermove', (e) => {
+      if (!symptomsSection) return;
       const secRect = symptomsSection.getBoundingClientRect();
       if (secRect.bottom > -50 && secRect.top < window.innerHeight + 50) {
         handlePointer(e.clientX, e.clientY);
       }
     }, { passive: true });
 
-    symptomsSection.addEventListener('mouseleave', () => {
-      if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
-      if (video && video.paused) {
-        video.play().catch(() => {});
-      }
-    });
+    if (symptomsSection) {
+      symptomsSection.addEventListener('mouseleave', () => {
+        isUserHovering = false;
+        if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+      });
+    }
   })();
 
 /* --- 5. Realistic Blue Morpho Butterfly Cursor with Glow Trail --- */

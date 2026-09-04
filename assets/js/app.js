@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function initExactGaze120Player() {
+  (function initContinuous360Player() {
     const TOTAL_FRAMES = 120;
     const canvasDesktop = document.getElementById('humanFrameCanvas');
     const canvasMobile = document.getElementById('humanFrameCanvasMobile');
@@ -757,10 +757,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preload all 120 frames
     const frames = [];
     let loadedCount = 0;
-    let currentFrameIdx = 110; // Start at center gaze
-    let targetFrameIdx = 110;
+    let currentFrameIdx = 112.0; // Center gaze
+    let targetFrameIdx = 112.0;
     let isUserHovering = false;
-    let idleTimer = null;
 
     function drawFrame(idx) {
       const displayIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
@@ -780,64 +779,80 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       const numStr = String(i).padStart(3, '0');
-      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=2`;
+      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=3`;
       img.onload = () => {
         loadedCount++;
-        if (i === 110 && !isUserHovering) {
-          drawFrame(110);
+        if (i === 112 && !isUserHovering) {
+          drawFrame(112);
         }
       };
       frames.push(img);
     }
 
-    // Smooth continuous lerp loop for buttery frame transitions
-    function animateFrames() {
-      if (isUserHovering) {
-        const diff = targetFrameIdx - currentFrameIdx;
-        if (Math.abs(diff) > 0.3) {
-          currentFrameIdx += diff * 0.22;
-          drawFrame(currentFrameIdx);
-        }
+    // 60 FPS Ultra-Smooth Lerp Animation Loop (No gaps, no jumps)
+    function animateLoop() {
+      const diff = targetFrameIdx - currentFrameIdx;
+      if (Math.abs(diff) > 0.15) {
+        // Continuous organic interpolation
+        currentFrameIdx += diff * 0.18;
+        drawFrame(currentFrameIdx);
       }
-      requestAnimationFrame(animateFrames);
+      requestAnimationFrame(animateLoop);
     }
-    requestAnimationFrame(animateFrames);
+    requestAnimationFrame(animateLoop);
 
-    // Exact direction mapping based on video frame analysis:
-    // Left: Frames 30-38 and 60-70
-    // Right: Frames 45-52
-    // Up: Frames 5-15
-    // Down: Frames 88-96
-    // Center: Frames 108-118
-    function mapCoordinatesToFrame(normX, normY) {
-      const absX = Math.abs(normX);
-      const absY = Math.abs(normY);
-
-      // Center deadzone
-      if (absX < 0.12 && absY < 0.12) {
-        return 112; // Center gaze
+    // Continuous 360-degree trigonometric interpolation
+    // Top (angle = -90° / -PI/2): Frame 5
+    // Top-Right (angle = -45° / -PI/4): Frame 24
+    // Right (angle = 0°): Frame 30
+    // Bottom-Right (angle = 45° / PI/4): Frame 80
+    // Bottom (angle = 90° / PI/2): Frame 90
+    // Bottom-Left (angle = 135° / 3PI/4): Frame 85
+    // Left (angle = 180° / PI): Frame 42
+    // Top-Left (angle = -135° / -3PI/4): Frame 16
+    function calculate360TargetFrame(normX, normY) {
+      const dist = Math.hypot(normX, normY);
+      if (dist < 0.12) {
+        return 112; // Center
       }
 
-      // Dominant direction
-      if (normX < -0.15 && absX >= absY * 0.8) {
-        // Looking LEFT
-        if (normY < -0.2) return 65; // Top-Left
-        if (normY > 0.2) return 86;  // Bottom-Left
-        return 35;                   // Pure Left
-      } else if (normX > 0.15 && absX >= absY * 0.8) {
-        // Looking RIGHT
-        if (normY < -0.2) return 22; // Top-Right
-        if (normY > 0.2) return 88;  // Bottom-Right
-        return 48;                   // Pure Right
-      } else if (normY < -0.15) {
-        // Looking UP
-        return 10;
-      } else if (normY > 0.15) {
-        // Looking DOWN
-        return 92;
-      }
+      // Calculate angle from -PI to +PI
+      const angle = Math.atan2(normY, normX); // -PI to +PI (-PI/2 = Top, 0 = Right, PI/2 = Bottom, PI = Left)
+      
+      // Convert to degrees 0..360 (0 = Right, 90 = Bottom, 180 = Left, 270 = Top)
+      let deg = (angle * 180 / Math.PI);
+      if (deg < 0) deg += 360;
 
-      return 112; // Default Center
+      // Smooth mathematical blending between compass anchors:
+      if (deg >= 247.5 && deg < 292.5) {
+        // Pure TOP (270°)
+        return 5;
+      } else if (deg >= 292.5 && deg < 337.5) {
+        // TOP-RIGHT (315°)
+        const t = (deg - 292.5) / 45.0;
+        return 5 + (24 - 5) * t;
+      } else if (deg >= 337.5 || deg < 22.5) {
+        // Pure RIGHT (0°)
+        return 30;
+      } else if (deg >= 22.5 && deg < 67.5) {
+        // BOTTOM-RIGHT (45°)
+        const t = (deg - 22.5) / 45.0;
+        return 30 + (80 - 30) * t;
+      } else if (deg >= 67.5 && deg < 112.5) {
+        // Pure BOTTOM (90°)
+        return 90;
+      } else if (deg >= 112.5 && deg < 157.5) {
+        // BOTTOM-LEFT (135°)
+        const t = (deg - 112.5) / 45.0;
+        return 90 + (85 - 90) * t;
+      } else if (deg >= 157.5 && deg < 202.5) {
+        // Pure LEFT (180°)
+        return 42;
+      } else {
+        // TOP-LEFT (225°)
+        const t = (deg - 202.5) / 45.0;
+        return 42 + (16 - 42) * t;
+      }
     }
 
     function handlePointer(clientX, clientY) {
@@ -852,13 +867,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const normX = deltaX / (rect.width * 0.35);
       const normY = deltaY / (rect.height * 0.35);
 
-      targetFrameIdx = mapCoordinatesToFrame(normX, normY);
+      targetFrameIdx = calculate360TargetFrame(normX, normY);
       isUserHovering = true;
 
-      // Subtle 3D perspective tilt
+      // Instant 3D tactile perspective response
       if (container) {
-        const tiltX = Math.max(-4, Math.min(4, normY * -3)).toFixed(1);
-        const tiltY = Math.max(-5, Math.min(5, normX * 4)).toFixed(1);
+        const tiltX = Math.max(-5, Math.min(5, normY * -4)).toFixed(1);
+        const tiltY = Math.max(-6, Math.min(6, normX * 6)).toFixed(1);
         container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       }
     }
@@ -873,9 +888,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (symptomsSection) {
       symptomsSection.addEventListener('mouseleave', () => {
-        targetFrameIdx = 112; // Return to center forward gaze
-        isUserHovering = true;
-        setTimeout(() => { isUserHovering = false; }, 300);
+        targetFrameIdx = 112; // Return to center forward gaze smoothly
         if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
       });
     }

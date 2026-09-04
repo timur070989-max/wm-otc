@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function initFlow40GazeTracker() {
+  (function initVibeCoding3DScrub() {
     const TOTAL_FRAMES = 40;
     const canvasDesktop = document.getElementById('humanFrameCanvas');
     const canvasMobile = document.getElementById('humanFrameCanvasMobile');
@@ -754,9 +754,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctxDesktop = canvasDesktop ? canvasDesktop.getContext('2d') : null;
     const ctxMobile = canvasMobile ? canvasMobile.getContext('2d') : null;
 
-    // Precomputed 2D gaze coordinates for all 40 frames from Google Flow
-    const GAZE_MAP = [{"f": 0, "x": 0.011, "y": -0.551}, {"f": 1, "x": 0.012, "y": -0.548}, {"f": 2, "x": 0.007, "y": -0.539}, {"f": 3, "x": 0.026, "y": -0.537}, {"f": 4, "x": 0.109, "y": -0.556}, {"f": 5, "x": 0.349, "y": -0.508}, {"f": 6, "x": 0.442, "y": -0.31}, {"f": 7, "x": 0.273, "y": -0.256}, {"f": 8, "x": 0.087, "y": -0.253}, {"f": 9, "x": -0.001, "y": -0.255}, {"f": 10, "x": 0.008, "y": -0.25}, {"f": 11, "x": 0.189, "y": -0.224}, {"f": 12, "x": 0.506, "y": -0.133}, {"f": 13, "x": 0.793, "y": 0.025}, {"f": 14, "x": 0.849, "y": 0.133}, {"f": 15, "x": 0.546, "y": 0.108}, {"f": 16, "x": 0.127, "y": 0.163}, {"f": 17, "x": -0.198, "y": 0.143}, {"f": 18, "x": -0.655, "y": -0.052}, {"f": 19, "x": -0.877, "y": -0.168}, {"f": 20, "x": -0.671, "y": -0.285}, {"f": 21, "x": -0.417, "y": -0.334}, {"f": 22, "x": -0.314, "y": -0.339}, {"f": 23, "x": -0.332, "y": -0.351}, {"f": 24, "x": -0.401, "y": -0.326}, {"f": 25, "x": -0.128, "y": -0.343}, {"f": 26, "x": 0.392, "y": -0.386}, {"f": 27, "x": 0.635, "y": -0.172}, {"f": 28, "x": 0.575, "y": 0.046}, {"f": 29, "x": 0.356, "y": 0.244}, {"f": 30, "x": 0.082, "y": 0.222}, {"f": 31, "x": -0.116, "y": 0.025}, {"f": 32, "x": -0.15, "y": -0.244}, {"f": 33, "x": -0.111, "y": -0.454}, {"f": 34, "x": -0.043, "y": -0.523}, {"f": 35, "x": 0.002, "y": -0.525}, {"f": 36, "x": 0.013, "y": -0.515}, {"f": 37, "x": -0.019, "y": -0.523}, {"f": 38, "x": -0.023, "y": -0.532}, {"f": 39, "x": -0.026, "y": -0.538}];
-
     // Preload all 40 frames
     const frames = [];
     let loadedCount = 0;
@@ -765,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isUserHovering = false;
 
     function drawFrame(idx) {
-      const displayIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
+      const displayIdx = Math.floor(((idx % TOTAL_FRAMES) + TOTAL_FRAMES) % TOTAL_FRAMES);
       const frameImg = frames[displayIdx];
       if (!frameImg || !frameImg.complete) return;
 
@@ -782,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       const numStr = String(i).padStart(3, '0');
-      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=6`;
+      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=7`;
       img.onload = () => {
         loadedCount++;
         if (i === 0 && !isUserHovering) {
@@ -792,34 +789,21 @@ document.addEventListener('DOMContentLoaded', () => {
       frames.push(img);
     }
 
-    // 60 FPS Ultra-Smooth Lerp Animation Loop
+    // 60 FPS Ultra-Smooth Lerp Animation Loop with Circular Wrap-Around
     function animateLoop() {
-      const diff = targetFrameIdx - currentFrameIdx;
-      if (Math.abs(diff) > 0.05) {
-        currentFrameIdx += diff * 0.22;
+      let diff = targetFrameIdx - currentFrameIdx;
+      
+      // Shortest path around circular 360 loop
+      if (diff > TOTAL_FRAMES / 2) diff -= TOTAL_FRAMES;
+      if (diff < -TOTAL_FRAMES / 2) diff += TOTAL_FRAMES;
+
+      if (Math.abs(diff) > 0.02) {
+        currentFrameIdx = (currentFrameIdx + diff * 0.18 + TOTAL_FRAMES) % TOTAL_FRAMES;
         drawFrame(currentFrameIdx);
       }
       requestAnimationFrame(animateLoop);
     }
     requestAnimationFrame(animateLoop);
-
-    // Find the exact best frame in GAZE_MAP matching (targetX, targetY)
-    function findBestGazeFrame(tx, ty) {
-      let bestFrame = 0;
-      let minDistance = 1e9;
-
-      for (let i = 0; i < GAZE_MAP.length; i++) {
-        const entry = GAZE_MAP[i];
-        const dx = entry.x - tx;
-        const dy = entry.y - ty;
-        const dist = dx * dx + dy * dy;
-        if (dist < minDistance) {
-          minDistance = dist;
-          bestFrame = entry.f;
-        }
-      }
-      return bestFrame;
-    }
 
     function handlePointer(clientX, clientY) {
       if (!symptomsSection) return;
@@ -830,16 +814,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      // Mouse normalized vector: +X = Right, -X = Left, -Y = Top, +Y = Bottom
-      const normX = Math.max(-1.0, Math.min(1.0, deltaX / (rect.width * 0.38)));
-      const normY = Math.max(-1.0, Math.min(1.0, deltaY / (rect.height * 0.38)));
+      // Calculate continuous angle on 360-degree circle (-PI to +PI)
+      let angle = Math.atan2(deltaY, deltaX); // -PI to +PI
+      if (angle < 0) angle += 2 * Math.PI;    // 0 to 2*PI (0 = Right, PI/2 = Bottom, PI = Left, 3PI/2 = Top)
 
-      // Find exact corresponding frame
-      targetFrameIdx = findBestGazeFrame(normX, normY);
+      // Map continuous angle 0..2*PI directly to frame index 0..39
+      targetFrameIdx = (angle / (2 * Math.PI)) * TOTAL_FRAMES;
       isUserHovering = true;
 
       // Subtle 3D perspective tilt
       if (container) {
+        const normX = Math.max(-1.0, Math.min(1.0, deltaX / (rect.width * 0.38)));
+        const normY = Math.max(-1.0, Math.min(1.0, deltaY / (rect.height * 0.38)));
         const tiltX = (normY * -4.0).toFixed(1);
         const tiltY = (normX * 5.0).toFixed(1);
         container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;

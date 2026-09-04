@@ -742,30 +742,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function init5DirectionPoseTracking() {
-    const poseCenter = document.getElementById('poseCenter');
-    const poseLeft = document.getElementById('poseLeft');
-    const poseRight = document.getElementById('poseRight');
-    const poseUp = document.getElementById('poseUp');
-    const poseDown = document.getElementById('poseDown');
+  (function initHumanVideoTracking() {
+    const video = document.getElementById('humanVideo');
     const container = document.getElementById('humanFigureContainer');
     const symptomsSection = document.getElementById('symptoms-guide');
 
-    if (!poseCenter || !symptomsSection) return;
+    if (!video || !symptomsSection) return;
 
-    let activePose = 'center';
-
-    function setDominantPose(pose) {
-      if (activePose === pose) return;
-      activePose = pose;
-
-      // Clean, ghost-free discrete switching (100% solid, no double faces)
-      if (poseCenter) poseCenter.style.opacity = (pose === 'center') ? '1' : '0';
-      if (poseLeft) poseLeft.style.opacity = (pose === 'left') ? '1' : '0';
-      if (poseRight) poseRight.style.opacity = (pose === 'right') ? '1' : '0';
-      if (poseUp) poseUp.style.opacity = (pose === 'up') ? '1' : '0';
-      if (poseDown) poseDown.style.opacity = (pose === 'down') ? '1' : '0';
-    }
+    // Ensure video plays smoothly
+    video.play().catch(() => {});
 
     function handlePointer(clientX, clientY) {
       const rect = symptomsSection.getBoundingClientRect();
@@ -778,24 +763,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const normX = deltaX / (rect.width * 0.35);
       const normY = deltaY / (rect.height * 0.35);
 
-      // 5-Direction Gaze Detection:
-      if (normY < -0.32 && Math.abs(normX) < 0.5) {
-        setDominantPose('up');      // Looking UP towards top categories
-      } else if (normY > 0.28 && Math.abs(normX) < 0.5) {
-        setDominantPose('down');    // Looking DOWN towards bottom categories
-      } else if (normX < -0.18) {
-        setDominantPose('left');    // Looking LEFT towards left categories
-      } else if (normX > 0.18) {
-        setDominantPose('right');   // Looking RIGHT towards right categories
-      } else {
-        setDominantPose('center');  // Looking STRAIGHT ahead
-      }
-
       // Subtle 3D perspective tilt
       if (container) {
         const tiltX = Math.max(-4, Math.min(4, normY * -3)).toFixed(1);
         const tiltY = Math.max(-5, Math.min(5, normX * 4)).toFixed(1);
         container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      }
+
+      // Smooth interactive video scrub when duration is loaded
+      if (video.duration && !isNaN(video.duration)) {
+        // Calculate angle on 360 circle (from 0 to 2*PI)
+        let angle = Math.atan2(deltaY, deltaX); // -PI to PI
+        if (angle < 0) angle += 2 * Math.PI;    // 0 to 2*PI
+        const targetTime = (angle / (2 * Math.PI)) * video.duration;
+        // Smoothly adjust video time if paused or hovering
+        if (video.paused) {
+          video.currentTime = targetTime;
+        }
       }
     }
 
@@ -807,8 +791,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     symptomsSection.addEventListener('mouseleave', () => {
-      setDominantPose('center');
       if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+      if (video && video.paused) {
+        video.play().catch(() => {});
+      }
     });
   })();
 

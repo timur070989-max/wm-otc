@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function initContinuous360Player() {
+  (function init2DGazeTracker() {
     const TOTAL_FRAMES = 120;
     const canvasDesktop = document.getElementById('humanFrameCanvas');
     const canvasMobile = document.getElementById('humanFrameCanvasMobile');
@@ -754,10 +754,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctxDesktop = canvasDesktop ? canvasDesktop.getContext('2d') : null;
     const ctxMobile = canvasMobile ? canvasMobile.getContext('2d') : null;
 
+    // Precomputed 2D gaze coordinates for all 120 frames
+    const GAZE_MAP = [{"f": 0, "x": 0.034, "y": -1.0}, {"f": 1, "x": 0.025, "y": -1.0}, {"f": 2, "x": 0.026, "y": -1.0}, {"f": 3, "x": 0.029, "y": -1.0}, {"f": 4, "x": 0.03, "y": -1.0}, {"f": 5, "x": 0.035, "y": -1.0}, {"f": 6, "x": 0.037, "y": -1.0}, {"f": 7, "x": 0.025, "y": -1.0}, {"f": 8, "x": 0.027, "y": -1.0}, {"f": 9, "x": 0.018, "y": -1.0}, {"f": 10, "x": 0.019, "y": -1.0}, {"f": 11, "x": -0.017, "y": -1.0}, {"f": 12, "x": -0.084, "y": -1.0}, {"f": 13, "x": -0.216, "y": -1.0}, {"f": 14, "x": -0.311, "y": -1.0}, {"f": 15, "x": -0.372, "y": -1.0}, {"f": 16, "x": -0.431, "y": -0.911}, {"f": 17, "x": -0.483, "y": -0.723}, {"f": 18, "x": -0.479, "y": -0.594}, {"f": 19, "x": -0.424, "y": -0.492}, {"f": 20, "x": -0.357, "y": -0.434}, {"f": 21, "x": -0.264, "y": -0.427}, {"f": 22, "x": -0.173, "y": -0.42}, {"f": 23, "x": -0.127, "y": -0.422}, {"f": 24, "x": -0.077, "y": -0.429}, {"f": 25, "x": -0.056, "y": -0.423}, {"f": 26, "x": -0.035, "y": -0.417}, {"f": 27, "x": -0.016, "y": -0.419}, {"f": 28, "x": -0.015, "y": -0.422}, {"f": 29, "x": -0.013, "y": -0.427}, {"f": 30, "x": -0.033, "y": -0.403}, {"f": 31, "x": -0.053, "y": -0.425}, {"f": 32, "x": -0.081, "y": -0.419}, {"f": 33, "x": -0.184, "y": -0.341}, {"f": 34, "x": -0.27, "y": -0.314}, {"f": 35, "x": -0.445, "y": -0.158}, {"f": 36, "x": -0.552, "y": -0.068}, {"f": 37, "x": -0.684, "y": 0.101}, {"f": 38, "x": -0.835, "y": 0.266}, {"f": 39, "x": -0.878, "y": 0.369}, {"f": 40, "x": -0.936, "y": 0.585}, {"f": 41, "x": -0.956, "y": 0.706}, {"f": 42, "x": -0.953, "y": 0.732}, {"f": 43, "x": -0.858, "y": 0.641}, {"f": 44, "x": -0.78, "y": 0.65}, {"f": 45, "x": -0.593, "y": 0.645}, {"f": 46, "x": -0.511, "y": 0.588}, {"f": 47, "x": -0.323, "y": 0.579}, {"f": 48, "x": -0.121, "y": 0.593}, {"f": 49, "x": 0.0, "y": 0.586}, {"f": 50, "x": 0.202, "y": 0.547}, {"f": 51, "x": 0.308, "y": 0.498}, {"f": 52, "x": 0.523, "y": 0.344}, {"f": 53, "x": 0.729, "y": 0.203}, {"f": 54, "x": 0.828, "y": 0.179}, {"f": 55, "x": 0.988, "y": 0.041}, {"f": 56, "x": 1.0, "y": -0.029}, {"f": 57, "x": 1.0, "y": -0.125}, {"f": 58, "x": 1.0, "y": -0.228}, {"f": 59, "x": 0.97, "y": -0.301}, {"f": 60, "x": 0.843, "y": -0.478}, {"f": 61, "x": 0.768, "y": -0.545}, {"f": 62, "x": 0.644, "y": -0.633}, {"f": 63, "x": 0.556, "y": -0.648}, {"f": 64, "x": 0.489, "y": -0.669}, {"f": 65, "x": 0.433, "y": -0.691}, {"f": 66, "x": 0.435, "y": -0.663}, {"f": 67, "x": 0.419, "y": -0.686}, {"f": 68, "x": 0.426, "y": -0.684}, {"f": 69, "x": 0.454, "y": -0.69}, {"f": 70, "x": 0.489, "y": -0.662}, {"f": 71, "x": 0.515, "y": -0.654}, {"f": 72, "x": 0.534, "y": -0.587}, {"f": 73, "x": 0.492, "y": -0.573}, {"f": 74, "x": 0.417, "y": -0.585}, {"f": 75, "x": 0.205, "y": -0.635}, {"f": 76, "x": 0.073, "y": -0.652}, {"f": 77, "x": -0.175, "y": -0.693}, {"f": 78, "x": -0.365, "y": -0.703}, {"f": 79, "x": -0.521, "y": -0.708}, {"f": 80, "x": -0.628, "y": -0.541}, {"f": 81, "x": -0.679, "y": -0.287}, {"f": 82, "x": -0.693, "y": -0.0}, {"f": 83, "x": -0.681, "y": 0.197}, {"f": 84, "x": -0.636, "y": 0.338}, {"f": 85, "x": -0.573, "y": 0.512}, {"f": 86, "x": -0.495, "y": 0.627}, {"f": 87, "x": -0.389, "y": 0.746}, {"f": 88, "x": -0.272, "y": 0.817}, {"f": 89, "x": -0.155, "y": 0.856}, {"f": 90, "x": -0.049, "y": 0.747}, {"f": 91, "x": 0.059, "y": 0.628}, {"f": 92, "x": 0.134, "y": 0.484}, {"f": 93, "x": 0.197, "y": 0.332}, {"f": 94, "x": 0.216, "y": 0.131}, {"f": 95, "x": 0.22, "y": -0.099}, {"f": 96, "x": 0.231, "y": -0.472}, {"f": 97, "x": 0.208, "y": -0.63}, {"f": 98, "x": 0.184, "y": -0.825}, {"f": 99, "x": 0.18, "y": -0.884}, {"f": 100, "x": 0.158, "y": -0.958}, {"f": 101, "x": 0.109, "y": -1.0}, {"f": 102, "x": 0.087, "y": -1.0}, {"f": 103, "x": 0.063, "y": -1.0}, {"f": 104, "x": 0.061, "y": -1.0}, {"f": 105, "x": 0.038, "y": -1.0}, {"f": 106, "x": 0.018, "y": -1.0}, {"f": 107, "x": 0.009, "y": -1.0}, {"f": 108, "x": 0.036, "y": -1.0}, {"f": 109, "x": 0.04, "y": -1.0}, {"f": 110, "x": 0.053, "y": -1.0}, {"f": 111, "x": 0.068, "y": -1.0}, {"f": 112, "x": 0.08, "y": -1.0}, {"f": 113, "x": 0.076, "y": -1.0}, {"f": 114, "x": 0.078, "y": -1.0}, {"f": 115, "x": 0.087, "y": -1.0}, {"f": 116, "x": 0.082, "y": -1.0}, {"f": 117, "x": 0.076, "y": -1.0}, {"f": 118, "x": 0.07, "y": -1.0}, {"f": 119, "x": 0.056, "y": -1.0}];
+
     // Preload all 120 frames
     const frames = [];
     let loadedCount = 0;
-    let currentFrameIdx = 112.0; // Center gaze
+    let currentFrameIdx = 112.0;
     let targetFrameIdx = 112.0;
     let isUserHovering = false;
 
@@ -779,7 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       const numStr = String(i).padStart(3, '0');
-      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=3`;
+      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=4`;
       img.onload = () => {
         loadedCount++;
         if (i === 112 && !isUserHovering) {
@@ -789,70 +792,33 @@ document.addEventListener('DOMContentLoaded', () => {
       frames.push(img);
     }
 
-    // 60 FPS Ultra-Smooth Lerp Animation Loop (No gaps, no jumps)
+    // 60 FPS Ultra-Smooth Lerp Animation Loop
     function animateLoop() {
       const diff = targetFrameIdx - currentFrameIdx;
-      if (Math.abs(diff) > 0.15) {
-        // Continuous organic interpolation
-        currentFrameIdx += diff * 0.18;
+      if (Math.abs(diff) > 0.1) {
+        currentFrameIdx += diff * 0.16;
         drawFrame(currentFrameIdx);
       }
       requestAnimationFrame(animateLoop);
     }
     requestAnimationFrame(animateLoop);
 
-    // Continuous 360-degree trigonometric interpolation
-    // Top (angle = -90° / -PI/2): Frame 5
-    // Top-Right (angle = -45° / -PI/4): Frame 24
-    // Right (angle = 0°): Frame 30
-    // Bottom-Right (angle = 45° / PI/4): Frame 80
-    // Bottom (angle = 90° / PI/2): Frame 90
-    // Bottom-Left (angle = 135° / 3PI/4): Frame 85
-    // Left (angle = 180° / PI): Frame 42
-    // Top-Left (angle = -135° / -3PI/4): Frame 16
-    function calculate360TargetFrame(normX, normY) {
-      const dist = Math.hypot(normX, normY);
-      if (dist < 0.12) {
-        return 112; // Center
-      }
+    // Find the exact best frame in GAZE_MAP matching (targetX, targetY)
+    function findBestGazeFrame(tx, ty) {
+      let bestFrame = 112;
+      let minDistance = 1e9;
 
-      // Calculate angle from -PI to +PI
-      const angle = Math.atan2(normY, normX); // -PI to +PI (-PI/2 = Top, 0 = Right, PI/2 = Bottom, PI = Left)
-      
-      // Convert to degrees 0..360 (0 = Right, 90 = Bottom, 180 = Left, 270 = Top)
-      let deg = (angle * 180 / Math.PI);
-      if (deg < 0) deg += 360;
-
-      // Smooth mathematical blending between compass anchors:
-      if (deg >= 247.5 && deg < 292.5) {
-        // Pure TOP (270°)
-        return 5;
-      } else if (deg >= 292.5 && deg < 337.5) {
-        // TOP-RIGHT (315°)
-        const t = (deg - 292.5) / 45.0;
-        return 5 + (24 - 5) * t;
-      } else if (deg >= 337.5 || deg < 22.5) {
-        // Pure RIGHT (0°)
-        return 30;
-      } else if (deg >= 22.5 && deg < 67.5) {
-        // BOTTOM-RIGHT (45°)
-        const t = (deg - 22.5) / 45.0;
-        return 30 + (80 - 30) * t;
-      } else if (deg >= 67.5 && deg < 112.5) {
-        // Pure BOTTOM (90°)
-        return 90;
-      } else if (deg >= 112.5 && deg < 157.5) {
-        // BOTTOM-LEFT (135°)
-        const t = (deg - 112.5) / 45.0;
-        return 90 + (85 - 90) * t;
-      } else if (deg >= 157.5 && deg < 202.5) {
-        // Pure LEFT (180°)
-        return 42;
-      } else {
-        // TOP-LEFT (225°)
-        const t = (deg - 202.5) / 45.0;
-        return 42 + (16 - 42) * t;
+      for (let i = 0; i < GAZE_MAP.length; i++) {
+        const entry = GAZE_MAP[i];
+        const dx = entry.x - tx;
+        const dy = entry.y - ty;
+        const dist = dx * dx + dy * dy;
+        if (dist < minDistance) {
+          minDistance = dist;
+          bestFrame = entry.f;
+        }
       }
+      return bestFrame;
     }
 
     function handlePointer(clientX, clientY) {
@@ -864,16 +830,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      const normX = deltaX / (rect.width * 0.35);
-      const normY = deltaY / (rect.height * 0.35);
+      // Mouse normalized vector between -1.0 and +1.0
+      const normX = Math.max(-1.0, Math.min(1.0, deltaX / (rect.width * 0.38)));
+      const normY = Math.max(-1.0, Math.min(1.0, deltaY / (rect.height * 0.38)));
 
-      targetFrameIdx = calculate360TargetFrame(normX, normY);
+      // Find exact corresponding frame
+      targetFrameIdx = findBestGazeFrame(normX, normY);
       isUserHovering = true;
 
-      // Instant 3D tactile perspective response
+      // Subtle 3D perspective tilt
       if (container) {
-        const tiltX = Math.max(-5, Math.min(5, normY * -4)).toFixed(1);
-        const tiltY = Math.max(-6, Math.min(6, normX * 6)).toFixed(1);
+        const tiltX = (normY * -4.5).toFixed(1);
+        const tiltY = (normX * 5.5).toFixed(1);
         container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
       }
     }
@@ -888,7 +856,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (symptomsSection) {
       symptomsSection.addEventListener('mouseleave', () => {
-        targetFrameIdx = 112; // Return to center forward gaze smoothly
+        targetFrameIdx = 112; // Return to center forward gaze
         if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
       });
     }

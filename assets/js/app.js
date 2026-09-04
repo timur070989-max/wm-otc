@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
                       /* --- 4. Interactive AI Multi-Pose Anatomy: Smooth Head Gaze Direction --- */
-  (function init120FramePlayer() {
+  (function initExactGaze120Player() {
     const TOTAL_FRAMES = 120;
     const canvasDesktop = document.getElementById('humanFrameCanvas');
     const canvasMobile = document.getElementById('humanFrameCanvasMobile');
@@ -757,13 +757,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preload all 120 frames
     const frames = [];
     let loadedCount = 0;
-    let currentFrameIdx = 0;
-    let targetFrameIdx = 0;
+    let currentFrameIdx = 110; // Start at center gaze
+    let targetFrameIdx = 110;
     let isUserHovering = false;
-    let idleAnimTimer = null;
+    let idleTimer = null;
 
     function drawFrame(idx) {
-      const frameImg = frames[idx];
+      const displayIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
+      const frameImg = frames[displayIdx];
       if (!frameImg || !frameImg.complete) return;
 
       if (ctxDesktop) {
@@ -779,45 +780,65 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       const numStr = String(i).padStart(3, '0');
-      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=1`;
+      img.src = `assets/img/anatomy_frames/frame_${numStr}.png?v=2`;
       img.onload = () => {
         loadedCount++;
-        if (i === 0 && !isUserHovering) {
-          drawFrame(0);
+        if (i === 110 && !isUserHovering) {
+          drawFrame(110);
         }
       };
       frames.push(img);
     }
 
-    // Smooth animation loop for frame transition (lerp)
-    let animLoopRunning = false;
+    // Smooth continuous lerp loop for buttery frame transitions
     function animateFrames() {
       if (isUserHovering) {
-        // Smoothly interpolate towards target frame
         const diff = targetFrameIdx - currentFrameIdx;
-        if (Math.abs(diff) > 0.4) {
-          currentFrameIdx += diff * 0.25;
-          const displayIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(currentFrameIdx)));
-          drawFrame(displayIdx);
+        if (Math.abs(diff) > 0.3) {
+          currentFrameIdx += diff * 0.22;
+          drawFrame(currentFrameIdx);
         }
       }
       requestAnimationFrame(animateFrames);
     }
     requestAnimationFrame(animateFrames);
 
-    // Idle continuous playback when mouse is not active
-    let idleIndex = 0;
-    function startIdleAnimation() {
-      if (idleAnimTimer) clearInterval(idleAnimTimer);
-      idleAnimTimer = setInterval(() => {
-        if (!isUserHovering && frames.length > 0) {
-          idleIndex = (idleIndex + 1) % TOTAL_FRAMES;
-          currentFrameIdx = idleIndex;
-          drawFrame(idleIndex);
-        }
-      }, 100); // 10 fps (0.1s step)
+    // Exact direction mapping based on video frame analysis:
+    // Left: Frames 30-38 and 60-70
+    // Right: Frames 45-52
+    // Up: Frames 5-15
+    // Down: Frames 88-96
+    // Center: Frames 108-118
+    function mapCoordinatesToFrame(normX, normY) {
+      const absX = Math.abs(normX);
+      const absY = Math.abs(normY);
+
+      // Center deadzone
+      if (absX < 0.12 && absY < 0.12) {
+        return 112; // Center gaze
+      }
+
+      // Dominant direction
+      if (normX < -0.15 && absX >= absY * 0.8) {
+        // Looking LEFT
+        if (normY < -0.2) return 65; // Top-Left
+        if (normY > 0.2) return 86;  // Bottom-Left
+        return 35;                   // Pure Left
+      } else if (normX > 0.15 && absX >= absY * 0.8) {
+        // Looking RIGHT
+        if (normY < -0.2) return 22; // Top-Right
+        if (normY > 0.2) return 88;  // Bottom-Right
+        return 48;                   // Pure Right
+      } else if (normY < -0.15) {
+        // Looking UP
+        return 10;
+      } else if (normY > 0.15) {
+        // Looking DOWN
+        return 92;
+      }
+
+      return 112; // Default Center
     }
-    startIdleAnimation();
 
     function handlePointer(clientX, clientY) {
       if (!symptomsSection) return;
@@ -828,18 +849,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const deltaX = clientX - centerX;
       const deltaY = clientY - centerY;
 
-      // Calculate angle from 0 to 2*PI
-      let angle = Math.atan2(deltaY, deltaX); // -PI to PI
-      if (angle < 0) angle += 2 * Math.PI;    // 0 to 2*PI
+      const normX = deltaX / (rect.width * 0.35);
+      const normY = deltaY / (rect.height * 0.35);
 
-      // Map angle to frame index 0..119
-      targetFrameIdx = Math.round((angle / (2 * Math.PI)) * (TOTAL_FRAMES - 1));
+      targetFrameIdx = mapCoordinatesToFrame(normX, normY);
       isUserHovering = true;
 
-      // Subtle 3D tilt
+      // Subtle 3D perspective tilt
       if (container) {
-        const normX = deltaX / (rect.width * 0.35);
-        const normY = deltaY / (rect.height * 0.35);
         const tiltX = Math.max(-4, Math.min(4, normY * -3)).toFixed(1);
         const tiltY = Math.max(-5, Math.min(5, normX * 4)).toFixed(1);
         container.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
@@ -856,7 +873,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (symptomsSection) {
       symptomsSection.addEventListener('mouseleave', () => {
-        isUserHovering = false;
+        targetFrameIdx = 112; // Return to center forward gaze
+        isUserHovering = true;
+        setTimeout(() => { isUserHovering = false; }, 300);
         if (container) container.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
       });
     }

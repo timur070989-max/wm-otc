@@ -4,32 +4,41 @@
       return attr.endsWith('/') ? attr : attr + '/';
     }
 
+    let base = '';
     try {
       if (document.currentScript && document.currentScript.src) {
-        const scriptDir = new URL('.', document.currentScript.src).href;
-        return new URL(attr || 'assets/', scriptDir).href;
-      }
-      const scripts = document.querySelectorAll('script[src*="mouse-follower"]');
-      if (scripts.length > 0) {
-        const lastScript = scripts[scripts.length - 1];
-        const scriptDir = new URL('.', lastScript.src).href;
-        return new URL(attr || 'assets/', scriptDir).href;
+        base = new URL('.', document.currentScript.src).href;
+      } else {
+        const scripts = document.querySelectorAll('script[src*="mouse-follower"]');
+        if (scripts.length > 0) {
+          base = new URL('.', scripts[scripts.length - 1].src).href;
+        }
       }
     } catch (e) {
       console.warn('Script resolution fallback:', e);
     }
 
-    try {
-      let base = window.location.href.split('#')[0].split('?')[0];
-      if (base.endsWith('.html') || base.endsWith('.htm')) {
-        base = base.substring(0, base.lastIndexOf('/') + 1);
-      } else if (!base.endsWith('/')) {
-        base = base + '/';
+    if (!base) {
+      try {
+        let loc = window.location.href.split('#')[0].split('?')[0];
+        if (loc.endsWith('.html') || loc.endsWith('.htm')) {
+          loc = loc.substring(0, loc.lastIndexOf('/') + 1);
+        } else if (!loc.endsWith('/')) {
+          loc = loc + '/';
+        }
+        base = new URL('assets/mouse-follower/', loc).href;
+      } catch (e) {
+        base = 'assets/mouse-follower/';
       }
-      return new URL(attr || 'assets/mouse-follower/assets/', base).href;
-    } catch (e) {
-      return 'assets/mouse-follower/assets/';
     }
+
+    let rel = attr || 'assets/';
+    if (base.includes('/assets/mouse-follower/') && rel.startsWith('assets/mouse-follower/')) {
+      rel = rel.replace('assets/mouse-follower/', '');
+    }
+    if (!rel.endsWith('/')) rel += '/';
+
+    return new URL(rel, base).href;
   }
 
   const sheetCache = new Map();
@@ -42,7 +51,7 @@
           img.onload = () => resolve(img);
           img.onerror = (err) => {
             sheetCache.delete(url);
-            console.error('Failed loading sprite sheet:', url, err);
+            console.error('Failed loading sprite sheet from:', url, err);
             reject(new Error('Не удалось загрузить кадры: ' + url));
           };
           img.src = url;
@@ -52,6 +61,7 @@
     return sheetCache.get(url);
   }
 
+  // Directional timeline: Clockwise from top (0: Stress/Up, 45: Skin/Up-Right, 90: Immunity/Right, 135: Joints/Down-Right, 180: Slim/Down, 225: Cardio/Down-Left, 270: Gut/Left, 315: Cold/Up-Left)
   const times = [1.5, 2.5, 3.15, 4.0, 4.6, 5.25, 6.15, 7.3, 8.2];
   function frameForAngle(angle) {
     const p = ((angle % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI / 4);
@@ -141,11 +151,13 @@
 
       try {
         const rootUrl = getAssetFolder(this.getAttribute('assets'));
+        console.log('MouseFollower loading assets from:', rootUrl);
         const urls = Array.from(
           { length: 6 },
           (_, i) => new URL(`sheet-${String(i + 1).padStart(2, '0')}.jpg`, rootUrl).href
         );
 
+        // Load first sheet immediately to display girl instantly
         const first = await loadSheet(urls[0]);
         if (this.token !== token) return;
         this.images = [first];
@@ -153,6 +165,7 @@
         this.renderFrame();
         this.wake();
 
+        // Load all 6 sprite sheets
         const allSheets = await Promise.all(urls.map(loadSheet));
         if (this.token !== token) return;
         this.images = allSheets;
@@ -204,12 +217,14 @@
       
       this.ctx.clearRect(0, 0, 288, 512);
 
+      // Draw base neutral pose 0
       const baseImg = this.images[0];
       if (baseImg) {
         this.ctx.globalAlpha = 1;
         this.ctx.drawImage(baseImg, 0, 0, 288, 512, 0, 0, 288, 512);
       }
 
+      // Draw active looking direction
       if (this.strength > 0.01 && this.images.length >= 6) {
         const frame = frameForAngle(this.angle);
         const sheetIdx = Math.floor(frame / 20);

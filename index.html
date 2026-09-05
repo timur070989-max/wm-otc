@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=46.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=47.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=46.0"></script>
-  <script src="assets/js/app.js?v=46.0"></script>
+  <script src="assets/js/products-data.js?v=47.0"></script>
+  <script src="assets/js/app.js?v=47.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -1300,34 +1300,34 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- AI Health Consultant Floating Widget (Matching User Reference Design) -->
+  <!-- AI Health Consultant Floating Widget (100% World Medicine Corporate Blue & Navy Style) -->
   <!-- ========================================================================= -->
   
-  <!-- 1. Floating Round Trigger Button (Bottom-Right) -->
+  <!-- 1. Floating Round Trigger Button (Corporate Navy & Royal Blue) -->
   <div class="fixed bottom-6 right-6 z-50 flex items-center select-none">
     <button
       @click="toggleChat()"
-      class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#b88219] to-[#d49924] hover:from-[#a07014] hover:to-[#be871e] text-white shadow-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none ring-4 ring-white/70 relative cursor-pointer group"
-      :title="lang === 'uz' ? 'Savol berish / Maslahat' : 'Задать вопрос / Консультация'"
+      class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#001f66] via-[#0032a0] to-[#0052cc] hover:from-[#00174c] hover:to-[#002275] text-white shadow-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none ring-4 ring-[#0032a0]/25 relative cursor-pointer group"
+      :title="lang === 'uz' ? 'World Medicine AI Maslahatchi' : 'ИИ-Консультант World Medicine'"
     >
       <!-- Chat Icon when closed -->
       <template x-if="!isChatOpen">
         <div class="flex items-center justify-center">
-          <i data-lucide="message-circle-question" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2] group-hover:rotate-12 transition-transform"></i>
+          <i data-lucide="bot" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2] group-hover:scale-110 transition-transform text-white"></i>
           <!-- Unread Notification Pulse Dot -->
-          <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full animate-ping"></span>
-          <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full flex items-center justify-center text-[9px] font-bold text-white">1</span>
+          <span class="absolute -top-1 -right-1 w-4 h-4 bg-wmCyan-400 border-2 border-white rounded-full animate-ping"></span>
+          <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[9px] font-bold text-white">AI</span>
         </div>
       </template>
       
       <!-- Close Icon when open -->
       <template x-if="isChatOpen">
-        <i data-lucide="x" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.5]"></i>
+        <i data-lucide="x" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.5] text-white"></i>
       </template>
     </button>
   </div>
 
-  <!-- 2. Interactive AI Consultation Modal Window -->
+  <!-- 2. Interactive AI Consultation Modal Window (Corporate World Medicine Styling) -->
   <div
     x-show="isChatOpen"
     x-transition:enter="transition ease-out duration-300"
@@ -1336,20 +1336,141 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 translate-y-0 scale-100"
     x-transition:leave-end="opacity-0 translate-y-8 scale-95"
-    class="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[390px] max-h-[580px] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden"
+    class="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[410px] max-h-[600px] bg-white rounded-3xl shadow-2xl border border-slate-200/80 flex flex-col overflow-hidden"
     style="display: none;"
   >
-    <!-- Widget Header (Golden-Ochre Accent from Screenshot) -->
-    <div class="bg-gradient-to-r from-[#b88219] to-[#c98e18] text-white px-5 py-4 flex items-center justify-between shadow-sm shrink-0">
-      <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-          <i data-lucide="send" class="w-4 h-4 text-white"></i>
+    <!-- Widget Header (World Medicine Deep Corporate Navy & Royal Blue Gradient) -->
+    <div class="bg-gradient-to-r from-[#00174c] via-[#0032a0] to-[#002275] text-white px-5 py-4 flex items-center justify-between shadow-md shrink-0 relative overflow-hidden">
+      <!-- Subtle Ambient Glow in Header -->
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-wmCyan-400/20 rounded-full blur-xl pointer-events-none"></div>
+
+      <div class="flex items-center gap-3 relative z-10">
+        <div class="w-9 h-9 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0 shadow-inner">
+          <i data-lucide="bot" class="w-5 h-5 text-wmCyan-300"></i>
         </div>
         <div>
-          <h3 class="font-black text-base leading-tight" x-text="lang === 'uz' ? 'Bizga yozing' : 'Напишите нам'"></h3>
-          <p class="text-[11px] text-amber-100 font-medium" x-text="lang === 'uz' ? 'AI Maslahatchi va Farmatsevt' : 'ИИ-Консультант World Medicine'"></p>
+          <div class="flex items-center gap-2">
+            <h3 class="font-black text-base leading-tight tracking-tight" x-text="lang === 'uz' ? 'World Medicine AI' : 'ИИ-Консультант World Medicine'"></h3>
+            <span class="px-1.5 py-0.5 bg-wmCyan-400/20 text-wmCyan-300 border border-wmCyan-400/40 rounded text-[9px] font-black uppercase tracking-wider">Online</span>
+          </div>
+          <p class="text-[11px] text-blue-100/90 font-medium" x-text="lang === 'uz' ? 'Farmatsevtik maslahatchi va buyurtma' : 'Подбор препаратов, дозировки и заказ'"></p>
         </div>
       </div>
+      <button 
+        @click="isChatOpen = false" 
+        class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer relative z-10"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Chat Messages Scroll Area -->
+    <div id="chatMessagesContainer" class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#f8fafc] min-h-[220px] max-h-[300px]">
+      <template x-for="msg in chatMessages" :key="msg.id">
+        <div :class="msg.sender === 'user' ? 'flex flex-col items-end' : 'flex items-start gap-2.5'">
+          
+          <!-- AI Corporate Avatar Badge -->
+          <template x-if="msg.sender === 'ai'">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#001f66] to-[#0032a0] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5 border border-blue-300/40">
+              <i data-lucide="stethoscope" class="w-4 h-4 text-wmCyan-300"></i>
+            </div>
+          </template>
+
+          <!-- Message Bubble Content -->
+          <div 
+            :class="msg.sender === 'user' ? 'bg-gradient-to-r from-[#0032a0] to-[#001f66] text-white rounded-2xl rounded-tr-xs shadow-sm max-w-[85%]' : 'bg-white text-slate-800 rounded-2xl rounded-tl-xs shadow-xs border border-slate-200/80 max-w-[88%]'"
+            class="p-3.5 text-xs sm:text-[13px] leading-relaxed"
+          >
+            <!-- Message Text -->
+            <p class="whitespace-pre-line" x-text="msg.sender === 'user' ? msg.text : (lang === 'uz' ? msg.text_uz : msg.text_ru)"></p>
+
+            <!-- Embedded Recommended Product Cards in AI Message -->
+            <template x-if="msg.recommendedProducts && msg.recommendedProducts.length > 0">
+              <div class="mt-3 pt-3 border-t border-slate-100 space-y-2">
+                <p class="text-[10px] font-black text-[#0032a0] uppercase tracking-wider flex items-center gap-1">
+                  <i data-lucide="sparkles" class="w-3 h-3 text-wmCyan-500"></i>
+                  <span x-text="lang === 'uz' ? 'Tavsiya etilgan preparatlar:' : 'Рекомендованные препараты:'"></span>
+                </p>
+                <template x-for="prod in msg.recommendedProducts" :key="prod.id">
+                  <div class="flex items-center gap-2.5 p-2 bg-blue-50/50 rounded-xl border border-blue-100 hover:bg-white hover:shadow-xs transition-all">
+                    <img :src="prod.image" :alt="prod.name_ru" class="w-10 h-10 object-contain shrink-0 bg-white rounded-lg p-0.5 border border-slate-200/60 shadow-2xs">
+                    <div class="flex-1 min-w-0">
+                      <div class="text-[11px] font-black text-slate-900 truncate" x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"></div>
+                      <div class="text-[10.5px] font-black text-[#0032a0]" x-text="formatPrice(prod.price)"></div>
+                    </div>
+                    <button
+                      @click="addToCart(prod, 1); showToast(lang === 'uz' ? 'Savatga qo\'shildi!' : 'Добавлено в корзину!')"
+                      class="px-2.5 py-1.5 bg-[#0032a0] hover:bg-[#001f66] text-white text-[10px] font-bold rounded-lg shrink-0 transition-colors shadow-2xs cursor-pointer flex items-center gap-1"
+                    >
+                      <i data-lucide="plus" class="w-3 h-3"></i>
+                      <span x-text="lang === 'uz' ? 'Savat' : 'Купить'"></span>
+                    </button>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+        </div>
+      </template>
+
+      <!-- AI Typing Indicator -->
+      <div x-show="isAiTyping" class="flex items-center gap-2.5" style="display: none;">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#001f66] to-[#0032a0] text-white flex items-center justify-center shrink-0 shadow-xs border border-blue-300/40">
+          <i data-lucide="stethoscope" class="w-4 h-4 text-wmCyan-300"></i>
+        </div>
+        <div class="bg-white p-3 rounded-2xl rounded-tl-xs shadow-xs border border-slate-200/80 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 bg-[#0032a0] rounded-full animate-bounce"></span>
+          <span class="w-1.5 h-1.5 bg-[#0032a0] rounded-full animate-bounce [animation-delay:0.2s]"></span>
+          <span class="w-1.5 h-1.5 bg-[#0032a0] rounded-full animate-bounce [animation-delay:0.4s]"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Suggestion Topic Chips (Corporate Blue Accents) -->
+    <div class="px-4 py-2 bg-white border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0">
+      <template x-for="(prompt, idx) in quickPrompts" :key="idx">
+        <button
+          @click="sendQuickPrompt(prompt)"
+          class="px-3 py-1 bg-blue-50/70 hover:bg-[#0032a0] text-[#0032a0] hover:text-white text-[11px] font-bold rounded-xl shrink-0 transition-all border border-blue-200/60 hover:border-transparent whitespace-nowrap cursor-pointer shadow-2xs"
+          x-text="lang === 'uz' ? prompt.uz : prompt.ru"
+        ></button>
+      </template>
+    </div>
+
+    <!-- Form Inputs & Corporate Send Button -->
+    <div class="p-4 bg-white border-t border-slate-100 space-y-2.5 shrink-0">
+      <!-- 1. Question Input Field -->
+      <div>
+        <textarea
+          x-model="chatInput"
+          @keydown.enter.prevent="if(!$event.shiftKey) handleSendMessage()"
+          :placeholder="lang === 'uz' ? 'Savolingizni yozing (masalan: bo\'g\'imlar uchun nima ichish kerak?) *' : 'Ваш вопрос (например: что принимать для суставов?) *'"
+          rows="2"
+          class="w-full px-3.5 py-2.5 bg-slate-50 hover:bg-slate-100/60 focus:bg-white text-slate-900 text-xs sm:text-[13px] rounded-xl border border-slate-200 focus:border-[#0032a0] focus:ring-2 focus:ring-[#0032a0]/20 focus:outline-none transition-all resize-none"
+        ></textarea>
+      </div>
+
+      <!-- 2. Phone Input Field -->
+      <div>
+        <input
+          type="tel"
+          x-model="chatPhone"
+          :placeholder="lang === 'uz' ? 'Telefon raqamingiz — javob berishimiz uchun *' : 'Телефон — чтобы фармацевт мог ответить *'"
+          class="w-full px-3.5 py-2 bg-slate-50 hover:bg-slate-100/60 focus:bg-white text-slate-900 text-xs sm:text-[13px] rounded-xl border border-slate-200 focus:border-[#0032a0] focus:ring-2 focus:ring-[#0032a0]/20 focus:outline-none transition-all"
+        />
+      </div>
+
+      <!-- 3. Corporate Submit Button -->
+      <button
+        @click="handleSendMessage()"
+        class="w-full py-2.5 bg-gradient-to-r from-[#0032a0] to-[#001f66] hover:from-[#002275] hover:to-[#00174c] text-white text-sm font-black rounded-xl shadow-md hover:shadow-xl transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+      >
+        <span x-text="lang === 'uz' ? 'Yuborish' : 'Отправить'"></span>
+        <i data-lucide="send" class="w-3.5 h-3.5 text-wmCyan-300"></i>
+      </button>
+    </div>
+  </div>
       <button 
         @click="isChatOpen = false" 
         class="w-7 h-7 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center transition-colors cursor-pointer"

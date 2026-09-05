@@ -24,6 +24,142 @@ document.addEventListener('alpine:init', () => {
     cart: JSON.parse(localStorage.getItem('wm_cart') || '[]'),
     favorites: JSON.parse(localStorage.getItem('wm_favorites') || '[]'),
     
+    // AI Consultant Chat Widget State
+    isChatOpen: false,
+    chatInput: '',
+    chatPhone: '',
+    isAiTyping: false,
+    hasUnreadChat: true,
+    chatMessages: [
+      {
+        id: 1,
+        sender: 'ai',
+        time: 'Только что',
+        text_ru: 'Здравствуйте! Подскажем по препаратам и оформим заказ. Напишите вопрос и телефон — ответим сразу или перезвоним.',
+        text_uz: 'Assalomu alaykum! Preparatlar bo\'yicha maslahat beramiz va buyurtmani rasmiylashtiramiz. Savolingiz va telefon raqamingizni qoldiring.',
+        recommendedProducts: []
+      }
+    ],
+
+    // Quick AI prompts
+    quickPrompts: [
+      { ru: 'Для энергии и молодости', uz: 'Energiya va yoshlik uchun', query: 'полижен энергия молодость' },
+      { ru: 'Для суставов и связок', uz: 'Bo\'g\'imlar va harakat uchun', query: 'артрокол драстоп суставы' },
+      { ru: 'Для крепкого сна и от стресса', uz: 'Tinch uyqu va stressga qarshi', query: 'вамелан сон стресс нервы' },
+      { ru: 'Иммунитет и витамины', uz: 'Immunitet va vitaminlar', query: 'сановит коледан витамин D' },
+      { ru: 'Для желудка и пищеварения', uz: 'Oshqozon va hazm qilish', query: 'желудок изжога пищеварение' }
+    ],
+
+    toggleChat() {
+      this.isChatOpen = !this.isChatOpen;
+      if (this.isChatOpen) {
+        this.hasUnreadChat = false;
+        this.$nextTick(() => {
+          this.scrollChatToBottom();
+          this.refreshIcons();
+        });
+      }
+    },
+
+    scrollChatToBottom() {
+      const container = document.getElementById('chatMessagesContainer');
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    },
+
+    sendQuickPrompt(prompt) {
+      this.chatInput = this.lang === 'uz' ? prompt.uz : prompt.ru;
+      this.handleSendMessage();
+    },
+
+    handleSendMessage() {
+      const text = (this.chatInput || '').trim();
+      const phone = (this.chatPhone || '').trim();
+      if (!text && !phone) return;
+
+      const userMsg = {
+        id: Date.now(),
+        sender: 'user',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: text + (phone ? `\n📞 Тел: ${phone}` : '')
+      };
+
+      this.chatMessages.push(userMsg);
+      const query = text.toLowerCase();
+      this.chatInput = '';
+      this.isAiTyping = true;
+      this.$nextTick(() => this.scrollChatToBottom());
+
+      // Intelligent AI Pharmacist NLP Matching Engine
+      setTimeout(() => {
+        const response = this.generateAiResponse(query, phone);
+        this.chatMessages.push({
+          id: Date.now() + 1,
+          sender: 'ai',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          text_ru: response.text_ru,
+          text_uz: response.text_uz,
+          recommendedProducts: response.products || []
+        });
+        this.isAiTyping = false;
+        this.$nextTick(() => {
+          this.scrollChatToBottom();
+          this.refreshIcons();
+        });
+      }, 700);
+    },
+
+    generateAiResponse(query, phone) {
+      const q = query.toLowerCase();
+      let matched = [];
+      let text_ru = '';
+      let text_uz = '';
+
+      // 1. Specific product name searches
+      if (q.includes('полижен') || q.includes('polijen')) {
+        matched = this.products.filter(p => p.id === 'polijen');
+        text_ru = '💊 **ПОЛИЖЕН** — премиальный швейцарский комплекс для сохранения молодости клеток, энергии и тонуса. Содержит женьшень, маточное молочко, коэнзим Q10 и 25 био-нутриентов. Принимается по 1 капсуле утром.';
+        text_uz = '💊 **POLIJEN** — hujayralar yoshligini saqlash, energiya va tetiklik uchun premium shveytsariya majmuasi. Jenshen, ona ari suti, koenzim Q10 va 25 ta bio-moddani o\'z ichiga oladi. Ertalab 1 kapsuladan ichiladi.';
+      } else if (q.includes('вамелан') || q.includes('vamelan') || q.includes('сон') || q.includes('стресс') || q.includes('uyqu') || q.includes('asab') || q.includes('нерв')) {
+        matched = this.products.filter(p => p.id === 'vamelan');
+        text_ru = '🌿 Для гармонии нервной системы и глубокого восстанавливающего сна рекомендуем **ВАМЕЛАН** — натуральный фитокомплекс на основе валерианы, мяты и мелиссы. Быстро снимает тревожность и дарит легкое пробуждение.';
+        text_uz = '🌿 Asab tizimini tinchlantirish va chuqur oromli uyqu uchun **VAMELAN** tabiiy fitomajmuasini tavsiya etamiz. Valeriana, yalpiz va melissa ekstraktlari bezovtalikni ketkazadi.';
+      } else if (q.includes('сустав') || q.includes('артрокол') || q.includes('драстоп') || q.includes('bo\'g\'im') || q.includes('mushak') || q.includes('мышц') || q.includes('колен') || q.includes('спин')) {
+        matched = this.products.filter(p => p.id === 'artrocol-gel' || p.id === 'drastop-max');
+        text_ru = '🦴 Для свободы движений и здоровья суставов отлично подходят **АРТРОКОЛ гель** (быстро снимает локальную скованность и боль) и **ДРАСТОП МАКС** (глубокое восстановление хрящевой ткани, коллаген и гиалуроновая кислота).';
+        text_uz = '🦴 Bo\'g\'imlar va mushaklar salomatligi uchun **ARTROKOL gel** (og\'riq va zo\'riqishni tezda yengillashtiradi) hamda **DRASTOP MAKS** (tog\'ay to\'qimasini tiklash uchun kollagen va gialuron kislotasi) a\'lo tanlovdir.';
+      } else if (q.includes('иммун') || q.includes('сановит') || q.includes('витамин') || q.includes('immunitet') || q.includes('shamollash') || q.includes('простуд') || q.includes('грипп') || q.includes('коледан') || q.includes('d3')) {
+        matched = this.products.filter(p => p.id === 'sanovit' || p.id === 'koledan-drops');
+        text_ru = '🛡️ Для мощного иммунитета и сезонной защиты рекомендуем поливитаминный комплекс **САНОВИТ** и масляные капли **КОЛЕДАН (Витамин D3 50000 МЕ)**. Повышают сопротивляемость организма и дарят активность.';
+        text_uz = '🛡️ Kuchli immunitet va mavsumiy himoya uchun **SANOVIT** polivitamin majmuasi hamda **KOLEDAN (Vitamin D3)** tomchilarini tavsiya etamiz. Organizmning chidamliligini oshiradi.';
+      } else if (q.includes('желуд') || q.includes('изжог') || q.includes('живот') || q.includes('oshqozon') || q.includes('hazm') || q.includes('diarey') || q.includes('печен')) {
+        matched = this.products.filter(p => p.category_id === 'gastro');
+        text_ru = '✨ Для легкости и комфортного пищеварения в нашем каталоге представлены проверенные препараты World Medicine. Они устраняют вздутие, изжогу и нормализуют микрофлору.';
+        text_uz = '✨ Oshqozon-ichak qulayligi va yengillik uchun World Medicine BFQ vositalari yordam beradi. Ular og\'irlik, jig\'ildon qaynashini bartaraf etib, mikroflorani yaxshilaydi.';
+      } else if (q.includes('ног') || q.includes('вен') || q.includes('варикоз') || q.includes('oyoq') || q.includes('tomir')) {
+        matched = this.products.filter(p => p.id === 'drastop-max' || p.category_id === 'joints_muscles');
+        text_ru = '🩸 Для легкости в ногах и укрепления сосудов рекомендуются комплексные венотонизирующие формулы. Снимают тяжесть, отечность и дарят походке грацию.';
+        text_uz = '🩸 Oyoqlardagi yengillik va tomirlar mustahkamligi uchun maxsus majmualar tavsiya etiladi. Charchoq va shishlarni kamaytiradi.';
+      } else if (q.includes('кожа') || q.includes('волос') || q.includes('тери') || q.includes('soch') || q.includes('красот') || q.includes('yoshlik')) {
+        matched = this.products.filter(p => p.id === 'polijen' || p.id === 'koledan-drops');
+        text_ru = '✨ Для сияния кожи, шелковистости волос и синтеза коллагена лучшим выбором является **ПОЛИЖЕН** с коэнзимом Q10 и натуральными био-экстрактами.';
+        text_uz = '✨ Mayin va jozibali teri, qalin sochlar hamda tabiiy kollagen uchun **POLIJEN** va **KOLEDAN D3** eng yaxshi vositadir.';
+      } else {
+        // General intelligent recommendation
+        matched = this.featuredProducts.slice(0, 2);
+        text_ru = 'Спасибо за ваш вопрос! По вашему запросу подобрали сертифицированные препараты World Medicine. Вы можете ознакомиться с составом или сразу добавить в корзину.';
+        text_uz = 'Savolingiz uchun rahmat! So\'rovingiz bo\'yicha World Medicine sertifikatlangan BFQ preparatlarini tavsiya qilamiz. Tarkibi bilan tanishishingiz yoki savatga qo\'shishingiz mumkin.';
+      }
+
+      if (phone) {
+        text_ru += `\n\n✅ Заявка принята! Фармацевт перезвонит на номер **${phone}** в течение 10 минут.`;
+        text_uz += `\n\n✅ Qabul qilindi! Farmatsevtimiz **${phone}** raqamingizga 10 daqiqa ichida qo\'ng\'iroq qiladi.`;
+      }
+
+      return { text_ru, text_uz, products: matched.slice(0, 2) };
+    },
+
     // UI state
     isCartOpen: false,
     isMobileMenuOpen: false,

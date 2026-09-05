@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=64.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=65.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=64.0"></script>
-  <script src="assets/js/app.js?v=64.0"></script>
+  <script src="assets/js/products-data.js?v=65.0"></script>
+  <script src="assets/js/app.js?v=65.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=64.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=65.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -436,7 +436,7 @@
           ></h2>
         </div>
 
-        <!-- Desktop Symmetrical Radial Orbit Arena (Studio Baseline Glowing Buttons) -->
+        <!-- Desktop Symmetrical Radial Orbit Arena (Crisp Corporate Glowing Borders) -->
         <div class="hidden lg:block relative w-full max-w-5xl xl:max-w-6xl mx-auto h-[620px]">
           
           <!-- Ambient Orbit Guides in Background -->
@@ -448,7 +448,7 @@
             <mouse-follower assets="assets/mouse-follower/assets/" style="--follower-width: 250px; pointer-events: auto;"></mouse-follower>
           </div>
 
-          <!-- 8 Symmetrically Positioned Categories with Studio Baseline Fancy Glowing Borders -->
+          <!-- 8 Symmetrically Positioned Categories with Laser-Thin Corporate Glowing Borders -->
           
           <!-- 1. Top (12:00): Head / Stress -->
           <div 
@@ -457,8 +457,7 @@
             style="top: calc(50% - 255px); left: 50%;"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[0].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[0].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[0].title_uz : symptoms[0].title_ru"></span>
@@ -471,8 +470,7 @@
             style="top: calc(50% - 175px); left: calc(50% + 350px);"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[7].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[7].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[7].title_uz : symptoms[7].title_ru"></span>
@@ -485,8 +483,7 @@
             style="top: 50%; left: calc(50% + 410px);"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[4].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[4].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[4].title_uz : symptoms[4].title_ru"></span>
@@ -499,8 +496,7 @@
             style="top: calc(50% + 175px); left: calc(50% + 350px);"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[6].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[6].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[6].title_uz : symptoms[6].title_ru"></span>
@@ -513,8 +509,7 @@
             style="top: calc(50% + 255px); left: 50%;"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[5].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[5].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[5].title_uz : symptoms[5].title_ru"></span>
@@ -527,8 +522,7 @@
             style="top: calc(50% + 175px); left: calc(50% - 350px);"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[2].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[2].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[2].title_uz : symptoms[2].title_ru"></span>
@@ -541,8 +535,7 @@
             style="top: 50%; left: calc(50% - 410px);"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[1].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[1].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[1].title_uz : symptoms[1].title_ru"></span>
@@ -555,8 +548,7 @@
             style="top: calc(50% - 175px); left: calc(50% - 350px);"
             class="studio-glow-pill absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl cursor-pointer group z-20 select-none whitespace-nowrap"
           >
-            <div class="studio-glint"></div>
-            <div :class="selectedSymptom === symptoms[3].id ? 'bg-cyan-500/20 text-[#38bdf8]' : 'bg-blue-50 text-[#0032a0] group-hover:bg-cyan-500/20 group-hover:text-[#38bdf8]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
+            <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <i :data-lucide="symptoms[3].icon" class="w-5 h-5 stroke-[2.2]"></i>
             </div>
             <span class="text-base sm:text-[17px] font-black tracking-tight" x-text="lang === 'uz' ? symptoms[3].title_uz : symptoms[3].title_ru"></span>
@@ -576,8 +568,7 @@
                 :class="selectedSymptom === sym.id ? 'is-active text-white' : 'text-slate-900'"
                 class="studio-glow-pill flex items-center gap-3.5 p-4 rounded-2xl cursor-pointer select-none"
               >
-                <div class="studio-glint"></div>
-                <div :class="selectedSymptom === sym.id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0]'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                <div class="icon-wrap w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
                   <i :data-lucide="sym.icon" class="w-4 h-4 stroke-[2]"></i>
                 </div>
                 <span class="text-base font-black tracking-tight" x-text="lang === 'uz' ? sym.title_uz : sym.title_ru"></span>

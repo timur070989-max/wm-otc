@@ -227,6 +227,9 @@ document.addEventListener('alpine:init', () => {
 
         this.chatMessages.push(newAiMsg);
         this.isAiTyping = false;
+
+        // Forward lead/question automatically to Telegram
+        this.sendConsultationLeadToTelegram(text, phone, response.products || []);
         
         this.$nextTick(() => {
           this.scrollChatToBottom();

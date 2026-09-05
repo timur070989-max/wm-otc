@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=62.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=63.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=62.0"></script>
-  <script src="assets/js/app.js?v=62.0"></script>
+  <script src="assets/js/products-data.js?v=63.0"></script>
+  <script src="assets/js/app.js?v=63.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=62.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=63.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -436,24 +436,26 @@
           ></h2>
         </div>
 
-        <!-- Desktop Tight Radial Orbit Arena (Centered & Harmonious) -->
-        <div class="hidden lg:block relative w-full max-w-4xl mx-auto h-[500px]">
+        <!-- Desktop Symmetrical Radial Orbit Arena (Spacious & Mathematically Balanced) -->
+        <div class="hidden lg:block relative w-full max-w-5xl xl:max-w-6xl mx-auto h-[620px]">
           
-          <!-- Faint Ambient Circle Track in Background -->
-          <div class="absolute inset-0 m-auto w-[420px] h-[420px] rounded-full border border-slate-300/60 pointer-events-none"></div>
+          <!-- Ambient Orbit Guides in Background -->
+          <div class="absolute inset-0 m-auto w-[760px] h-[520px] rounded-[50%] border border-slate-200/90 pointer-events-none"></div>
+          <div class="absolute inset-0 m-auto w-[460px] h-[360px] rounded-[50%] border border-dashed border-blue-200/50 pointer-events-none"></div>
 
-          <!-- Central Interactive Character (Mouse Follower from Zip) -->
-          <div class="absolute inset-0 m-auto w-[290px] h-[420px] flex items-center justify-center z-10 select-none pointer-events-none">
-            <mouse-follower assets="assets/mouse-follower/assets/" style="--follower-width: 275px; pointer-events: auto;"></mouse-follower>
+          <!-- Central Interactive Character (Mouse Follower with Generous Air Clearance) -->
+          <div class="absolute inset-0 m-auto w-[260px] h-[460px] flex items-center justify-center z-10 select-none pointer-events-none">
+            <mouse-follower assets="assets/mouse-follower/assets/" style="--follower-width: 250px; pointer-events: auto;"></mouse-follower>
           </div>
 
-          <!-- 8 Radially Positioned Categories (Large Clear Titles & Rich Icons) -->
+          <!-- 8 Symmetrically Positioned Categories with Exact Trigonometric Orbit Offsets -->
           
           <!-- 1. Top (12:00): Head / Stress -->
           <div 
             @click="selectSymptomFilter(symptoms[0].id)"
-            :class="selectedSymptom === symptoms[0].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute top-[0%] left-1/2 -translate-x-1/2 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[0].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: calc(50% - 255px); left: 50%;"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[0].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[0].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -464,8 +466,9 @@
           <!-- 2. Top-Right (1:30): Skin / Wounds -->
           <div 
             @click="selectSymptomFilter(symptoms[7].id)"
-            :class="selectedSymptom === symptoms[7].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute top-[12%] right-[4%] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[7].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: calc(50% - 175px); left: calc(50% + 350px);"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[7].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[7].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -476,8 +479,9 @@
           <!-- 3. Middle-Right (3:00): Fatigue / Immunity -->
           <div 
             @click="selectSymptomFilter(symptoms[4].id)"
-            :class="selectedSymptom === symptoms[4].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute top-[46%] right-[-2%] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[4].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: 50%; left: calc(50% + 410px);"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[4].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[4].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -488,8 +492,9 @@
           <!-- 4. Bottom-Right (4:30): Tired Legs / Veins -->
           <div 
             @click="selectSymptomFilter(symptoms[6].id)"
-            :class="selectedSymptom === symptoms[6].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute bottom-[12%] right-[4%] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[6].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: calc(50% + 175px); left: calc(50% + 350px);"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[6].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[6].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -500,8 +505,9 @@
           <!-- 5. Bottom (6:00): Pregnancy & Growth -->
           <div 
             @click="selectSymptomFilter(symptoms[5].id)"
-            :class="selectedSymptom === symptoms[5].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute bottom-[0%] left-1/2 -translate-x-1/2 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[5].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: calc(50% + 255px); left: 50%;"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[5].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[5].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -512,8 +518,9 @@
           <!-- 6. Bottom-Left (7:30): Heartburn / Stomach -->
           <div 
             @click="selectSymptomFilter(symptoms[2].id)"
-            :class="selectedSymptom === symptoms[2].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute bottom-[12%] left-[4%] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[2].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: calc(50% + 175px); left: calc(50% - 350px);"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[2].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[2].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -524,8 +531,9 @@
           <!-- 7. Middle-Left (9:00): Joints Pain -->
           <div 
             @click="selectSymptomFilter(symptoms[1].id)"
-            :class="selectedSymptom === symptoms[1].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute top-[46%] left-[-2%] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[1].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: 50%; left: calc(50% - 410px);"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[1].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[1].icon" class="w-5 h-5 stroke-[2.2]"></i>
@@ -536,8 +544,9 @@
           <!-- 8. Top-Left (10:30): Cold & Throat -->
           <div 
             @click="selectSymptomFilter(symptoms[3].id)"
-            :class="selectedSymptom === symptoms[3].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white/95 hover:bg-[#001f66] text-slate-900 hover:text-white border border-white/80 hover:border-transparent hover:shadow-xl hover:scale-105'"
-            class="absolute top-[12%] left-[4%] flex items-center gap-3 px-5 py-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
+            :class="selectedSymptom === symptoms[3].id ? 'bg-[#001f66] text-white shadow-xl scale-105 ring-2 ring-[#0032a0]' : 'bg-white hover:bg-[#001f66] text-slate-900 hover:text-white border border-slate-200 hover:border-transparent shadow-md hover:shadow-xl hover:scale-105'"
+            style="top: calc(50% - 175px); left: calc(50% - 350px);"
+            class="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-3.5 px-5 py-3 rounded-2xl transition-all duration-200 cursor-pointer group z-20 select-none whitespace-nowrap"
           >
             <div :class="selectedSymptom === symptoms[3].id ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#0032a0] group-hover:bg-white/20 group-hover:text-white'" class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors">
               <i :data-lucide="symptoms[3].icon" class="w-5 h-5 stroke-[2.2]"></i>

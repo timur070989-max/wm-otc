@@ -915,8 +915,8 @@ document.addEventListener('alpine:init', () => {
 
     // Telegram Bot Configuration for Instant Order Notifications
     telegramBot: {
-      token: '', // Вставьте токен бота (например: '7123456789:AAH..._xyz')
-      chatId: '', // Вставьте ID чата или группы (например: '123456789' или '-1001234567890')
+      token: '8924881958:AAETcQcg6iH-2RDDbILywa5qF13xUhjoUUE', // Вставьте токен бота (например: '7123456789:AAH..._xyz')
+      chatId: '-1003942536859', // Вставьте ID чата или группы (например: '123456789' или '-1001234567890')
     },
     isSubmittingOrder: false,
 

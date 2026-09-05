@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=55.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=56.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=55.0"></script>
-  <script src="assets/js/app.js?v=55.0"></script>
+  <script src="assets/js/products-data.js?v=56.0"></script>
+  <script src="assets/js/app.js?v=56.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -358,12 +358,9 @@
     </div>
   </section>
 
-  <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section (Seamless Zero Gap with Hero) -->
-  <section id="symptoms-guide" class="pt-0 pb-10 sm:pb-14 relative bg-[#e9e9ea] overflow-hidden">
-    
-    <!-- Seamless Floating Luxury Trust & Quality Card (Directly bridging Hero & 3D Section with 0 gap) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30 -mt-7 sm:-mt-9 mb-6 sm:mb-8">
-      <div class="bg-white rounded-2xl sm:rounded-3xl shadow-[0_15px_35px_rgba(0,31,102,0.07)] border border-slate-200/80 p-3.5 sm:p-4 lg:p-5 transition-all">
+  <!-- Floating Luxury Trust & Quality Card (Independent, Full 360° Rounded Corners, 100% Unclipped) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30 -mt-7 sm:-mt-9">
+    <div class="bg-white rounded-2xl sm:rounded-3xl shadow-[0_15px_40px_rgba(0,31,102,0.09)] border border-slate-200/90 p-3.5 sm:p-4 lg:p-5 transition-all">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 lg:gap-2 items-center">
           
           <!-- 1. Halal Certified -->
@@ -423,9 +420,11 @@
 
         </div>
       </div>
-    </div>
-      
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  </div>
+
+  <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section -->
+  <section id="symptoms-guide" class="pt-6 sm:pt-8 pb-10 sm:pb-14 relative bg-[#e9e9ea] overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Section Header -->
         <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-6 reveal-on-scroll">

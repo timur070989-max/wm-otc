@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=52.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=54.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=52.0"></script>
-  <script src="assets/js/app.js?v=52.0"></script>
+  <script src="assets/js/products-data.js?v=54.0"></script>
+  <script src="assets/js/app.js?v=54.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -81,15 +81,11 @@
         </span>
         <span class="text-slate-200 truncate font-medium" x-text="lang === 'uz' ? 'O\'zbekiston bo\'ylab Uzum orqali 1 kunda bepul yetkazib berish' : 'Бесплатная экспресс-доставка по всему Узбекистану через Uzum за 1 день'"></span>
       </div>
-      <div class="hidden md:flex items-center gap-4 lg:gap-5 shrink-0 text-slate-200 font-medium text-[11px] sm:text-xs">
+      <div class="hidden md:flex items-center gap-5 shrink-0 text-slate-200 font-medium">
         <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
           <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-          <span x-text="lang === 'uz' ? 'Halol & GMP' : 'Халяль & GMP'"></span>
+          <span x-text="lang === 'uz' ? 'Halol & GMP Sertifikatlangan' : '100% Халяль & GMP Сертификат'"></span>
         </span>
-        <a href="https://www.instagram.com/evro_farm_biznes" target="_blank" class="flex items-center gap-1.5 text-pink-300 hover:text-white transition-colors font-semibold">
-          <i data-lucide="instagram" class="w-3.5 h-3.5 text-pink-400"></i>
-          <span>@evro_farm_biznes</span>
-        </a>
         <a href="tel:+998712000000" class="flex items-center gap-1.5 hover:text-white transition-colors">
           <i data-lucide="phone" class="w-3.5 h-3.5 text-[#3bbdd2]"></i>
           <span class="font-semibold">+998 (71) 200-00-00</span>
@@ -1350,16 +1346,16 @@
       <div class="flex items-center gap-3 relative z-10">
         <div class="relative">
           <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center shrink-0 shadow-inner">
-            <i data-lucide="stethoscope" class="w-5 h-5 text-wmCyan-300"></i>
+            <i data-lucide="sparkles" class="w-5 h-5 text-wmCyan-300"></i>
           </div>
           <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#001f66] rounded-full"></span>
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h3 class="font-black text-sm sm:text-base leading-tight tracking-tight" x-text="lang === 'uz' ? 'World Medicine Maslahatchi' : 'Доктор World Medicine'"></h3>
+            <h3 class="font-black text-sm sm:text-base leading-tight tracking-tight" x-text="lang === 'uz' ? 'World Medicine BFQ Maslahatchi' : 'Консультант по БАД World Medicine'"></h3>
             <span class="px-1.5 py-0.5 bg-wmCyan-400/20 text-wmCyan-300 border border-wmCyan-400/40 rounded text-[9px] font-black uppercase tracking-wider">Online</span>
           </div>
-          <p class="text-[11px] text-blue-100/90 font-medium" x-text="lang === 'uz' ? 'Jonli tibbiy suhbat va ovozli yordam' : 'Живая консультация врача и голос'"></p>
+          <p class="text-[11px] text-blue-100/90 font-medium" x-text="lang === 'uz' ? 'Vitaminlar va BFQ bo\'yicha jonli maslahat' : 'Подбор витаминов, минералов и БАД'"></p>
         </div>
       </div>
       
@@ -1393,7 +1389,7 @@
           <!-- AI Corporate Avatar Badge -->
           <template x-if="msg.sender === 'ai'">
             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#001f66] to-[#0032a0] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5 border border-blue-300/40">
-              <i data-lucide="stethoscope" class="w-4 h-4 text-wmCyan-300"></i>
+              <i data-lucide="sparkles" class="w-4 h-4 text-wmCyan-300"></i>
             </div>
           </template>
 
@@ -1407,7 +1403,7 @@
               <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-100 text-[10px] font-bold text-slate-400">
                 <span class="flex items-center gap-1 text-[#0032a0]">
                   <i data-lucide="shield-check" class="w-3 h-3 text-emerald-600"></i>
-                  <span x-text="lang === 'uz' ? 'World Medicine Shifokori' : 'Врач-консультант World Medicine'"></span>
+                  <span x-text="lang === 'uz' ? 'World Medicine BFQ Eksperti' : 'Консультант по БАД World Medicine'"></span>
                 </span>
                 
                 <!-- Voice Speaker Button -->
@@ -1459,13 +1455,13 @@
       <!-- AI Typing Indicator -->
       <div x-show="isAiTyping" class="flex items-center gap-2.5" style="display: none;">
         <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#001f66] to-[#0032a0] text-white flex items-center justify-center shrink-0 shadow-xs border border-blue-300/40">
-          <i data-lucide="stethoscope" class="w-4 h-4 text-wmCyan-300"></i>
+          <i data-lucide="sparkles" class="w-4 h-4 text-wmCyan-300"></i>
         </div>
         <div class="bg-white p-3 rounded-2xl rounded-tl-xs shadow-xs border border-slate-200/80 flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 bg-[#0032a0] rounded-full animate-bounce"></span>
           <span class="w-1.5 h-1.5 bg-[#0032a0] rounded-full animate-bounce [animation-delay:0.2s]"></span>
           <span class="w-1.5 h-1.5 bg-[#0032a0] rounded-full animate-bounce [animation-delay:0.4s]"></span>
-          <span class="text-[11px] font-semibold text-slate-500 ml-1.5" x-text="lang === 'uz' ? 'Shifokor javob tayyorlamoqda...' : 'Доктор печатает ответ...'"></span>
+          <span class="text-[11px] font-semibold text-slate-500 ml-1.5" x-text="lang === 'uz' ? 'Maslahatchi javob tayyorlamoqda...' : 'Консультант подбирает БАД...'"></span>
         </div>
       </div>
     </div>

@@ -416,3 +416,116 @@ h1, h2, h3, h4, .font-display {
 #butterflyTrailCanvas.active {
   opacity: 1;
 }
+
+/* ==========================================================================
+   Studio Baseline Signature Fancy Border Glow Button Effect
+   Inspired by @studio.baseline: Bright neon laser border with white flare,
+   cyan-violet gradient, and cosmic luminous glow.
+   ========================================================================== */
+
+@property --glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes studioGlowRotate {
+  0% { --glow-angle: 0deg; }
+  100% { --glow-angle: 360deg; }
+}
+
+.studio-glow-pill {
+  position: relative;
+  isolation: isolate;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px -2px rgba(0, 31, 102, 0.08);
+}
+
+/* Base sharp border highlight */
+.studio-glow-pill::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: calc(1.25rem + 1.5px);
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 15%,
+    rgba(56, 189, 248, 0.85) 42%,
+    #ffffff 50%,
+    rgba(168, 85, 247, 0.9) 60%,
+    rgba(236, 72, 153, 0.75) 70%,
+    transparent 85%
+  );
+  z-index: -1;
+  opacity: 0.65;
+  animation: studioGlowRotate 4s linear infinite;
+  transition: opacity 0.3s ease;
+}
+
+/* Ambient outer neon light spread */
+.studio-glow-pill::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: calc(1.25rem + 4px);
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent 15%,
+    rgba(56, 189, 248, 0.6) 42%,
+    #ffffff 50%,
+    rgba(168, 85, 247, 0.7) 60%,
+    rgba(236, 72, 153, 0.5) 70%,
+    transparent 85%
+  );
+  z-index: -2;
+  opacity: 0.35;
+  filter: blur(8px);
+  animation: studioGlowRotate 4s linear infinite;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Top white glint reflection */
+.studio-glow-pill .studio-glint {
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 5;
+}
+
+/* Active / Selected or Hover State (Deep Cosmic Indigo + Radiant Neon Highlights) */
+.studio-glow-pill:hover,
+.studio-glow-pill.is-active {
+  background: #020b24 !important;
+  color: #ffffff !important;
+  box-shadow: 
+    0 12px 32px -4px rgba(2, 11, 36, 0.6),
+    0 0 25px rgba(56, 189, 248, 0.5),
+    0 0 45px rgba(168, 85, 247, 0.35);
+}
+
+.studio-glow-pill:hover::before,
+.studio-glow-pill.is-active::before {
+  opacity: 1;
+  animation-duration: 2.2s;
+}
+
+.studio-glow-pill:hover::after,
+.studio-glow-pill.is-active::after {
+  opacity: 0.9;
+  filter: blur(12px);
+  animation-duration: 2.2s;
+}
+
+.studio-glow-pill.is-active .studio-glint,
+.studio-glow-pill:hover .studio-glint {
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}

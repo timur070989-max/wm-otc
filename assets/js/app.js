@@ -24,6 +24,13 @@ document.addEventListener('alpine:init', () => {
     cart: JSON.parse(localStorage.getItem('wm_cart') || '[]'),
     favorites: JSON.parse(localStorage.getItem('wm_favorites') || '[]'),
     
+    // Telegram Bot Live Delivery Configuration
+    telegramBot: {
+      token: '8924881958:AAETcQcg6iH-2RDDbILywa5qF13xUhjoUUE',
+      chatId: '-1003942536859'
+    },
+    isSubmittingOrder: false,
+    
     // AI Health Consultant & Conversational Intelligence State
     isChatOpen: false,
     chatInput: '',
@@ -913,12 +920,69 @@ document.addEventListener('alpine:init', () => {
       this.isCheckoutModalOpen = true;
     },
 
-    // Telegram Bot Configuration for Instant Order Notifications
-    telegramBot: {
-      token: '8924881958:AAETcQcg6iH-2RDDbILywa5qF13xUhjoUUE', // Вставьте токен бота (например: '7123456789:AAH..._xyz')
-      chatId: '-1003942536859', // Вставьте ID чата или группы (например: '123456789' или '-1001234567890')
+    // Telegram Bot Configuration for Instant Order Notifications    // Forward AI Consultant Dialog & Leads to Telegram Bot
+    async sendConsultationLeadToTelegram(question, phone, products) {
+      if (!question && !phone) return;
+
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      const isUz = this.lang === 'uz';
+
+      let msg = `💬 <b>${isUz ? 'AI-MASLAHATCHI: YANGI MUROJAAT' : 'НОВОЕ ОБРАЩЕНИЕ К AI-КОНСУЛЬТАНТУ'}</b>
+`;
+      msg += `📅 <i>${timeStr}</i>
+
+`;
+
+      if (question) {
+        msg += `❓ <b>${isUz ? 'Mijoz savoli' : 'Вопрос клиента'}:</b>
+<i>«${question}»</i>
+
+`;
+      }
+
+      if (phone) {
+        msg += `📞 <b>${isUz ? 'Bog\'lanish telefoni' : 'Контактный телефон'}:</b> <code>${phone}</code>
+
+`;
+      } else {
+        msg += `📞 <b>${isUz ? 'Telefon' : 'Телефон'}:</b> <i>Не указан (вопрос на сайте)</i>
+
+`;
+      }
+
+      if (products && products.length > 0) {
+        msg += `💡 <b>${isUz ? 'Tavsiya etilgan BFQ preparatlari' : 'Подобранные БАД комплексы'}:</b>
+`;
+        products.forEach((p, idx) => {
+          const name = isUz ? p.name_uz : p.name_ru;
+          const dosage = isUz ? p.dosage_uz : p.dosage_ru;
+          msg += `${idx + 1}. <b>${name}</b> (${dosage}) — ${this.formatPrice(p.price)}
+`;
+        });
+      }
+
+      msg += `
+🌐 <i>Manba: World Medicine OTC AI Assistant</i>`;
+
+      if (this.telegramBot && this.telegramBot.token && this.telegramBot.chatId) {
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${this.telegramBot.token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: this.telegramBot.chatId,
+              text: msg,
+              parse_mode: 'HTML'
+            })
+          });
+          const data = await res.json();
+          console.log('AI Lead Telegram delivery status:', data.ok);
+        } catch (err) {
+          console.warn('Telegram lead delivery error:', err);
+        }
+      }
     },
-    isSubmittingOrder: false,
 
     async submitOrder() {
       if (!this.checkout.name || !this.checkout.phone || this.checkout.phone.length < 9) {
@@ -934,29 +998,42 @@ document.addEventListener('alpine:init', () => {
       const timeStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
       
       const isUz = this.lang === 'uz';
-      let message = `🛍 <b>${isUz ? 'YANGI BUYURTMA' : 'НОВЫЙ ЗАКАЗ'} — World Medicine OTC</b>\n`;
-      message += `📅 <i>${timeStr}</i>\n\n`;
-      
-      message += `👤 <b>${isUz ? 'Mijoz' : 'Клиент'}:</b> ${this.checkout.name}\n`;
-      message += `📞 <b>${isUz ? 'Telefon' : 'Телефон'}:</b> <code>${this.checkout.phone}</code>\n`;
-      message += `📍 <b>${isUz ? 'Manzil' : 'Адрес доставки'}:</b> ${this.checkout.city || 'Toshkent'}, ${this.checkout.address || (isUz ? 'Aniqlanadi' : 'Уточняется')}\n\n`;
+      let message = `🛍 <b>${isUz ? 'YANGI BUYURTMA' : 'НОВЫЙ ЗАКАЗ'} — World Medicine OTC</b>
+`;
+      message += `📅 <i>${timeStr}</i>
 
-      message += `🛒 <b>${isUz ? 'Buyurtma tarkibi' : 'Состав заказа'}:</b>\n`;
+`;
+      
+      message += `👤 <b>${isUz ? 'Mijoz' : 'Клиент'}:</b> ${this.checkout.name}
+`;
+      message += `📞 <b>${isUz ? 'Telefon' : 'Телефон'}:</b> <code>${this.checkout.phone}</code>
+`;
+      message += `📍 <b>${isUz ? 'Manzil' : 'Адрес доставки'}:</b> ${this.checkout.city || 'Toshkent'}, ${this.checkout.address || (isUz ? 'Aniqlanadi' : 'Уточняется')}
+
+`;
+
+      message += `🛒 <b>${isUz ? 'Buyurtma tarkibi' : 'Состав заказа'}:</b>
+`;
       this.cart.forEach((item, index) => {
         const name = isUz ? item.name_uz : item.name_ru;
         const dosage = isUz ? item.dosage_uz : item.dosage_ru;
         const itemTotal = this.formatPrice(item.price * item.quantity);
-        message += `${index + 1}. <b>${name}</b> (${dosage})\n`;
-        message += `   └ ${item.quantity} шт × ${this.formatPrice(item.price)} = <b>${itemTotal}</b>\n`;
+        message += `${index + 1}. <b>${name}</b> (${dosage})
+`;
+        message += `   └ ${item.quantity} шт × ${this.formatPrice(item.price)} = <b>${itemTotal}</b>
+`;
       });
 
       const finalTotal = this.isFreeDeliveryEligible ? this.cartTotal : this.cartTotal + 25000;
-      message += `\n🚚 <b>${isUz ? 'Yetkazib berish' : 'Доставка'}:</b> ${this.isFreeDeliveryEligible ? (isUz ? 'Bepul (Uzum 1-Day)' : 'Бесплатно (Uzum 1-Day)') : '25 000 сум'}\n`;
-      message += `💰 <b>${isUz ? 'JAMI TO\'LOV' : 'ИТОГО К ОПЛАТЕ'}:</b> <b>${this.formatPrice(finalTotal)}</b>\n`;
+      message += `
+🚚 <b>${isUz ? 'Yetkazib berish' : 'Доставка'}:</b> ${this.isFreeDeliveryEligible ? (isUz ? 'Bepul (Uzum 1-Day)' : 'Бесплатно (Uzum 1-Day)') : '25 000 сум'}
+`;
+      message += `💰 <b>${isUz ? 'JAMI TO\'LOV' : 'ИТОГО К ОПЛАТЕ'}:</b> <b>${this.formatPrice(finalTotal)}</b>
+`;
       message += `🌐 <i>Manba: wm-otc online platform</i>`;
 
-      // 2. If Bot Token is configured, send via Telegram Bot API
-      if (this.telegramBot.token && this.telegramBot.chatId) {
+      // 2. Send via Telegram Bot API
+      if (this.telegramBot && this.telegramBot.token && this.telegramBot.chatId) {
         try {
           const res = await fetch(`https://api.telegram.org/bot${this.telegramBot.token}/sendMessage`, {
             method: 'POST',
@@ -968,14 +1045,10 @@ document.addEventListener('alpine:init', () => {
             })
           });
           const data = await res.json();
-          if (!data.ok) {
-            console.error('Telegram Bot API error:', data);
-          }
+          console.log('Order Telegram delivery status:', data.ok);
         } catch (err) {
           console.error('Failed to send order via Telegram Bot:', err);
         }
-      } else {
-        console.log('Order generated (Telegram bot token pending):', message);
       }
 
       this.isSubmittingOrder = false;

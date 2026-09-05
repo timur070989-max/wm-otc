@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=69.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=70.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=69.0"></script>
-  <script src="assets/js/app.js?v=69.0"></script>
+  <script src="assets/js/products-data.js?v=70.0"></script>
+  <script src="assets/js/app.js?v=70.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=69.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=70.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -1319,11 +1319,18 @@
       <!-- 1. 3D Face Avatar (Visible when chat is closed) -->
       <div 
         x-show="!isChatOpen" 
-        class="absolute inset-0 rounded-full overflow-hidden p-0.5 flex items-center justify-center transition-all duration-200"
+        class="absolute inset-0 flex items-center justify-center transition-all duration-200 pointer-events-none"
       >
-        <img src="assets/img/ai-avatar.png?v=69.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
-        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full"></span>
-        <span class="absolute -top-1 -right-1 w-5 h-5 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[9px] font-black text-white shadow-xs">AI</span>
+        <!-- Inner round avatar wrapper with overflow-hidden -->
+        <div class="w-full h-full rounded-full overflow-hidden p-0.5 shadow-inner bg-gradient-to-tr from-[#001f66] to-[#0032a0] relative flex items-center justify-center">
+          <img src="assets/img/ai-avatar.png?v=70.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
+        </div>
+        
+        <!-- Online Green Status Indicator (Fully visible, not clipped) -->
+        <span class="absolute bottom-0 right-0.5 w-4 h-4 bg-emerald-400 border-2 border-white rounded-full shadow-xs z-10"></span>
+        
+        <!-- AI Floating Badge (Fully visible, not clipped) -->
+        <span class="absolute -top-1 -right-1 min-w-[22px] h-[20px] px-1 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[10px] font-black text-white shadow-md z-10">AI</span>
       </div>
       
       <!-- 2. Close Icon (Visible ONLY when chat is open) -->

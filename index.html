@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=74.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=76.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=74.0"></script>
-  <script src="assets/js/app.js?v=74.0"></script>
+  <script src="assets/js/products-data.js?v=76.0"></script>
+  <script src="assets/js/app.js?v=76.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=74.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=76.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -217,8 +217,8 @@
     </div>
   </header>
 
-  <!-- Hero Section: Full-Width Video with Soft Seamless Gradient Under Text (No Sharp Boundaries) -->
-  <section class="relative overflow-hidden pt-8 sm:pt-12 lg:pt-14 pb-8 sm:pb-10 lg:pb-12 bg-white">
+    <!-- Hero Section: Full-Width Video with Seamless Blend to Next Section -->
+  <section class="relative overflow-hidden pt-8 sm:pt-12 lg:pt-14 pb-10 sm:pb-14 lg:pb-16 bg-[#fdfdfd]">
     
     <!-- Full-Width Background Video -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -233,10 +233,13 @@
         <source src="assets/videos/sanovit.mp4" type="video/mp4">
       </video>
       
-      <!-- Seamless Soft Gradient Overlay: Pure light on left, perfectly fading to 100% transparent towards center -->
+      <!-- Seamless Soft Gradient Overlay: Pure light on left, fading smoothly -->
       <div class="absolute inset-0 bg-gradient-to-r from-white via-white/85 via-25% via-white/45 via-45% to-transparent"></div>
       
-      <!-- Additional Radial Soft Light under text for crystal clear readability without any hard edges -->
+      <!-- Soft Bottom Fade: Seamless transition into #fdfdfd background of next section -->
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#fdfdfd] via-[#fdfdfd]/80 to-transparent"></div>
+
+      <!-- Additional Radial Soft Light under text -->
       <div class="absolute -top-20 -left-20 w-[650px] h-[650px] rounded-full bg-white/60 blur-3xl pointer-events-none"></div>
     </div>
 
@@ -247,7 +250,7 @@
         class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
       >
         
-        <!-- Left Column: Typography, Pill Search & Buttons (Layered over soft gradient) -->
+        <!-- Left Column: Typography & Buttons -->
         <div class="lg:col-span-6 text-center lg:text-left space-y-4 sm:space-y-5 lg:pr-2">
           
           <!-- Category Pill -->
@@ -298,7 +301,7 @@
           <div 
             class="relative w-full h-[260px] sm:h-[320px] lg:h-[360px] flex items-center justify-center cursor-pointer group select-none"
             @click="if (currentHeroProduct) openProductModal(currentHeroProduct)"
-            :title="lang === 'uz' ? 'Batafsil ko'rish' : 'Нажмите для подробностей'"
+            :title="lang === 'uz' ? 'Batafsil ko\'rish' : 'Нажмите для подробностей'"
           >
             <template x-for="(prod, idx) in featuredProducts" :key="prod.id">
               <img 
@@ -331,72 +334,74 @@
         </div>
 
       </div>
+
+        <!-- Luxury Trust & Quality Card (Seamlessly floating within Hero) -->
+        <div class="mt-8 sm:mt-10 lg:mt-12 relative z-20">
+          <div class="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-[0_15px_40px_rgba(0,31,102,0.08)] border border-slate-200/90 p-3.5 sm:p-4 lg:p-5 transition-all">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 lg:gap-2 items-center">
+              
+              <!-- 1. Halal Certified -->
+              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="check-circle-2" class="w-4.5 h-4.5"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Halol sertifikati' : 'Сертификат Халяль'"></div>
+                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? '100% toza formulalar' : '100% чистые формулы'"></div>
+                </div>
+              </div>
+
+              <!-- 2. European GMP Standard -->
+              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0032a0] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="shield-check" class="w-4.5 h-4.5"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'GMP Standarti' : 'Стандарт GMP'"></div>
+                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Yevropa sifati nazorati' : 'Контроль качества ЕС'"></div>
+                </div>
+              </div>
+
+              <!-- 3. Bio-Available Formulas -->
+              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Bio-o\'zlashuvchan' : 'Биодоступность'"></div>
+                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Tezkor o\'zlashtirish' : 'Быстрое усвоение'"></div>
+                </div>
+              </div>
+
+              <!-- 4. Uzum 1-Day Delivery -->
+              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="zap" class="w-4.5 h-4.5"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Yetkazish 1 kunda' : 'Доставка за 1 день'"></div>
+                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Uzum Market orqali' : 'Через Uzum Market'"></div>
+                </div>
+              </div>
+
+              <!-- 5. 25+ Years of Trust -->
+              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group col-span-2 md:col-span-1">
+                <div class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="award" class="w-4.5 h-4.5"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? '25+ yil ishonch' : '25+ лет доверия'"></div>
+                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Millionlab oilalar tanlovi' : 'Выбор миллионов семей'"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
     </div>
   </section>
 
-  <!-- Floating Luxury Trust & Quality Card (Independent, Full 360° Rounded Corners, 100% Unclipped) -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30 -mt-7 sm:-mt-9">
-    <div class="bg-white rounded-2xl sm:rounded-3xl shadow-[0_15px_40px_rgba(0,31,102,0.09)] border border-slate-200/90 p-3.5 sm:p-4 lg:p-5 transition-all">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 lg:gap-2 items-center">
-          
-          <!-- 1. Halal Certified -->
-          <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-            <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-              <i data-lucide="check-circle-2" class="w-4.5 h-4.5"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Halol sertifikati' : 'Сертификат Халяль'"></div>
-              <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? '100% toza formulalar' : '100% чистые формулы'"></div>
-            </div>
-          </div>
-
-          <!-- 2. European GMP Standard -->
-          <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-            <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0032a0] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-              <i data-lucide="shield-check" class="w-4.5 h-4.5"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'GMP Standarti' : 'Стандарт GMP'"></div>
-              <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Yevropa sifati nazorati' : 'Контроль качества ЕС'"></div>
-            </div>
-          </div>
-
-          <!-- 3. Bio-Available Formulas -->
-          <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-              <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Bio-o\'zlashuvchan' : 'Биодоступность'"></div>
-              <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Tezkor o\'zlashtirish' : 'Быстрое усвоение'"></div>
-            </div>
-          </div>
-
-          <!-- 4. Uzum 1-Day Delivery -->
-          <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-            <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-              <i data-lucide="zap" class="w-4.5 h-4.5"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Yetkazish 1 kunda' : 'Доставка за 1 день'"></div>
-              <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Uzum Market orqali' : 'Через Uzum Market'"></div>
-            </div>
-          </div>
-
-          <!-- 5. 25+ Years of Trust -->
-          <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group col-span-2 md:col-span-1">
-            <div class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-              <i data-lucide="award" class="w-4.5 h-4.5"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? '25+ yil ishonch' : '25+ лет доверия'"></div>
-              <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Millionlab oilalar tanlovi' : 'Выбор миллионов семей'"></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-  </div>
 
   <!-- 1. Interactive 3D Human Anatomy & Symptom Guide Section -->
   <section id="symptoms-guide" class="pt-6 sm:pt-8 pb-10 sm:pb-14 relative bg-[#fdfdfd] overflow-hidden">

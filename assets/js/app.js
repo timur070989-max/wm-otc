@@ -241,9 +241,7 @@ document.addEventListener('alpine:init', () => {
         this.$nextTick(() => {
           this.scrollChatToBottom();
           this.refreshIcons();
-          if (wasSpoken && this.isVoiceEnabled) {
-            this.speakAiMessage(newAiMsg);
-          }
+          // Voice readout disabled
         });
       }, 750);
     },

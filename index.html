@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=77.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=78.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=77.0"></script>
-  <script src="assets/js/app.js?v=77.0"></script>
+  <script src="assets/js/products-data.js?v=78.0"></script>
+  <script src="assets/js/app.js?v=78.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=77.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=78.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -1355,16 +1355,6 @@
       </div>
       
       <div class="flex items-center gap-1.5 relative z-10">
-        <!-- Stop Audio Button if currently speaking -->
-        <button
-          x-show="isSpeakingAudio"
-          @click="stopSpeaking()"
-          class="px-2 py-1 rounded-xl bg-red-500/80 hover:bg-red-600 text-white text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer animate-pulse"
-          title="Остановить голос"
-        >
-          <i data-lucide="volume-x" class="w-3.5 h-3.5"></i>
-          <span>Стоп</span>
-        </button>
 
         <!-- Close Window Button -->
         <button 
@@ -1398,17 +1388,6 @@
                   <i data-lucide="shield-check" class="w-3 h-3 text-emerald-600"></i>
                   <span x-text="lang === 'uz' ? 'World Medicine BFQ Eksperti' : 'Консультант по БАД World Medicine'"></span>
                 </span>
-                
-                <!-- Voice Speaker Button -->
-                <button
-                  @click="speakAiMessage(msg)"
-                  class="flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-blue-50 hover:bg-[#0032a0] text-[#0032a0] hover:text-white transition-all cursor-pointer"
-                  :class="isSpeakingAudio && currentSpeakingId === msg.id ? 'bg-amber-100 text-amber-900 ring-1 ring-amber-300' : ''"
-                  :title="lang === 'uz' ? 'Ovozli tinglash' : 'Прослушать голосом'"
-                >
-                  <i :data-lucide="isSpeakingAudio && currentSpeakingId === msg.id ? 'volume-2' : 'volume-1'" class="w-3 h-3" :class="isSpeakingAudio && currentSpeakingId === msg.id ? 'animate-bounce' : ''"></i>
-                  <span x-text="isSpeakingAudio && currentSpeakingId === msg.id ? (lang === 'uz' ? 'Tinglanmoqda...' : 'Говорит...') : (lang === 'uz' ? 'Tinglash' : 'Озвучить')"></span>
-                </button>
               </div>
             </template>
 

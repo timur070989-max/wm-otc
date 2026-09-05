@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Персонаж · Слежение за курсором</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#fff;color:#173958;font:16px/1.5 system-ui,sans-serif}
+  main{min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;padding:28px clamp(20px,5vw,72px)}
+  header{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #e5ebf0;padding-bottom:18px}
+  h1{font-size:18px;font-weight:600;margin:0}header span{font-size:14px;color:#627589}
+  .stage{display:grid;place-items:center;min-height:0}
+  mouse-follower{--follower-width:min(390px,75vw,65svh)}
+  footer{text-align:center;color:#627589;padding-top:12px;font-size:16px}
+  @media(max-width:540px){header{align-items:start;flex-direction:column;gap:4px}main{padding:20px}}
+</style>
+<main>
+  <header><h1>Всегда на связи</h1><span>Интерактивный персонаж</span></header>
+  <div class="stage"><mouse-follower></mouse-follower></div>
+  <footer>Двигайте курсором вокруг персонажа.<br>На телефоне — коснитесь экрана.</footer>
+</main>
+<script src="./mouse-follower.js"></script>
+</html>

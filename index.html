@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=68.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=69.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=68.0"></script>
-  <script src="assets/js/app.js?v=68.0"></script>
+  <script src="assets/js/products-data.js?v=69.0"></script>
+  <script src="assets/js/app.js?v=69.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=68.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=69.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -1313,22 +1313,27 @@
   <div class="fixed bottom-6 right-6 z-50 flex items-center select-none">
     <button
       @click="toggleChat()"
-      class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#001f66] via-[#0032a0] to-[#0052cc] hover:from-[#00174c] hover:to-[#002275] text-white shadow-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none ring-4 ring-[#0032a0]/25 relative cursor-pointer group"
+      class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#001f66] via-[#0032a0] to-[#0052cc] hover:from-[#00174c] hover:to-[#002275] text-white shadow-2xl relative transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none ring-4 ring-[#0032a0]/25 cursor-pointer group overflow-visible"
       :title="lang === 'uz' ? 'World Medicine AI Maslahatchi' : 'ИИ-Консультант World Medicine'"
     >
-      <!-- 3D Character Face Avatar when closed -->
-      <template x-if="!isChatOpen">
-        <div class="w-full h-full rounded-full overflow-hidden p-0.5 relative flex items-center justify-center">
-          <img src="assets/img/ai-avatar.png?v=68.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
-          <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full"></span>
-          <span class="absolute -top-1 -right-1 w-5 h-5 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[9px] font-black text-white shadow-xs">AI</span>
-        </div>
-      </template>
+      <!-- 1. 3D Face Avatar (Visible when chat is closed) -->
+      <div 
+        x-show="!isChatOpen" 
+        class="absolute inset-0 rounded-full overflow-hidden p-0.5 flex items-center justify-center transition-all duration-200"
+      >
+        <img src="assets/img/ai-avatar.png?v=69.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
+        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full"></span>
+        <span class="absolute -top-1 -right-1 w-5 h-5 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[9px] font-black text-white shadow-xs">AI</span>
+      </div>
       
-      <!-- Close Icon when open -->
-      <template x-if="isChatOpen">
+      <!-- 2. Close Icon (Visible ONLY when chat is open) -->
+      <div 
+        x-show="isChatOpen" 
+        class="absolute inset-0 flex items-center justify-center transition-all duration-200"
+        style="display: none;"
+      >
         <i data-lucide="x" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.5] text-white"></i>
-      </template>
+      </div>
     </button>
   </div>
 

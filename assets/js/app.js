@@ -42,13 +42,13 @@ document.addEventListener('alpine:init', () => {
     currentSpeakingId: null,
     speechRecognition: null,
     isVoiceEnabled: true,
-    chatMessages: [
+        chatMessages: [
       {
         id: 1,
         sender: 'ai',
         time: 'Только что',
-        text_ru: "Здравствуйте! Рад приветствовать вас. Я ваш персональный консультант по биологически активным добавкам (БАД) и витаминным комплексам World Medicine.\n\nВсе наши продукты — это сертифицированные БАД европейского качества для естественной поддержки здоровья, бодрости и долголетия.\n\nРасскажите своими словами, что вас беспокоит или какую задачу мы хотим решить — например, вернуть бодрость и тонус, поддержать суставы, наладить сон или укрепить иммунитет? Вы также можете нажать на микрофон и просто сказать свой вопрос голосом! 🎙️",
-        text_uz: "Assalomu alaykum! Sizni qutlashdan xursandman. Men sizning biologik faol qo\'shimchalar (BFQ) va vitaminlar bo\'yicha World Medicine shaxsiy maslahatchiman.\n\nBarcha mahsulotlarimiz — salomatlik, quvvat va go\'zallikni qo\'llab-quvvatlash uchun Yevropa sifatidagi sertifikatlangan tabiiy BFQ vositalaridir.\n\nSizni nima bezovta qilayotganini yoki qanday maqsad qo'yganingizni o'z so'zlaringiz bilan ayting — masalan, quvvat va tetiklikni tiklash, bo'g'imlarni davolash, uyquni yaxshilash yoki immunitetni mustahkamlash? Shuningdek, mikrofondan foydalanib savolingizni ovozli tarzda aytishingiz mumkin! 🎙️",
+        text_ru: "Здравствуйте! Я консультант World Medicine 🌿\n\nЧем могу вам помочь? Напишите своими словами, что вас беспокоит или какую задачу хотите решить (например: упадок сил, суставы, плохой сон, иммунитет или красота кожи и волос). Подберу нужный комплекс и подскажу, как правильно принимать!",
+        text_uz: "Assalomu alaykum! Men World Medicine maslahatchisiman 🌿\n\nSizga qanday yordam bera olaman? Sizni nima bezovta qilayotganini yoki qanday maqsad qo'yganingizni yozing (masalan: holsizlik, bo'g'imlar og'rig'i, uyqusizlik, immunitet yoki soch va teri go'zalligi). Sizga mos majmuani tanlab, qabul qilish tartibini tushuntirib beraman!",
         recommendedProducts: []
       }
     ],
@@ -248,108 +248,299 @@ document.addEventListener('alpine:init', () => {
       }, 750);
     },
 
-    generateHumanAiResponse(query, phone) {
-      const q = query.toLowerCase();
+        generateHumanAiResponse(query, phone) {
+      const q = query.toLowerCase().trim();
       let matched = [];
       let text_ru = '';
       let text_uz = '';
 
-      // 1. GREETINGS & INTRODUCTIONS (Приветствия и знакомство)
-      if (q.match(/^(привет|здравствуй|салам|добрый день|добрый вечер|доброе утро|салом|assalomu|salom|hayrli|privet)/)) {
-        text_ru = "Здравствуйте! Очень рад нашему общению. Я консультант по БАД и витаминным комплексам World Medicine.\n\nМоя задача — внимательно выслушать вас, помочь разобраться в причинах недомогания и подобрать проверенные европейские комплексы для вашего здоровья.\n\nПодскажите, что именно вас беспокоит или для кого мы подбираем препарат — для вас, детей или родителей?";
-        text_uz = "Assalomu alaykum! Siz bilan muloqot qilishdan bag'oyat xursandman. Men World Medicine kompaniyasining BFQ va vitaminlar bo'yicha maslahatchisiman.\n\nVazifam — sizni tinglash, bezovtalik sabablarini tushunish va salomatligingiz uchun sertifikatlangan Yevropa sifatidagi eng yaxshi majmualarni tanlashga yordam berishdir.\n\nAyting-chi, sizni aynan nima bezovta qilyapti yoki preparatni kimga tanlayapmiz — o'zingizga, farzandlaringizga yoki ota-onangizgami?";
-        matched = [this.products.find(p => p.id === 'polijen'), this.products.find(p => p.id === 'sanovit')].filter(Boolean);
+      const getProd = (id) => this.products.find(p => p.id === id);
+
+      // 1. SPECIFIC PRODUCT INQUIRIES
+      if (q.includes('полижен') || q.includes('polijen')) {
+        matched = [getProd('polijen')].filter(Boolean);
+        text_ru = `Полижен — наш флагманский швейцарский комплекс для энергии, молодости и тонуса. 🌿
+
+В составе: натуральный экстракт женьшеня, маточное молочко, коэнзим Q10, плюс 12 витаминов и 10 минералов. Он не просто бодрит, а восстанавливает клетки изнутри, улучшает состояние кожи, останавливает выпадение волос и дает заряд сил без скачков давления.
+
+💊 **Как принимать**: по 1 капсуле утром во время или после завтрака. Курс — 1 месяц.
+
+Хотите оформить заказ или подобрать курс под конкретную задачу?`;
+        text_uz = `Polijen — quvvat, yoshlik va tetiklik uchun Shveytsariya formulasi asosidagi mashhur majmuamiz. 🌿
+
+Tarkibida: tabiiy jenshen ekstrakti, ona ari suti, koenzim Q10, 12 ta vitamin va 10 ta muhim mineral bor. U nafaqat quvvat beradi, balki hujayralarni yoshartiradi, terini taranglashtiradi va soch to'kilishini to'xtatadi.
+
+💊 **Qanday ichiladi**: ertalab nonushta paytida 1 kapsuladan. Kurs — 1 oy.
+
+Buyurtma berishni xohlaysizmi yoki qo'shimcha savolingiz bormi?`;
       }
-      
-      // 2. WHO ARE YOU / ARE YOU A ROBOT? (Кто ты, живой ли человек?)
-      else if (q.includes('кто ты') || q.includes('ты робот') || q.includes('ты бот') || q.includes('kim siz') || q.includes('siz kimsiz') || q.includes('robot')) {
-        text_ru = "Я цифровой консультант по биологически активным добавкам (БАД) World Medicine! Все наши продукты являются БАД и созданы для бережного восполнения дефицитов, укрепления организма и естественной поддержки здоровья.\n\nЯ не просто выдаю список лекарств, а объясняю, как работает организм, как правильно принимать капсулы до или после еды, и какие компоненты помогут именно вам.\n\nСмело задавайте любой вопрос своими словами — например: «почему болит спина» или «что попить при упадке сил?». Я рядом и готов помочь!";
-        text_uz = "Men World Medicine kompaniyasining biologik faol qo\'shimchalar (BFQ) bo\'yicha raqamli maslahatchisiman! Barcha vositalarimiz BFQ hisoblanadi va organizmni tabiiy qo\'llab-quvvatlash, vitaminlar o\'rnini to\'ldirish uchun mo\'ljallangan.\n\nMen shunchaki dorilar ro'yxatini bermayman, balki organizm qanday ishlashini, preparatlarni qachon va qanday ichish kerakligini tushuntirib beraman.\n\nIstalgan savolingizni o'z so'zlaringiz bilan bering — masalan: «bel og'rig'iga nima yordam beradi» yoki «charchoqni qanday ketkazish mumkin?». Yordam berishga tayyorman!";
-        matched = [this.products.find(p => p.id === 'polijen')].filter(Boolean);
+      else if (q.includes('вамелан') || q.includes('vamelan')) {
+        matched = [getProd('vamelan'), getProd('vamelan-kids')].filter(Boolean);
+        text_ru = `Вамелан — это 100% натуральный фитокомплекс европейского качества для спокойствия и глубокого сна. 🌙
+
+В составе: чистые стандартизированные экстракты валерианы, мяты перечной и мелиссы. Он мягко снимает тревожность, спазмы сосудов и раздражительность, но не вызывает привыкания и сонливости днем.
+
+🕒 **Как принимать**:
+• При стрессе и тревоге: по 1 капсуле 1-2 раза в день.
+• Для легкого засыпания и глубокого сна: 1-2 капсулы за 40-60 минут до сна.
+
+(Для деток есть сироп Вамелан Кидс). Вам для себя или для ребенка?`;
+        text_uz = `Vamelan — xotirjamlik va chuqur orombaxsh uyqu uchun 100% tabiiy fitomajmua. 🌙
+
+Tarkibida: toza valeriana, qalampir yalpiz va melissa o'simlik ekstraktlari jamlangan. Asabiy zo'riqish, xavotir va stressni muloyimlik bilan bartaraf etadi, o'rganib qolish chaqirmaydi.
+
+🕒 **Qanday ichiladi**:
+• Kunduzgi xotirjamlik uchun: kuniga 1-2 marta 1 kapsuladan.
+• Tinch uyqu uchun: yotishdan 40-60 daqiqa oldin 1-2 kapsula.
+
+(Bolalar uchun Vamelan Kids siropi ham bor). O'zingizgami yoki farzandingizgami?`;
+      }
+      else if (q.includes('драстоп') || q.includes('drastop') || q.includes('артрокол') || q.includes('artrocol')) {
+        matched = [getProd('drastop-max'), getProd('artrocol-gel')].filter(Boolean);
+        text_ru = `Для суставов и позвоночника у нас разработан мощный дуэт: 🦴
+
+1. **Драстоп Макс** (внутрь) — питает и восстанавливает сам хрящ, содержит хондроитин, глюкозамин, био-коллаген и гиалуроновую кислоту. Защищает суставы от стирания и хруста.
+2. **Артрокол гель** (снаружи) — быстро снимает острую боль, воспаление и скованность в мышцах и суставах.
+
+💡 Вместе они дают быстрый эффект обезболивания и долгосрочное восстановление хрящевой ткани.
+
+Где именно ощущается боль — в коленях, пояснице или шее?`;
+        text_uz = `Bo'g'imlar va umurtqa pog'onasi uchun samarali juftligimiz: 🦴
+
+1. **Drastop Maks** (ichishga) — tog'ay to'qimasini tiklaydi, tarkibida xondroitin, glyukozamin, bio-kollagen va gialuron kislotasi bor. Bo'g'imlarning yemirilishini to'xtatadi.
+2. **Artrokol gel** (surishga) — og'riq, yallig'lanish va qisirlashni tezda bartaraf etadi.
+
+💡 Birgalikda qo'llanganda tezkor yengillik va mustahkam tiklanish beradi.
+
+Og'riq aynan qayerda — tizzada, beldami yoki bo'yindami?`;
+      }
+      else if (q.includes('сановит') || q.includes('sanovit') || q.includes('коледан') || q.includes('koledan') || q.includes('кальцин') || q.includes('calcin')) {
+        matched = [getProd('sanovit'), getProd('koledan-drops'), getProd('d-calcin')].filter(Boolean);
+        text_ru = `Это базовые витаминные комплексы для всей семьи: 🛡️
+
+• **Сановит** — вкусный мультивитаминный комплекс для иммунитета, аппетита и роста сил.
+• **Коледан D3 (50 000 МЕ)** — масляный витамин D высокой биодоступности для иммунной защиты, костей и гормонального баланса.
+• **Д-Кальцин** — гранулы кальция с витамином D3 для крепких зубов, костей и ногтей.
+
+Подскажите, подбираете для взрослого или для ребенка?`;
+        text_uz = `Butun oila uchun asosiy vitaminlar majmuamiz: 🛡️
+
+• **Sanovit** — immunitet, ishtaha va quvvatni oshiruvchi shirin polivitamin siropi.
+• **Koledan D3 (50 000 XB)** — suyaklar, immunitet va o'pka himoyasi uchun yuqori singuvchan D vitamini tomchilari.
+• **D-Kalsin** — mustahkam tishlar, suyaklar va tirnoqlar uchun kalsiy va D3 granulalari.
+
+Kattalargami yoki farzandingizgami?`;
       }
 
-      // 3. GRATITUDE & POLITE COURTESY (Спасибо, благодарность)
-      else if (q.includes('спасибо') || q.includes('благодарю') || q.includes('рахмат') || q.includes('rahmat') || q.includes('tashakkur') || q.includes('отлично') || q.includes('понятно') || q.includes('tushunarli')) {
-        text_ru = "На здоровье! Мне очень приятно быть полезным для вас. 🌿\n\nГлавное — соблюдать регулярность приема и пить достаточное количество чистой воды. Если возникнут любые вопросы по дозировке, самочувствию или заказу — пишите в любое время.\n\nЖелаю вам и вашим близким крепкого здоровья и отличного настроения!";
-        text_uz = "Salomat bo'ling! Sizga yordam bera olganimdan chin dildan xursandman. 🌿\n\nAsosiysi — qabul qilish tartibiga rioya qilish va yetarli miqdorda toza suv ichishdir. Agar dozirovka, nojo'ya ta'sir yoki buyurtma bo'yicha savollaringiz tug'ilsa — istalgan payt yozing.\n\nSizga va yaqinlaringizga mustahkam sog'lik va a'lo kayfiyat tilayman!";
+      // 2. GREETINGS & CASUAL HELLO
+      else if (q.match(/^(привет|здравствуй|салам|добрый|салом|assalomu|salom|hayrli|privet|hi|hello)/)) {
+        text_ru = `Здравствуйте! Рада общению с вами. 🌿
+
+Расскажите, что вас привело или что хотите улучшить в самочувствии? Например: поднять энергию, укрепить суставы, наладить сон, поддержать иммунитет или укрепить волосы и кожу. С радостью подберу точный состав!`;
+        text_uz = `Assalomu alaykum! Siz bilan muloqotdan xursandman. 🌿
+
+Ayting-chi, salomatligingizda qanday o'zgarish qilmoqchisiz yoki nima bezovta qilyapti? Masalan: quvvatni oshirish, bo'g'imlarni tiklash, uyquni yaxshilash, immunitet yoki soch-teri parvarishi. Mamnuniyat bilan mos vositani tanlab beraman!`;
+        matched = [getProd('polijen'), getProd('sanovit')].filter(Boolean);
+      }
+
+      // 3. GRATITUDE / ACKNOWLEDGEMENT
+      else if (q.includes('спасибо') || q.includes('благодар') || q.includes('рахмат') || q.includes('rahmat') || q.includes('понятно') || q.includes('хорошо') || q.includes('отлично') || q.includes('tushunarli') || q.includes('yaxshi')) {
+        text_ru = `Всегда пожалуйста! Рада помочь. 😊
+
+Главное — принимать выбранный комплекс регулярно и запивать стаканом чистой воды. Если захотите оформить заказ с быстрой доставкой за 1 день — просто напишите или нажмите «В корзину». Крепкого вам здоровья!`;
+        text_uz = `Salomat bo'ling! Yordam bera olganimdan mamnunman. 😊
+
+Asosiysi — qabul qilish tartibiga rioya qilib, 1 stakan toza suv bilan ichish. Agar 1 kunda yetkazib berish bilan buyurtma bermoqchi bo'lsangiz — bemalol yozing yoki «Savat»ga bosing. Sog'ligingiz mustahkam bo'lsin!`;
         matched = [];
       }
 
-      // 4. ENERGY, CHRONIC FATIGUE & VITALITY (Усталость, упадок сил, энергия, слабость)
-      else if (q.includes('устал') || q.includes('сил нет') || q.includes('нет сил') || q.includes('бодрост') || q.includes('энерги') || q.includes('слабост') || q.includes('апати') || q.includes('holsiz') || q.includes('charchoq') || q.includes('quvvat') || q.includes('energiya') || q.includes('tetik')) {
-        matched = [this.products.find(p => p.id === 'polijen'), this.products.find(p => p.id === 'sanovit')].filter(Boolean);
-        text_ru = "Прекрасно понимаю ваше состояние. Когда нет сил и преследует постоянная утомляемость, организму обычно не хватает коэнзимов, антиоксидантов и адаптогенов для клеточного дыхания.\n\n💡 **Моя рекомендация**:\nЛучшее решение в линейке World Medicine — швейцарский комплекс **ПОЛИЖЕН**.\n• В нем содержится натуральный женьшень, маточное молочко, коэнзим Q10 и 25 биоактивных нутриентов.\n• Он мягко восстанавливает тонус без скачков давления и нервного возбуждения.\n\n🕒 **Как принимать**: всего 1 капсула в день утром во время завтрака. Курс — 1 месяц, и уже через 4-5 дней вы почувствуете прилив сил и ясность в голове.\n\nПодскажите, есть ли у вас сопутствующая бессонница или стресс на работе?";
-        text_uz = "Holatingizni juda yaxshi tushunaman. Doimiy holsizlik va charchoq paytida organizmga hujayra energiyasi uchun koenzimlar, antioksidantlar va adaptogenlar yetishmaydi.\n\n💡 **Mening tavsiyam**:\nWorld Medicine qatoridagi eng samarali yechim — Shveytsariya formulasi bo'lgan **POLIJEN**.\n• Tarkibida tabiiy jenshen, ona ari suti, koenzim Q10 va 25 ta bioaktiv moddalar mavjud.\n• U qon bosimini oshirmasdan tetiklik va aqliy tiniqlikni tiklaydi.\n\n🕒 **Qanday ichiladi**: kuniga atigi 1 kapsuladan ertalab nonushta paytida. 1 oylik kursdan so'ng 4-5 kun ichidayoq kuch-quvvat to'lishini his qilasiz.\n\nAyting-chi, sizda uyqusizlik yoki asabiylik ham bormi?";
+      // 4. ENERGY & FATIGUE
+      else if (q.includes('устал') || q.includes('сил нет') || q.includes('нет сил') || q.includes('бодрост') || q.includes('энерги') || q.includes('слабост') || q.includes('апати') || q.includes('вялост') || q.includes('сонлив') || q.includes('holsiz') || q.includes('charchoq') || q.includes('quvvat') || q.includes('energiya') || q.includes('tetik')) {
+        matched = [getProd('polijen'), getProd('sanovit')].filter(Boolean);
+        text_ru = `Понимаю вас. Постоянная усталость и сонливость обычно связаны с истощением клеточной энергии и нехваткой адаптогенов.
+
+Вам отлично подойдет наш швейцарский комплекс **ПОЛИЖЕН**. В нем есть натуральный женьшень, маточное молочко, коэнзим Q10 и 25 нутриентов. Он бережно запускает выработку энергии без тахикардии и скачков давления.
+
+💊 Принимать: всего 1 капсулу утром во время завтрака. Уже через 3-4 дня почувствуете легкость и прилив сил.
+
+У вас усталость больше физическая или от умственной работы и стресса?`;
+        text_uz = `Sizni tushunaman. Doimiy charchoq va uyquchanlik organizmda hujayra quvvati va vitaminlar yetishmasligidan kelib chiqadi.
+
+Sizga Shveytsariya formulasi bo'lgan **POLIJEN** ayni muddao. Tarkibidagi tabiiy jenshen, ona ari suti va koenzim Q10 qon bosimini oshirmasdan tetiklik baxsh etadi.
+
+💊 Ichish tartibi: ertalab nonushta paytida 1 kapsula. 3-4 kunda quvvat to'lishini his qilasiz.
+
+Charchoq ko'proq jismoniy zo'riqishdanmi yoki aqliy toliqishdan?`;
       }
 
-      // 5. JOINTS, BACK PAIN & CARTILAGE (Суставы, спина, колени, хруст, мышцы)
-      else if (q.includes('сустав') || q.includes('колен') || q.includes('спин') || q.includes('поясниц') || q.includes('хруст') || q.includes('артрокол') || q.includes('драстоп') || q.includes('болит нога') || q.includes("bo'g'im") || q.includes("bo'g'im") || q.includes('tizza') || q.includes('bel') || q.includes("og'riq") || q.includes("og'riq") || q.includes('mushak') || q.includes('artroz')) {
-        matched = [this.products.find(p => p.id === 'drastop-max'), this.products.find(p => p.id === 'artrocol-gel')].filter(Boolean);
-        text_ru = "Боль и хруст в суставах или спине — это прямой сигнал о том, что хрящевой ткани не хватает влаги, коллагена и естественной смазки.\n\n💡 **Комплексный подход для быстрого и долгосрочного результата**:\n1. **Снаружи**: **АРТРОКОЛ гель** — наносите на больное место 2 раза в день. Он быстро снимает локальное воспаление, отек и возвращает легкость движений.\n2. **Изнутри**: **ДРАСТОП МАКС** — это глубокое восстановление суставов. Содержит глюкозамин, хондроитин, био-коллаген и гиалуроновую кислоту, которые восстанавливают сам хрящ.\n\n🚶‍♂️ **Рекомендация по приему БАД**: старайтесь не делать резких нагрузок и пейте не менее 1.5-2 литров воды в день, так как хрящ питается за счет суставной жидкости.\n\nБоль усиливается при ходьбе или беспокоит даже в покое?";
-        text_uz = "Bo'g'imlar yoki beldagi og'riq va qisirlash — tog'ay to'qimasiga namlik, kollagen va bo'g'im suyuqligi yetishmayotganligidan dalolat beradi.\n\n💡 **Tezkor va mustahkam natija uchun kompleks yechim**:\n1. **Tashqi tomondan**: **ARTROKOL gel** — og'riyotgan joyga kuniga 2 marta surting. U yallig'lanish va og'riqni tezda ketkazib, harakatni yengillashtiradi.\n2. **Ichki tomondan**: **DRASTOP MAKS** — bo'g'imlarni chuqur tiklovchi majmua. Glyukozamin, xondroitin, bio-kollagen va gialuron kislotasi yordamida tog'ayni qayta tiklaydi.\n\n🚶‍♂️ **BFQ qabul qilish bo'yicha maslahat**: og'ir jismoniy zo'riqishlardan saqlaning va kuniga kamida 1.5-2 litr toza suv iching.\n\nOg'riq yurganda kuchayadimi yoki tinch turganda ham bezovta qiladimi?";
+      // 5. JOINTS, KNEES, BACK
+      else if (q.includes('сустав') || q.includes('колен') || q.includes('спин') || q.includes('поясниц') || q.includes('хруст') || q.includes('нога') || q.includes('шея') || q.includes('грыж') || q.includes("bo'g'im") || q.includes('tizza') || q.includes('bel') || q.includes("og'riq") || q.includes('mushak') || q.includes('shiqirl')) {
+        matched = [getProd('drastop-max'), getProd('artrocol-gel')].filter(Boolean);
+        text_ru = `Боль и хруст в суставах или пояснице говорят о том, что хрящевая ткань теряет эластичность и влагу.
+
+Рекомендую проверенную схему:
+• **Драстоп Макс** (капсулы) — глубоко восстанавливает хрящ благодаря глюкозамину, хондроитину и био-коллагену.
+• **Артрокол гель** — наносите на сустав 2 раза в день, он быстро снимет скованность и воспаление.
+
+💡 Пейте больше чистой воды, так как суставная смазка на 80% состоит из жидкости.
+
+Боль беспокоит при ходьбе по лестнице или даже в покое?`;
+        text_uz = `Bo'g'imlardagi og'riq va qisirlash tog'ay to'qimasi elastikligini yo'qotayotganidan darak beradi.
+
+Sinovdan o'tgan samarali sxema:
+• **Drastop Maks** (kapsula) — glyukozamin, xondroitin va bio-kollagen bilan tog'ayni ichkaridan tiklaydi.
+• **Artrokol gel** — kuniga 2 mahal surting, og'riq va shishni tezda ketkazadi.
+
+💡 Ko'proq suv iching, chunki bo'g'im suyuqligi suvdan hosil bo'ladi.
+
+Og'riq zinadan chiqqanda bezovta qiladimi yoki tinch turgandami?`;
       }
 
-      // 6. STRESS, ANXIETY & SLEEP DISORDERS (Стресс, бессонница, тревога, нервы, сон)
-      else if (q.includes('сон') || q.includes('уснуть') || q.includes('бессонниц') || q.includes('стресс') || q.includes('нерв') || q.includes('тревог') || q.includes('вамелан') || q.includes('паник') || q.includes('uyqu') || q.includes('asab') || q.includes('siqilish') || q.includes('tinchlan') || q.includes('vamelan')) {
-        matched = [this.products.find(p => p.id === 'vamelan'), this.products.find(p => p.id === 'vamelan-kids')].filter(Boolean);
-        text_ru = "Очень сочувствую вам. Хронический стресс и бессонница истощают нервную систему, а химические снотворные часто вызывают привыкание и тяжесть по утрам.\n\n💡 **Натуральное растительное решение**:\nРекомендую **ВАМЕЛАН** — это 100% натуральный европейский фитокомплекс на основе экстрактов валерианы, мяты перечной и мелиссы.\n• Он мягко успокаивает мысли, снимает спазмы сосудов и тревожность.\n• Не вызывает сонливости днем и дарит легкое, свежее пробуждение утром.\n\n🌙 **Схема приема**:\n• При тревожности: по 1 капсуле 2 раза в день.\n• Для глубокого сна: 1-2 капсулы за 45 минут до сна со стаканом теплой воды.\n\nЕсли препарат нужен ребенку — у нас есть детский сироп **ВАМЕЛАН КИДС**. Уточните, для кого подбираем?";
-        text_uz = "Sizni tushunaman. Doimiy stress va uyqusizlik asab tizimini toliqtiradi, kimyoviy tinchlantiruvchi dorilar esa o'rganib qolish va ertalab bosh og'rig'iga sabab bo'lishi mumkin.\n\n💡 **Tabiiy o'simlik yechimi**:\n**VAMELAN** fitomajmuasini tavsiya etaman — 100% tabiiy valeriana, yalpiz va melissa ekstraktlari jamlanmasi.\n• Miyadagi ortiqcha hayajonni bosadi, tomirlar siqilishini yozadi va xotirjamlik beradi.\n• Kunduzi uyqu keltirmaydi, ertalab esa tetik uyg'onishni ta'minlaydi.\n\n🌙 **Qanday ichiladi**:\n• Xotirjamlik uchun: kuniga 1 kapsuladan 2 marta.\n• Tinch uyqu uchun: uyqudan 45 daqiqa oldin 1-2 kapsula iliq suv bilan.\n\nAgar preparat bola uchun bo'lsa — **VAMELAN KIDS** tabiiy siropi bor. Kim uchun tanlayotganingizni ayta olasizmi?";
+      // 6. SLEEP, STRESS, ANXIETY
+      else if (q.includes('сон') || q.includes('уснуть') || q.includes('бессонниц') || q.includes('стресс') || q.includes('нерв') || q.includes('тревог') || q.includes('паник') || q.includes('uyqu') || q.includes('asab') || q.includes('siqilish') || q.includes('tinchlan')) {
+        matched = [getProd('vamelan')].filter(Boolean);
+        text_ru = `При бессоннице и нервном напряжении лучше всего работает натуральный растительный фитокомплекс **ВАМЕЛАН** (валериана, мята и мелисса).
+
+Он успокаивает мысли, снимает спазм сосудов головы и помогает заснуть естественным, глубоким сном без тяжелой головы наутро.
+
+🌙 Принимайте 1-2 капсулы за 45 минут до сна с теплой водой.
+
+Вам тяжело именно уснуть с вечера или просыпаетесь среди ночи?`;
+        text_uz = `Uyqusizlik va asabiy zo'riqishda 100% tabiiy **VAMELAN** fitomajmuasi (valeriana, yalpiz va melissa) ajoyib ta'sir ko'rsatadi.
+
+U ortiqcha o'y-xayollarni tinchlantiradi, bosh tomirlari siqilishini yozadi va ertalab bosh og'rig'isiz tetik uyg'onishni ta'minlaydi.
+
+🌙 Yotishdan 45 daqiqa oldin 1-2 kapsulani iliq suv bilan iching.
+
+Uyquga ketish qiyinmi yoki tunda uyg'onib ketyapsizmi?`;
       }
 
-      // 7. IMMUNITY, COLDS & VITAMIN D (Иммунитет, простуда, грипп, витамин D, Сановит, Коледан)
-      else if (q.includes('иммун') || q.includes('простуд') || q.includes('грипп') || q.includes('витамин') || q.includes('сановит') || q.includes('коледан') || q.includes('d3') || q.includes('d-3') || q.includes('immunitet') || q.includes('shamollash') || q.includes('gripp') || q.includes('d kalsin') || q.includes('d-kal')) {
-        matched = [this.products.find(p => p.id === 'koledan-drops'), this.products.find(p => p.id === 'sanovit'), this.products.find(p => p.id === 'd-calcin')].filter(Boolean);
-        text_ru = "Защита иммунитета — это основа активной жизни! Особенно в межсезонье наш организм испытывает дефицит солнечного витамина D3 и ключевых минералов (цинк, селен, витамины группы B).\n\n💡 **Золотой стандарт иммунной защиты от World Medicine**:\n1. **КОЛЕДАН (Витамин D3 50 000 МЕ)** — масляная форма с максимальной биодоступностью. Быстро восполняет дефицит, укрепляет защитный барьер легких и костную систему.\n2. **САНОВИТ** — сбалансированный поливитаминный комплекс для всей семьи с приятным апельсиновым вкусом.\n\n☀️ Принимайте витамин D утром во время еды, содержащей полезные жиры (масло, яйца, авокадо) — так он усваивается на 100%!\n\nВы хотите укрепить иммунитет профилактически или после перенесенной простуды?";
-        text_uz = "Immunitetni himoya qilish — sog'lom va faol hayot garovidir! Ayniqsa mavsum almashganda organizmda D3 vitamini va muhim minerallar (rux, selen, B guruhi vitaminlari) tanqisligi yuzaga keladi.\n\n💡 **World Medicine immunitet standarti**:\n1. **KOLEDAN (Vitamin D3 50 000 XB)** — maksimal singuvchan moyli tomchilar. D vitamini yetishmovchiligini tezda to'ldiradi, o'pka va suyaklarni mustahkamlaydi.\n2. **SANOVIT** — butun oila uchun yoqimli apelsin ta'mli polivitamin majmuasi.\n\n☀️ D vitaminini ertalab yog'liroq ovqat (sariyog', tuxum) bilan ichish tavsiya etiladi — shunda u 100% so'riladi!\n\nImmunitetni profilaktika uchun mustahkamlamoqchimisiz yoki shamollashdan keyinmi?";
+      // 7. IMMUNITY & VITAMINS
+      else if (q.includes('иммун') || q.includes('простуд') || q.includes('грипп') || q.includes('витамин') || q.includes('d3') || q.includes('d-3') || q.includes('immunitet') || q.includes('shamollash') || q.includes('gripp')) {
+        matched = [getProd('koledan-drops'), getProd('sanovit')].filter(Boolean);
+        text_ru = `Для крепкого иммунитета ключевую роль играют витамин D3 и базовые микроэлементы.
+
+Рекомендую:
+1. **КОЛЕДАН (D3 50 000 МЕ)** — восполняет дефицит солнечного витамина, усиливает защитные барьеры организма.
+2. **САНОВИТ** — мультивитаминный сироп для укрепления тонуса всей семьи.
+
+☀️ Витамин D лучше принимать утром во время завтрака с полезными жирами (масло, сыр, яйцо).
+
+Хотите укрепить иммунитет для профилактики или после болезни?`;
+        text_uz = `Kuchli immunitet uchun eng muhimi D3 vitamini va asosiy mikroelementlardir.
+
+Tavsiya qilaman:
+1. **KOLEDAN (D3 50 000 XB)** — immunitet himoya to'sig'ini kuchaytiradi.
+2. **SANOVIT** — butun oila uchun quvvat va immunitet siropi.
+
+☀️ D vitaminini ertalab yog'liroq nonushta bilan ichish ma'qul.
+
+Profilaktika uchunmi yoki kasallikdan keyin tiklanishgami?`;
       }
 
-      // 8. STOMACH, DIGESTION, LIVER & HEARTBURN (Желудок, изжога, пищеварение, печень, вздутие)
-      else if (q.includes('желуд') || q.includes('изжог') || q.includes('живот') || q.includes('гастро') || q.includes('печен') || q.includes('вздути') || q.includes('диаре') || q.includes('oshqozon') || q.includes('hazm') || q.includes("jig'ildon") || q.includes("jig'ildon") || q.includes('jigar') || q.includes('ich qotish')) {
-        matched = this.products.filter(p => p.category_id === 'gastro');
-        if (!matched.length) matched = [this.products.find(p => p.id === 'sanovit')].filter(Boolean);
-        text_ru = "Проблемы с пищеварением (тяжесть, вздутие, изжога) напрямую влияют на самочувствие и уровень энергии, ведь 70% иммунитета формируется именно в кишечнике.\n\n💡 **Что мы рекомендуем**:\n• При изжоге и повышенной кислотности важно мягко обволакивать слизистую и нормализовать ферментативный баланс.\n• Для защиты клеток печени и улучшения оттока желчи применяются гепатопротекторные комплексы World Medicine.\n\n🍵 **Рекомендация по питанию**: старайтесь пить теплую воду за 20 минут до еды, избегайте холодных газированных напитков во время приема пищи.\n\nБеспокоит ли вас изжога после жирной пищи или постоянная тяжесть?";
-        text_uz = "Oshqozon va hazm qilishdagi bezovtalik (og'irlik, jig'ildon qaynashi, dam bo'lish) umumiy kayfiyatga to'g'ridan-to'g'ri ta'sir qiladi, chunki immunitetning 70% ichaklarda shakllanadi.\n\n💡 **Bizning tavsiyalarimiz**:\n• Jig'ildon qaynashida me'da shilliq qavatini himoya qilish va kislotalilikni me'yorlashtirish zarur.\n• Jigar hujayralarini tozalash va o't haydash uchun World Medicine gepatoprotektor vositalari tavsiya etiladi.\n\n🍵 **Foydali maslahat**: ovqatdan 20 daqiqa oldin iliq suv iching, ovqatlanish paytida sovuq gazlangan ichimliklardan saqlaning.\n\nSizda og'irlik ko'proq yog'li ovqatdan keyin bo'ladimi?";
+      // 8. BEAUTY: HAIR, SKIN, NAILS
+      else if (q.includes('волос') || q.includes('кожа') || q.includes('ногти') || q.includes('выпаден') || q.includes('красот') || q.includes('морщин') || q.includes('коллаген') || q.includes('teri') || q.includes('soch') || q.includes('tirnoq') || q.includes("go'zal") || q.includes('ajin')) {
+        matched = [getProd('polijen'), getProd('d-calcin')].filter(Boolean);
+        text_ru = `Красота волос, кожи и ногтей идет изнутри. Когда волосам не хватает питания, а коже — упругости, идеально помогает сочетание:
+
+• **ПОЛИЖЕН** — содержит коэнзим Q10, маточное молочко и цинк, которые стимулируют синтез коллагена и укрепляют волосяные луковицы.
+• **Д-КАЛЬЦИН** — укрепляет ногти и предотвращает их ломкость.
+
+Курс приема — 1 месяц. Уже через 2 недели волосы становятся заметно гуще и меньше выпадают.
+
+Беспокоит больше выпадение волос или сухость кожи?`;
+        text_uz = `Soch, teri va tirnoqlar go'zalligi organizmning ichki oziqlanishiga bog'liq.
+
+Eng yaxshi natija beruvchi juftlik:
+• **POLIJEN** — koenzim Q10, ona ari suti va rux moddasi bilan kollagen ishlab chiqarishni kuchaytiradi va soch to'kilishini to'xtatadi.
+• **D-KALSIN** — tirnoqlarni qatlamlanishdan saqlaydi.
+
+1 oylik kursdan so'ng sochlar qalinlashib, yuzingiz tiniqlashadi.
+
+Sizda ko'proq soch to'kilishimi yoki teri quruqligimi?`;
       }
 
-      // 9. BEAUTY: HAIR, SKIN, NAILS & COLLAGEN (Волосы, кожа, ногти, красота, морщины)
-      else if (q.includes('волос') || q.includes('кожа') || q.includes('ногти') || q.includes('красот') || q.includes('морщин') || q.includes('коллаген') || q.includes('teri') || q.includes('soch') || q.includes('tirnoq') || q.includes("go'zal") || q.includes("go'zal") || q.includes('ajin')) {
-        matched = [this.products.find(p => p.id === 'polijen'), this.products.find(p => p.id === 'd-calcin')].filter(Boolean);
-        text_ru = "Истинная красота кожи, пышность волос и прочность ногтей всегда начинаются изнутри — с питания клеток и синтеза собственного коллагена.\n\n💡 **Идеальный бьюти-дуэт**:\n1. **ПОЛИЖЕН** — содержит коэнзим Q10, маточное молочко и антиоксиданты, которые защищают клетки кожи от фотостарения, останавливают выпадение волос и возвращают лицу здоровое сияние.\n2. **Д-КАЛЬЦИН** — укрепляет ногтевую пластину, предотвращает ломкость и делает зубную эмаль белоснежной.\n\n💧 **Секрет косметолога**: сочетайте прием с 1.5 л чистой воды в день для максимального тургора кожи!\n\nБеспокоит ли вас выпадение волос или сухость кожи?";
-        text_uz = "Teri jilosi, sochlarning qalinligi va tirnoqlar mustahkamligi doimo ichki oziqlanish va kollagen sinteziga bog'liqdir.\n\n💡 **Go'zallik uchun a'lo juftlik**:\n1. **POLIJEN** — koenzim Q10, ona ari suti va antioksidantlar bilan terini yoshartiradi, soch to'kilishini to'xtatadi va yuzga tabiiy tiniqlik bag'ishlaydi.\n2. **D-KALSIN** — tirnoqlarni qatlamlanishdan saqlaydi, sochlarni mustahkam qiladi.\n\n💧 **Kosmetolog siri**: natijani kuchaytirish uchun kuniga 1.5 litr toza suv iching!\n\nSizda ko'proq soch to'kilishi bezovta qilyaptimi yoki teri quruqligimi?";
+      // 9. KIDS & PREGNANCY / MOMS
+      else if (q.includes('дет') || q.includes('ребенок') || q.includes('малыш') || q.includes('школ') || q.includes('памят') || q.includes('аппетит') || q.includes('bola') || q.includes('farzand') || q.includes('maktab') || q.includes('ishtaha')) {
+        matched = [getProd('vamelan-kids'), getProd('sanovit'), getProd('d-calcin')].filter(Boolean);
+        text_ru = `Для детей у нас есть сертифицированные детские формы с приятным вкусом: 👶
+
+• **Сановит** — вкусный сироп для памяти, аппетита и крепкого иммунитета.
+• **Вамелан Кидс** — фитосироп на травах при гиперактивности, капризах и тревожном сне.
+• **Д-Кальцин** — гранулы с кальцием и D3 для здоровых зубок и роста костей.
+
+Сколько лет ребенку? Подскажу точную дозировку.`;
+        text_uz = `Bolalar uchun yoqimli ta'mga ega maxsus sertifikatlangan vositalarimiz bor: 👶
+
+• **Sanovit** — ishtaha, xotira va immunitet uchun polivitamin siropi.
+• **Vamelan Kids** — tinch uyqu va asabiylikni kamaytirish uchun tabiiy fitosirop.
+• **D-Kalsin** — suyaklar va tishlar mustahkamligi uchun kalsiy granulalari.
+
+Farzandingiz necha yoshda? Yoshi bo'yicha aniq me'yorni aytib beraman.`;
       }
 
-      // 10. CHILDREN & MOTHERS (Дети, ребенок, рост, память в школе, ребенок капризничает)
-      else if (q.includes('дет') || q.includes('ребенок') || q.includes('малыш') || q.includes('школ') || q.includes('памят') || q.includes('bola') || q.includes('farzand') || q.includes('maktab') || q.includes('xotira')) {
-        matched = [this.products.find(p => p.id === 'vamelan-kids'), this.products.find(p => p.id === 'sanovit'), this.products.find(p => p.id === 'd-calcin')].filter(Boolean);
-        text_ru = "Здоровье и правильное развитие ребенка — самый важный приоритет каждого родителя! 👶\n\n💡 **Что мы подготовили для детей**:\n• **ВАМЕЛАН КИДС** — мягкий сироп на травах при гиперактивности, капризах, адаптации к садику и беспокойном сне.\n• **САНОВИТ** — витаминно-минеральный сироп для укрепления памяти, иммунитета и аппетита школьника.\n• **Д-КАЛЬЦИН** — гранулы с кальцием и витамином D3 для правильного роста костей и крепких зубов.\n\nСколько лет вашему ребенку? Я с удовольствием подскажу точную дозировку по возрасту!";
-        text_uz = "Farzandning sog'lom va barkamol o'sishi har bir ota-onaning eng katta orzusidir! 👶\n\n💡 **Bolalar salomatligi uchun vositalar**:\n• **VAMELAN KIDS** — bolalardagi asabiylik, maktabga moslashish va tinch uyqu uchun shirin ta'mli tabiiy fitosirop.\n• **SANOVIT** — bolaning xotirasi, ishtahasi va darmonini oshiruvchi vitaminlar majmuasi.\n• **D-KALSIN** — suyaklar to'g'ri o'sishi va mustahkam tishlar uchun kalsiy va D3 granulalari.\n\nFarzandingiz necha yoshda? Yoshi bo'yicha aniq dozirovkani aytib beraman!";
-      }
-
-            // 10.5. INSTAGRAM & SOCIAL CHANNELS (Инстаграм, соцсети, контакты)
-      else if (q.includes('инстаграм') || q.includes('instagram') || q.includes('соцсет') || q.includes('канал') || q.includes('profil') || q.includes('sahifa')) {
-        text_ru = "Подписывайтесь на наш официальный профиль в Instagram: **[@evro_farm_biznes](https://www.instagram.com/evro_farm_biznes)** 📸\n\nТам мы регулярно публикуем полезные советы нутрициологов и экспертов, видеообзоры составов, акции и информацию о новинках World Medicine. Будем рады видеть вас среди наших подписчиков!";
-        text_uz = "Rasmiy Instagram sahifamizga obuna bo'ling: **[@evro_farm_biznes](https://www.instagram.com/evro_farm_biznes)** 📸\n\nU yerda mutaxassislarimizning foydali maslahatlari, tarkiblar tahlili, aksiyalar va World Medicine yangiliklari muntazam e'lon qilib boriladi!";
+      // 10. DELIVERY & PURCHASE
+      else if (q.includes('доставк') || q.includes('заказ') || q.includes('купит') || q.includes('цена') || q.includes('стои') || q.includes('yetkaz') || q.includes('buyurtma') || q.includes('narx') || q.includes('qancha')) {
         matched = this.featuredProducts.slice(0, 2);
+        text_ru = `Все препараты в наличии, 100% оригинал от производителя World Medicine. 📦
+
+• **Доставка по Ташкенту**: курьером за 2-4 часа прямо в руки.
+• **По всему Узбекистану**: быстрая экспресс-доставка через Uzum за 1 день.
+• **Оплата**: при получении наличными или картой (Humo / Uzcard / Click / Payme).
+
+Вы можете нажать кнопку «В корзину» под препаратом или оставить номер телефона, и мы все оформим за вас!`;
+        text_uz = `Barcha preparatlarimiz mavjud, World Medicine kompaniyasining 100% original mahsulotlari. 📦
+
+• **Toshkent bo'ylab**: kuryer orqali 2-4 soatda yetkaziladi.
+• **O'zbekiston bo'ylab**: Uzum orqali 1 kunda yetkazib berish.
+• **To'lov**: qabul qilganda naqd yoki karta orqali (Humo / Uzcard / Click / Payme).
+
+Mahsulot ostidagi «Savat» tugmasini bosishingiz yoki telefon raqamingizni qoldirishingiz mumkin!`;
       }
 
-      // 11. PRICE, DELIVERY & ORDERING (Цена, как купить, доставка, оплата)
-      else if (q.includes('цен') || q.includes('скольк') || q.includes('стои') || q.includes('доставк') || q.includes('заказ') || q.includes('купит') || q.includes('narx') || q.includes('qancha') || q.includes('yetkaz') || q.includes('buyurtma') || q.includes('sotib')) {
-        matched = this.featuredProducts.slice(0, 2);
-        text_ru = "Все наши препараты являются 100% оригинальной продукцией World Medicine с европейской сертификацией качества.\n\n🚚 **Условия доставки по Узбекистану**:\n• **По Ташкенту**: доставка курьером прямо до двери за 2-4 часа (при заказе от 200 000 сум — **БЕСПЛАТНО**!).\n• **По регионам Узбекистана**: надежная экспресс-доставка через почту / курьерские службы за 1-2 дня.\n• **Оплата**: наличными при получении, картами Uzcard / Humo или через Payme / Click.\n\nВы можете добавить нужный препарат в корзину прямо из этого чата по кнопке «Купить» или оставить свой номер телефона, и наш специалист оформит доставку за вас!";
-        text_uz = "Barcha preparatlarimiz 100% original bo'lib, Yevropa sifat standartlariga muvofiq sertifikatlangan.\n\n🚚 **O'zbekiston bo'ylab yetkazib berish**:\n• **Toshkent shahrida**: kuryer orqali eshikkacha 2-4 soat ichida (200 000 so'mdan yuqori buyurtmalarda — **BEPUL**!).\n• **Viloyatlarga**: 1-2 kun ichida ekspress pochta orqali xavfsiz yetkaziladi.\n• **To'lov**: qabul qilganda naqd, Uzcard / Humo yoki Payme / Click orqali.\n\nSiz xohlagan mahsulotni shu yerdan «Savat» tugmasi orqali qo'shishingiz yoki telefon raqamingizni qoldirishingiz mumkin!";
-      }
-
-      // 12. GENERAL EMPATHETIC CLINICAL CONSULTATION (Любые другие вопросы)
+      // 11. GENERAL SMART HUMAN MATCHING
       else {
-        matched = this.featuredProducts.slice(0, 2);
-        text_ru = `Спасибо за ваш вопрос! Я внимательно проанализировал ваш запрос по теме «${query.trim()}».\n\nВ каталоге World Medicine представлены оригинальные европейские формулы, направленные на бережное восстановление ресурсов организма.\n\nДля детальной рекомендации я подобрал ключевые препараты с доказанной эффективностью. Если вы уточните свой возраст или характер симптомов — я распишу индивидуальный курс приема!`;
-        text_uz = `Savolingiz uchun rahmat! «${query.trim()}» bo'yicha so'rovingizni ko'rib chiqdim.\n\nWorld Medicine katalogida organizm quvvatini tiklovchi original Yevropa sifatidagi preparatlar jamlangan.\n\nSiz uchun eng samarali va xavfsiz vositalarni tavsiya qilaman. Agar yoshingiz yoki alomatlaringizni aniqlashtirsangiz — sizga mos individual qabul qilish kursini tuzib beraman!`;
+        const found = this.products.find(p => 
+          p.name_ru.toLowerCase().includes(q) || 
+          p.description_ru.toLowerCase().includes(q) || 
+          p.indications_ru.toLowerCase().includes(q) ||
+          p.pharm_group_ru.toLowerCase().includes(q)
+        );
+
+        if (found) {
+          matched = [found];
+          text_ru = `По вашему запросу отлично подходит **${found.name_ru}** (${found.pharm_group_ru}).
+
+💡 **В чем его польза**: ${found.description_ru.slice(0, 180)}...
+
+🕒 **Как принимать**: ${found.usage_ru}
+
+Хотите уточнить подробнее о составе или оформить заказ?`;
+          text_uz = `So'rovingiz bo'yicha **${found.name_uz}** (${found.pharm_group_uz}) juda mos keladi.
+
+💡 **Foydasi**: ${found.description_uz.slice(0, 180)}...
+
+🕒 **Qanday ichiladi**: ${found.usage_uz}
+
+Tarkibi haqida batafsil bilmoqchimisiz yoki buyurtma berasizmi?`;
+        } else {
+          matched = [getProd('polijen'), getProd('sanovit')].filter(Boolean);
+          text_ru = `Поняла вас. Чтобы подобрать самый точный и эффективный комплекс, уточните, пожалуйста: какую главную задачу мы хотим решить — вернуть энергию, укрепить суставы, наладить сон, поддержать иммунитет или что-то другое?
+
+Я сразу распишу правильный состав и схему приема!`;
+          text_uz = `Sizni tushundim. Eng mos va samarali majmuani tanlash uchun ayting-chi: qaysi asosiy natijaga erishmoqchimiz — quvvatni oshirish, bo'g'imlarni davolash, uyquni yaxshilash yoki immunitetni mustahkamlashmi?
+
+Darhol kerakli tarkib va qabul qilish tartibini yozib beraman!`;
+        }
       }
 
-      // Append callback notification if phone was provided
       if (phone) {
-        text_ru += `\n\n📞 **Заявка принята!** Наш ведущий фармацевт перезвонит на номер **${phone}** в течение 10-15 минут для персональной консультации и уточнения адреса доставки.`;
-        text_uz += `\n\n📞 **Qabul qilindi!** Bosh farmatsevtimiz **${phone}** raqamingizga 10-15 daqiqa ichida qo'ng'iroq qilib, batafsil maslahat beradi va manzilni tasdiqlaydi.`;
+        text_ru += `
+
+📞 Номер **${phone}** записан! Наш специалист свяжется с вами в течение 10-15 минут для консультации и подтверждения заказа.`;
+        text_uz += `
+
+📞 **${phone}** raqamingiz qabul qilindi! Mutaxassisimiz 10-15 daqiqa ichida qo'ng'iroq qilib, buyurtmani tasdiqlaydi.`;
       }
 
       return { text_ru, text_uz, products: matched.slice(0, 2) };

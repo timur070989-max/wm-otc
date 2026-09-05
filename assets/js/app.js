@@ -910,12 +910,72 @@ document.addEventListener('alpine:init', () => {
       this.isCheckoutModalOpen = true;
     },
 
-    submitOrder() {
+    // Telegram Bot Configuration for Instant Order Notifications
+    telegramBot: {
+      token: '', // Вставьте токен бота (например: '7123456789:AAH..._xyz')
+      chatId: '', // Вставьте ID чата или группы (например: '123456789' или '-1001234567890')
+    },
+    isSubmittingOrder: false,
+
+    async submitOrder() {
       if (!this.checkout.name || !this.checkout.phone || this.checkout.phone.length < 9) {
         alert(this.lang === 'uz' ? "Iltimos, ism va telefon raqamingizni kiriting" : "Пожалуйста, укажите имя и контактный телефон");
         return;
       }
 
+      if (this.cart.length === 0) return;
+      this.isSubmittingOrder = true;
+
+      // 1. Generate Structured Telegram Order Report
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      
+      const isUz = this.lang === 'uz';
+      let message = `🛍 <b>${isUz ? 'YANGI BUYURTMA' : 'НОВЫЙ ЗАКАЗ'} — World Medicine OTC</b>\n`;
+      message += `📅 <i>${timeStr}</i>\n\n`;
+      
+      message += `👤 <b>${isUz ? 'Mijoz' : 'Клиент'}:</b> ${this.checkout.name}\n`;
+      message += `📞 <b>${isUz ? 'Telefon' : 'Телефон'}:</b> <code>${this.checkout.phone}</code>\n`;
+      message += `📍 <b>${isUz ? 'Manzil' : 'Адрес доставки'}:</b> ${this.checkout.city || 'Toshkent'}, ${this.checkout.address || (isUz ? 'Aniqlanadi' : 'Уточняется')}\n\n`;
+
+      message += `🛒 <b>${isUz ? 'Buyurtma tarkibi' : 'Состав заказа'}:</b>\n`;
+      this.cart.forEach((item, index) => {
+        const name = isUz ? item.name_uz : item.name_ru;
+        const dosage = isUz ? item.dosage_uz : item.dosage_ru;
+        const itemTotal = this.formatPrice(item.price * item.quantity);
+        message += `${index + 1}. <b>${name}</b> (${dosage})\n`;
+        message += `   └ ${item.quantity} шт × ${this.formatPrice(item.price)} = <b>${itemTotal}</b>\n`;
+      });
+
+      const finalTotal = this.isFreeDeliveryEligible ? this.cartTotal : this.cartTotal + 25000;
+      message += `\n🚚 <b>${isUz ? 'Yetkazib berish' : 'Доставка'}:</b> ${this.isFreeDeliveryEligible ? (isUz ? 'Bepul (Uzum 1-Day)' : 'Бесплатно (Uzum 1-Day)') : '25 000 сум'}\n`;
+      message += `💰 <b>${isUz ? 'JAMI TO\'LOV' : 'ИТОГО К ОПЛАТЕ'}:</b> <b>${this.formatPrice(finalTotal)}</b>\n`;
+      message += `🌐 <i>Manba: wm-otc online platform</i>`;
+
+      // 2. If Bot Token is configured, send via Telegram Bot API
+      if (this.telegramBot.token && this.telegramBot.chatId) {
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${this.telegramBot.token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: this.telegramBot.chatId,
+              text: message,
+              parse_mode: 'HTML'
+            })
+          });
+          const data = await res.json();
+          if (!data.ok) {
+            console.error('Telegram Bot API error:', data);
+          }
+        } catch (err) {
+          console.error('Failed to send order via Telegram Bot:', err);
+        }
+      } else {
+        console.log('Order generated (Telegram bot token pending):', message);
+      }
+
+      this.isSubmittingOrder = false;
       this.isCheckoutModalOpen = false;
       this.isOrderSuccessModalOpen = true;
       this.clearCart();

@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=67.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=68.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=67.0"></script>
-  <script src="assets/js/app.js?v=67.0"></script>
+  <script src="assets/js/products-data.js?v=68.0"></script>
+  <script src="assets/js/app.js?v=68.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=67.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=68.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -1316,13 +1316,12 @@
       class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#001f66] via-[#0032a0] to-[#0052cc] hover:from-[#00174c] hover:to-[#002275] text-white shadow-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none ring-4 ring-[#0032a0]/25 relative cursor-pointer group"
       :title="lang === 'uz' ? 'World Medicine AI Maslahatchi' : 'ИИ-Консультант World Medicine'"
     >
-      <!-- Chat Icon when closed -->
+      <!-- 3D Character Face Avatar when closed -->
       <template x-if="!isChatOpen">
-        <div class="flex items-center justify-center">
-          <i data-lucide="bot" class="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2] group-hover:scale-110 transition-transform text-white"></i>
-          <!-- Unread Notification Pulse Dot -->
-          <span class="absolute -top-1 -right-1 w-4 h-4 bg-wmCyan-400 border-2 border-white rounded-full animate-ping"></span>
-          <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[9px] font-bold text-white">AI</span>
+        <div class="w-full h-full rounded-full overflow-hidden p-0.5 relative flex items-center justify-center">
+          <img src="assets/img/ai-avatar.png?v=68.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
+          <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full"></span>
+          <span class="absolute -top-1 -right-1 w-5 h-5 bg-[#0032a0] border-2 border-white rounded-full flex items-center justify-center text-[9px] font-black text-white shadow-xs">AI</span>
         </div>
       </template>
       
@@ -1352,9 +1351,7 @@
 
       <div class="flex items-center gap-3 relative z-10">
         <div class="relative">
-          <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center shrink-0 shadow-inner">
-            <i data-lucide="sparkles" class="w-5 h-5 text-wmCyan-300"></i>
-          </div>
+          <img src="assets/img/ai-avatar.png?v=68.0" alt="World Medicine Консультант" class="w-10 h-10 rounded-2xl object-cover border-2 border-white/40 shadow-inner">
           <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#001f66] rounded-full"></span>
         </div>
         <div>
@@ -1393,11 +1390,9 @@
       <template x-for="msg in chatMessages" :key="msg.id">
         <div :class="msg.sender === 'user' ? 'flex flex-col items-end' : 'flex items-start gap-2.5'">
           
-          <!-- AI Corporate Avatar Badge -->
+          <!-- AI Character Face Avatar -->
           <template x-if="msg.sender === 'ai'">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#001f66] to-[#0032a0] text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5 border border-blue-300/40">
-              <i data-lucide="sparkles" class="w-4 h-4 text-wmCyan-300"></i>
-            </div>
+            <img src="assets/img/ai-avatar.png?v=68.0" alt="World Medicine Консультант" class="w-8 h-8 rounded-full object-cover shrink-0 mt-0.5 border border-blue-300/40 shadow-xs">
           </template>
 
           <!-- Message Bubble Content -->

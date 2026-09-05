@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=51.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=52.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,8 +63,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=51.0"></script>
-  <script src="assets/js/app.js?v=51.0"></script>
+  <script src="assets/js/products-data.js?v=52.0"></script>
+  <script src="assets/js/app.js?v=52.0"></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -81,11 +81,15 @@
         </span>
         <span class="text-slate-200 truncate font-medium" x-text="lang === 'uz' ? 'O\'zbekiston bo\'ylab Uzum orqali 1 kunda bepul yetkazib berish' : 'Бесплатная экспресс-доставка по всему Узбекистану через Uzum за 1 день'"></span>
       </div>
-      <div class="hidden md:flex items-center gap-5 shrink-0 text-slate-200 font-medium">
+      <div class="hidden md:flex items-center gap-4 lg:gap-5 shrink-0 text-slate-200 font-medium text-[11px] sm:text-xs">
         <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
           <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-          <span x-text="lang === 'uz' ? 'Halol & GMP Sertifikatlangan' : '100% Халяль & GMP Сертификат'"></span>
+          <span x-text="lang === 'uz' ? 'Halol & GMP' : 'Халяль & GMP'"></span>
         </span>
+        <a href="https://www.instagram.com/evro_farm_biznes" target="_blank" class="flex items-center gap-1.5 text-pink-300 hover:text-white transition-colors font-semibold">
+          <i data-lucide="instagram" class="w-3.5 h-3.5 text-pink-400"></i>
+          <span>@evro_farm_biznes</span>
+        </a>
         <a href="tel:+998712000000" class="flex items-center gap-1.5 hover:text-white transition-colors">
           <i data-lucide="phone" class="w-3.5 h-3.5 text-[#3bbdd2]"></i>
           <span class="font-semibold">+998 (71) 200-00-00</span>
@@ -205,9 +209,18 @@
           <i data-lucide="pill" class="w-4 h-4 text-[#0032a0]"></i>
           <span x-text="lang === 'uz' ? 'Mahsulotlar katalogi' : 'Каталог БАД'"></span>
         </a>
-        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 px-3">
-          <span>Горячая линия:</span>
-          <a href="tel:+998712000000" class="font-bold text-[#001f66] hover:text-[#0032a0]">+998 (71) 200-00-00</a>
+        <div class="pt-2 border-t border-slate-100 space-y-1.5 px-3">
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <span>Instagram:</span>
+            <a href="https://www.instagram.com/evro_farm_biznes" target="_blank" class="font-bold text-pink-600 hover:text-pink-700 flex items-center gap-1">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+              @evro_farm_biznes
+            </a>
+          </div>
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <span>Горячая линия:</span>
+            <a href="tel:+998712000000" class="font-bold text-[#001f66] hover:text-[#0032a0]">+998 (71) 200-00-00</a>
+          </div>
         </div>
       </div>
 
@@ -1574,6 +1587,10 @@
             <li class="flex items-center gap-2">
               <i data-lucide="phone" class="w-3.5 h-3.5 text-wmCyan-400"></i>
               <span>+998 (71) 200-00-00</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="instagram" class="w-3.5 h-3.5 text-pink-400"></i>
+              <a href="https://www.instagram.com/evro_farm_biznes" target="_blank" class="hover:text-pink-300 transition-colors font-semibold text-pink-300">@evro_farm_biznes</a>
             </li>
             <li class="flex items-center gap-2">
               <i data-lucide="send" class="w-3.5 h-3.5 text-sky-400"></i>

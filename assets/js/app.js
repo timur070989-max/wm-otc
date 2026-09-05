@@ -315,6 +315,13 @@ document.addEventListener('alpine:init', () => {
         text_uz = "Farzandning sog'lom va barkamol o'sishi har bir ota-onaning eng katta orzusidir! 👶\n\n💡 **Bolalar salomatligi uchun vositalar**:\n• **VAMELAN KIDS** — bolalardagi asabiylik, maktabga moslashish va tinch uyqu uchun shirin ta'mli tabiiy fitosirop.\n• **SANOVIT** — bolaning xotirasi, ishtahasi va darmonini oshiruvchi vitaminlar majmuasi.\n• **D-KALSIN** — suyaklar to'g'ri o'sishi va mustahkam tishlar uchun kalsiy va D3 granulalari.\n\nFarzandingiz necha yoshda? Yoshi bo'yicha aniq dozirovkani aytib beraman!";
       }
 
+            // 10.5. INSTAGRAM & SOCIAL CHANNELS (Инстаграм, соцсети, контакты)
+      else if (q.includes('инстаграм') || q.includes('instagram') || q.includes('соцсет') || q.includes('канал') || q.includes('profil') || q.includes('sahifa')) {
+        text_ru = "Подписывайтесь на наш официальный профиль в Instagram: **[@evro_farm_biznes](https://www.instagram.com/evro_farm_biznes)** 📸\n\nТам мы регулярно публикуем полезные советы врачей, видеообзоры составов, акции и информацию о новинках World Medicine. Будем рады видеть вас среди наших подписчиков!";
+        text_uz = "Rasmiy Instagram sahifamizga obuna bo'ling: **[@evro_farm_biznes](https://www.instagram.com/evro_farm_biznes)** 📸\n\nU yerda shifokorlarimizning foydali maslahatlari, tarkiblar tahlili, aksiyalar va World Medicine yangiliklari muntazam e'lon qilib boriladi!";
+        matched = this.featuredProducts.slice(0, 2);
+      }
+
       // 11. PRICE, DELIVERY & ORDERING (Цена, как купить, доставка, оплата)
       else if (q.includes('цен') || q.includes('скольк') || q.includes('стои') || q.includes('доставк') || q.includes('заказ') || q.includes('купит') || q.includes('narx') || q.includes('qancha') || q.includes('yetkaz') || q.includes('buyurtma') || q.includes('sotib')) {
         matched = this.featuredProducts.slice(0, 2);

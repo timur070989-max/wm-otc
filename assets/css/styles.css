@@ -492,3 +492,33 @@ h1, h2, h3, h4, .font-display {
   background: rgba(255, 255, 255, 0.18) !important;
   color: #80e5ff !important;
 }
+
+/* Circular Floating Avatar Laser Glow Ring */
+.studio-glow-avatar {
+  position: relative;
+  border-radius: 9999px;
+  border: 2.5px solid transparent;
+  background: 
+    linear-gradient(#00174c, #001f66) padding-box,
+    conic-gradient(
+      from var(--glow-angle),
+      rgba(203, 213, 225, 0.6) 0deg,
+      rgba(59, 189, 210, 0.95) 60deg,
+      #ffffff 90deg,
+      rgba(128, 229, 255, 1) 130deg,
+      rgba(203, 213, 225, 0.6) 180deg,
+      rgba(59, 189, 210, 0.95) 240deg,
+      #ffffff 270deg,
+      rgba(128, 229, 255, 1) 310deg,
+      rgba(203, 213, 225, 0.6) 360deg
+    ) border-box;
+  animation: wmBorderGlow 4s linear infinite;
+  box-shadow: 0 10px 30px -4px rgba(0, 23, 76, 0.5), 0 0 16px rgba(59, 189, 210, 0.45);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.studio-glow-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 14px 36px -4px rgba(0, 23, 76, 0.6), 0 0 24px rgba(59, 189, 210, 0.65);
+  animation-duration: 2.5s;
+}

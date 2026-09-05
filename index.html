@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=70.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=71.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=70.0"></script>
-  <script src="assets/js/app.js?v=70.0"></script>
+  <script src="assets/js/products-data.js?v=71.0"></script>
+  <script src="assets/js/app.js?v=71.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=70.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=71.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -432,7 +432,7 @@
         <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-6 reveal-on-scroll">
           <h2
             class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight"
-            x-text="lang === 'uz' ? 'Maqsadingizni tanlang — shaxsiy salomatlik va go\'zallik formulasini kashf eting' : 'Выберите вашу цель — откройте персональную формулу здоровья и красоты'"
+            x-text="lang === 'uz' ? 'O\'z salomatlik va go\'zallik formulangizni toping' : 'Найдите свою формулу здоровья и красоты'"
           ></h2>
         </div>
 
@@ -1313,7 +1313,7 @@
   <div class="fixed bottom-6 right-6 z-50 flex items-center select-none">
     <button
       @click="toggleChat()"
-      class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#001f66] via-[#0032a0] to-[#0052cc] hover:from-[#00174c] hover:to-[#002275] text-white shadow-2xl relative transition-all duration-300 transform hover:scale-110 active:scale-95 focus:outline-none ring-4 ring-[#0032a0]/25 cursor-pointer group overflow-visible"
+      class="studio-glow-avatar w-14 h-14 sm:w-16 sm:h-16 rounded-full text-white relative cursor-pointer group overflow-visible focus:outline-none"
       :title="lang === 'uz' ? 'World Medicine AI Maslahatchi' : 'ИИ-Консультант World Medicine'"
     >
       <!-- 1. 3D Face Avatar (Visible when chat is closed) -->
@@ -1323,7 +1323,7 @@
       >
         <!-- Inner round avatar wrapper with overflow-hidden -->
         <div class="w-full h-full rounded-full overflow-hidden p-0.5 shadow-inner bg-gradient-to-tr from-[#001f66] to-[#0032a0] relative flex items-center justify-center">
-          <img src="assets/img/ai-avatar.png?v=70.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
+          <img src="assets/img/ai-avatar.png?v=71.0" alt="World Medicine Консультант" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300">
         </div>
         
         <!-- Online Green Status Indicator (Fully visible, not clipped) -->

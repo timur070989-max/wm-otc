@@ -1105,9 +1105,15 @@ document.addEventListener('alpine:init', () => {
     },
 
     scrollToCatalog() {
-      const el = document.getElementById('catalog-section');
+      const el = document.getElementById('products-catalog') || document.getElementById('catalog-section');
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        const headerOffset = 75;
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     },
 

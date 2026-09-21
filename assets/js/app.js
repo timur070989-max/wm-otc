@@ -408,14 +408,14 @@ document.addEventListener('alpine:init', () => {
         text_uz = "Bolalar uchun shirin va xavfsiz maxsus vositalarimiz bor:\n\n• **Sanovit** — ishtaha, xotira va immunitet siropi.\n• **Vamelan Kids** — tinch uyqu va xotirjamlik fitosiropi.\n• **D-Kalsin** — tishlar va suyaklar uchun kalsiy granulalari.\n\nFarzandingiz necha yoshda?";
       }
       else if (q.includes('доставк') || q.includes('заказ') || q.includes('купит') || q.includes('цена') || q.includes('стои') || q.includes('yetkaz') || q.includes('buyurtma') || q.includes('narx')) {
-        matched = this.featuredProducts.slice(0, 2);
+        matched = [];
         text_ru = "Все препараты в наличии, 100% оригинал World Medicine. 📦\n\n• **Доставка по Ташкенту**: курьером за 2–4 часа прямо до двери.\n• **По Узбекистану**: экспресс-доставка через Uzum за 1 день.\n• **Оплата**: при получении наличными или картой (Humo, Uzcard, Click, Payme).\n\nВы можете нажать кнопку «В корзину» или оставить номер телефона для оформления!";
         text_uz = "Barcha preparatlar mavjud, World Medicine original mahsulotlari. 📦\n\n• **Toshkent bo'ylab**: kuryer orqali 2-4 soatda yetkaziladi.\n• **O'zbekiston bo'ylab**: Uzum orqali 1 kunda yetkazib berish.\n• **To'lov**: qabul qilganda naqd yoki karta orqali (Humo, Uzcard, Click, Payme).\n\n«Savat» tugmasi orqali yoki telefon raqamingizni qoldirib buyurtma berishingiz mumkin!";
       }
       else if (q.match(/^(привет|здравствуй|салам|добрый|салом|assalomu|salom|hayrli|privet|hi|hello)/)) {
-        text_ru = "Здравствуйте! Рада общению с вами. 🌿\n\nНапишите, что именно вас беспокоит (например: суставы, упадок сил, бессонница, зрение, вены, пищеварение, иммунитет или уход за кожей и волосами). С удовольствием подберу подходящий комплекс!";
-        text_uz = "Assalomu alaykum! Siz bilan muloqotdan mamnunman. 🌿\n\nSizni nima bezovta qilayotganini yozing (masalan: bo'g'imlar, holsizlik, uyqusizlik, ko'rish, tomirlar, oshqozon, immunitet yoki soch-teri salomatligi). Sizga mos majmuani tanlab beraman!";
-        matched = [getProd('polijen'), getProd('sanovit')].filter(Boolean);
+        text_ru = "Здравствуйте! Рада общению с вами. 🌿\n\nНапишите, что именно вас беспокоит или какую задачу хотите решить (например: суставы, упадок сил, бессонница, зрение, вены, пищеварение, иммунитет или красота кожи и волос). Подберу нужный комплекс и подскажу, как правильно принимать!";
+        text_uz = "Assalomu alaykum! Siz bilan muloqotdan mamnunman. 🌿\n\nSizni nima bezovta qilayotganini yozing (masalan: bo'g'imlar, holsizlik, uyqusizlik, ko'rish, tomirlar, oshqozon, immunitet yoki soch-teri parvarishi). Sizga mos majmuani tanlab beraman!";
+        matched = [];
       }
       else if (q.includes('спасибо') || q.includes('благодар') || q.includes('рахмат') || q.includes('rahmat') || q.includes('понятно') || q.includes('хорошо') || q.includes('tushunarli')) {
         text_ru = "Всегда рада помочь! 😊\n\nГлавное — регулярность приема и стакан чистой воды. Если решите оформить заказ — пишите в любое время или добавляйте в корзину. Крепкого здоровья!";
@@ -436,7 +436,7 @@ document.addEventListener('alpine:init', () => {
           text_ru = "По вашему запросу отлично подходит **" + found.name_ru + "** (" + found.pharm_group_ru + ").\n\n💡 **В чем его польза**: " + found.description_ru.slice(0, 180) + "...\n\n🕒 **Как принимать**: " + found.usage_ru + "\n\nХотите уточнить подробнее о составе или оформить заказ?";
           text_uz = "So'rovingiz bo'yicha **" + found.name_uz + "** (" + found.pharm_group_uz + ") juda mos keladi.\n\n💡 **Foydasi**: " + found.description_uz.slice(0, 180) + "...\n\n🕒 **Qanday ichiladi**: " + found.usage_uz + "\n\nTarkibi haqida batafsil bilmoqchimisiz yoki buyurtma berasizmi?";
         } else {
-          matched = [getProd('polijen'), getProd('sanovit')].filter(Boolean);
+          matched = [];
           text_ru = "Поняла вас. Чтобы подобрать самый точный и эффективный комплекс, уточните, пожалуйста: какую главную задачу мы хотим решить — вернуть энергию, укрепить суставы, наладить сон, поддержать иммунитет, вены или пищеварение?\n\nЯ сразу распишу правильный состав и схему приема!";
           text_uz = "Sizni tushundim. Eng to'g'ri majmuani tanlash uchun ayting-chi: qaysi asosiy natijaga erishmoqchimiz — quvvatni oshirish, bo'g'imlar, uyqu, immunitet, tomirlar yoki hazm qilishmi?\n\nDarhol kerakli tarkib va qabul qilish tartibini yozib beraman!";
         }

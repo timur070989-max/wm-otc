@@ -20,6 +20,10 @@ document.addEventListener('alpine:init', () => {
     awards: typeof WM_AWARDS !== 'undefined' ? WM_AWARDS : [],
     certificates: typeof WM_CERTIFICATES !== 'undefined' ? WM_CERTIFICATES : [],
 
+    // Marketplaces & Purchase State
+    isMarketplaceModalOpen: false,
+    selectedMarketplaceProduct: null,
+
     // Cart & Wishlist
     cart: JSON.parse(localStorage.getItem('wm_cart') || '[]'),
     favorites: JSON.parse(localStorage.getItem('wm_favorites') || '[]'),
@@ -444,10 +448,10 @@ document.addEventListener('alpine:init', () => {
         text_ru = "Для деток у нас есть вкусные сертифицированные детские формы:\n\n• **Сановит** — сироп для аппетита, памяти и крепкого иммунитета.\n• **Вамелан Кидс** — фитосироп при капризах, гиперактивности и беспокойном сне.\n• **Д-Кальцин** — гранулы с кальцием для зубок и костей.\n\nСколько лет ребенку?";
         text_uz = "Bolalar uchun shirin va xavfsiz maxsus vositalarimiz bor:\n\n• **Sanovit** — ishtaha, xotira va immunitet siropi.\n• **Vamelan Kids** — tinch uyqu va xotirjamlik fitosiropi.\n• **D-Kalsin** — tishlar va suyaklar uchun kalsiy granulalari.\n\nFarzandingiz necha yoshda?";
       }
-      else if (q.includes('доставк') || q.includes('заказ') || q.includes('купит') || q.includes('цена') || q.includes('стои') || q.includes('yetkaz') || q.includes('buyurtma') || q.includes('narx')) {
+      else if (q.includes('доставк') || q.includes('заказ') || q.includes('купит') || q.includes('цена') || q.includes('стои') || q.includes('yetkaz') || q.includes('buyurtma') || q.includes('narx') || q.includes('market') || q.includes('маркет') || q.includes('узум') || q.includes('яндекс') || q.includes('uzum') || q.includes('yandex')) {
         matched = [];
-        text_ru = "Все препараты в наличии, 100% оригинал World Medicine. 📦\n\n• **Доставка по Ташкенту**: курьером за 2–4 часа прямо до двери.\n• **По Узбекистану**: экспресс-доставка через Uzum за 1 день.\n• **Оплата**: при получении наличными или картой (Humo, Uzcard, Click, Payme).\n\nВы можете нажать кнопку «В корзину» или оставить номер телефона для оформления!";
-        text_uz = "Barcha preparatlar mavjud, World Medicine original mahsulotlari. 📦\n\n• **Toshkent bo'ylab**: kuryer orqali 2-4 soatda yetkaziladi.\n• **O'zbekiston bo'ylab**: Uzum orqali 1 kunda yetkazib berish.\n• **To'lov**: qabul qilganda naqd yoki karta orqali (Humo, Uzcard, Click, Payme).\n\n«Savat» tugmasi orqali yoki telefon raqamingizni qoldirib buyurtma berishingiz mumkin!";
+        text_ru = "Вся оригинальная продукция World Medicine представлена на официальных маркетплейсах **Uzum Market** и **Яндекс Маркет**! 🛍️\n\n• **Доставка за 1 день**: в более чем 1000 пунктов выдачи или курьером прямо до двери.\n• **100% оригинал**: сертифицированные препараты с завода (стандарты GMP и Халяль).\n• **Оплата и рассрочка**: удобная оплата картой/наличными или беспроцентная рассрочка.\n\nНажмите кнопку маркетплейса на карточке любого препарата, чтобы сразу перейти к покупке!";
+        text_uz = "World Medicine barcha original mahsulotlari **Uzum Market** va **Yandex Market** rasmiy marketpleyslarida sotiladi! 🛍️\n\n• **1 kunda yetkazib berish**: 1000 dan ortiq topshirish punktlariga yoki kuryer orqali to'g'ridan-to'g'ri eshigingizgacha.\n• **100% asl nusxa kafolati**: GMP va Halol sertifikatiga ega Yevropa sifatidagi vositalar.\n• **To'lov va muddatli to'lov**: qabul qilganda naqd/karta bilan yoki foizsiz muddatli to'lovga xarid qilish imkoniyati.\n\nXarid qilish uchun katalogdagi preparat tugmasini bosing!";
       }
       else if (q.match(/^(ассалому|алейкум|салом|assalomu|salom|hayrli|привет|здравствуй|салам|добрый|privet|hi|hello)/) || q.includes('ассалому алейкум') || q.includes('assalomu alaykum')) {
         text_ru = "Здравствуйте! Рада общению с вами. 🌿\n\nНапишите, что именно вас беспокоит или какую задачу хотите решить (например: суставы, упадок сил, бессонница, зрение, вены, пищеварение, иммунитет или красота кожи и волос). Подберу нужный комплекс и подскажу, как правильно принимать!";
@@ -758,6 +762,30 @@ document.addEventListener('alpine:init', () => {
       if (product.uzum_url) return product.uzum_url;
       const cleanName = (product.name_ru || '').split('(')[0].trim();
       return `https://uzum.uz/ru/search?q=${encodeURIComponent(cleanName + ' world medicine')}`;
+    },
+
+    getYandexMarketUrl(product) {
+      if (!product) return 'https://market.yandex.uz';
+      if (product.yandex_url) return product.yandex_url;
+      const cleanName = (product.name_ru || '').split('(')[0].trim();
+      return `https://market.yandex.uz/search?text=${encodeURIComponent(cleanName + ' world medicine')}`;
+    },
+
+    getAptekaUrl(product) {
+      if (!product) return 'https://apteka.uz';
+      const cleanName = (product.name_ru || '').split('(')[0].trim();
+      return `https://apteka.uz/search?q=${encodeURIComponent(cleanName)}`;
+    },
+
+    openMarketplaceModal(product = null) {
+      this.selectedMarketplaceProduct = product;
+      this.isMarketplaceModalOpen = true;
+      this.$nextTick(() => this.refreshIcons());
+    },
+
+    closeMarketplaceModal() {
+      this.isMarketplaceModalOpen = false;
+      this.selectedMarketplaceProduct = null;
     },
 
     getProductBg(product) {

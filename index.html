@@ -54,7 +54,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=82.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=83.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -63,10 +63,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=82.0"></script>
-  <script src="assets/js/app.js?v=82.0"></script>
+  <script src="assets/js/products-data.js?v=83.0"></script>
+  <script src="assets/js/app.js?v=83.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=82.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=83.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -77,11 +77,11 @@
   <div class="bg-[#00174c] border-b border-[#002b80] text-white text-[11px] sm:text-xs py-2 px-4 relative z-50">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       <div class="flex items-center gap-2 overflow-hidden whitespace-nowrap">
-        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#3bbdd2]/20 border border-[#3bbdd2]/30 text-[#80e5ff] font-bold text-[10px] uppercase">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#3bbdd2] animate-pulse"></span>
-          Uzum 1-Day
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#7000FF]/40 border border-[#7000FF]/60 text-purple-200 font-bold text-[10px] uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Marketplaces
         </span>
-        <span class="text-slate-200 truncate font-medium" x-text="lang === 'uz' ? 'O\'zbekiston bo\'ylab Uzum orqali 1 kunda bepul yetkazib berish' : 'Бесплатная экспресс-доставка по всему Узбекистану через Uzum за 1 день'"></span>
+        <span class="text-slate-200 truncate font-medium" x-text="lang === 'uz' ? 'World Medicine mahsulotlari Uzum Market va Yandex Market\'da • 1 kunda yetkazib berish' : 'Официальные магазины на Uzum Market и Яндекс Маркет • Доставка за 1 день'"></span>
       </div>
       <div class="hidden md:flex items-center gap-5 shrink-0 text-slate-200 font-medium">
         <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
@@ -146,18 +146,15 @@
             >UZ</button>
           </div>
 
-          <!-- Cart Trigger Button: Solid Corporate Navy on White Header -->
+          <!-- Marketplaces Trigger Button -->
           <button 
-            @click="isCartOpen = true" 
-            class="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-[#001f66] hover:bg-[#0032a0] text-white text-xs sm:text-base font-black tracking-tight shadow-md hover:shadow-lg transition-all transform active:scale-95 cursor-pointer"
+            @click="openMarketplaceModal(null)" 
+            class="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-gradient-to-r from-[#7000FF] to-[#001f66] hover:opacity-95 text-white text-xs sm:text-sm font-black tracking-tight shadow-md hover:shadow-lg transition-all transform active:scale-95 cursor-pointer"
+            :title="lang === 'uz' ? 'Rasmiy marketpleyslar' : 'Официальные маркетплейсы'"
           >
-            <i data-lucide="shopping-bag" class="w-4 h-4 text-white"></i>
-            <span class="hidden sm:inline" x-text="t('cart_title')"></span>
-            <span 
-              x-show="cartCount > 0" 
-              x-text="cartCount" 
-              class="inline-flex items-center justify-center bg-white text-[#001f66] text-[11px] font-black rounded-full h-5 min-w-[20px] px-1 shadow-xs"
-            ></span>
+            <i data-lucide="store" class="w-4 h-4 text-white"></i>
+            <span class="hidden sm:inline" x-text="lang === 'uz' ? 'Qayerdan olish' : 'Где купить'"></span>
+            <span class="sm:hidden" x-text="lang === 'uz' ? 'Xarid' : 'Купить'"></span>
           </button>
 
           <!-- Mobile Hamburger Menu Button -->
@@ -373,14 +370,18 @@
                 </div>
               </div>
 
-              <!-- 4. Uzum 1-Day Delivery -->
-              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
+              <!-- 4. Marketplaces 1-Day Delivery -->
+              <div 
+                @click="openMarketplaceModal(null)"
+                class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-purple-50/60 transition-all group cursor-pointer"
+                :title="lang === 'uz' ? 'Marketpleyslar ro\'yxatini ko\'rish' : 'Смотреть список маркетплейсов'"
+              >
                 <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                  <i data-lucide="zap" class="w-4.5 h-4.5"></i>
+                  <i data-lucide="store" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Yetkazish 1 kunda' : 'Доставка за 1 день'"></div>
-                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Uzum Market orqali' : 'Через Uzum Market'"></div>
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Marketpleyslar' : 'Маркетплейсы'"></div>
+                  <div class="text-[10.5px] text-purple-700 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Uzum & Yandex Market' : 'Uzum & Яндекс Маркет'"></div>
                 </div>
               </div>
 
@@ -719,29 +720,39 @@
                   </div>
                 </div>
 
-                <!-- Action Buttons Row (Uzum + Cart) -->
-                <div class="grid grid-cols-2 gap-2">
+                <!-- Action Buttons Row (Uzum + Yandex Marketplaces) -->
+                <div class="grid grid-cols-2 gap-1.5">
                   <!-- Uzum Market Direct Button -->
                   <a 
                     :href="getUzumUrl(prod)" 
                     target="_blank" 
-                    class="py-2 px-1.5 rounded-xl bg-[#7000FF] hover:bg-[#5e00d9] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1 active:scale-95 text-center"
-                    title="Купить на Uzum Market с доставкой за 1 день"
+                    class="py-2.5 px-2 rounded-xl bg-[#7000FF] hover:bg-[#5c00d2] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1.5 active:scale-95 text-center"
+                    :title="lang === 'uz' ? 'Uzum Market orqali 1 kunda yetkazib berish bilan xarid qilish' : 'Купить на Uzum Market с доставкой за 1 день'"
                   >
-                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                    <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                     <span>Uzum</span>
                   </a>
 
-                  <!-- Add to internal Cart -->
-                  <button 
-                    @click="addToCart(prod, 1)" 
-                    :class="isInCart(prod.id) ? 'bg-emerald-600 text-white' : 'bg-[#002275] hover:bg-[#00174c] text-white shadow-xs'"
-                    class="py-2 px-1.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1 transition-all transform active:scale-95"
+                  <!-- Yandex Market Direct Button -->
+                  <a 
+                    :href="getYandexMarketUrl(prod)" 
+                    target="_blank" 
+                    class="py-2.5 px-2 rounded-xl bg-[#fc3f1d] hover:bg-[#e02d0d] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1.5 active:scale-95 text-center"
+                    :title="lang === 'uz' ? 'Yandex Market orqali xarid qilish' : 'Купить на Яндекс Маркет'"
                   >
-                    <i :data-lucide="isInCart(prod.id) ? 'check' : 'shopping-bag'" class="w-3.5 h-3.5"></i>
-                    <span x-text="isInCart(prod.id) ? t('in_cart') : t('add_to_cart')"></span>
-                  </button>
+                    <span class="font-black text-[11px] bg-white text-[#fc3f1d] w-3.5 h-3.5 rounded-full inline-flex items-center justify-center">Я</span>
+                    <span>Яндекс</span>
+                  </a>
                 </div>
+
+                <!-- More Marketplaces Trigger -->
+                <button 
+                  @click="openMarketplaceModal(prod)"
+                  class="w-full py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/80 text-[11px] font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                >
+                  <i data-lucide="store" class="w-3 h-3 text-[#0032a0]"></i>
+                  <span x-text="lang === 'uz' ? 'Barcha marketpleyslar' : 'Все маркетплейсы'"></span>
+                </button>
               </div>
 
             </div>
@@ -928,131 +939,6 @@
     </section>
 
 
-  <!-- Slide-Over Cart Drawer -->
-  <div 
-    x-show="isCartOpen" 
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-xs flex justify-end"
-    style="display: none;"
-  >
-    <div 
-      x-show="isCartOpen"
-      x-transition:enter="transform transition ease-out duration-300"
-      x-transition:enter-start="translate-x-full"
-      x-transition:enter-end="translate-x-0"
-      x-transition:leave="transform transition ease-in duration-200"
-      x-transition:leave-start="translate-x-0"
-      x-transition:leave-end="translate-x-full"
-      @click.away="isCartOpen = false" 
-      class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between"
-    >
-      <!-- Cart Header -->
-      <div class="p-5  flex items-center justify-between bg-slate-50">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full wm-blue-bg text-white flex items-center justify-center">
-            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base" x-text="t('cart_title')"></h3>
-          <span class="text-xs bg-wmBlue-100 text-wmBlue-800 font-bold px-2 py-0.5 rounded-full" x-text="cartCount"></span>
-        </div>
-        <button @click="isCartOpen = false" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <!-- Free Delivery Progress Bar -->
-      <div class="px-5 py-3 bg-emerald-50 border-b border-emerald-100">
-        <div class="flex items-center justify-between text-xs font-semibold text-emerald-900 mb-1.5">
-          <span x-show="!isFreeDeliveryEligible" x-text="lang === 'uz' ? 'Bepul yetkazishgacha: ' + formatPrice(200000 - cartTotal) : 'До бесплатной доставки: ' + formatPrice(200000 - cartTotal)"></span>
-          <span x-show="isFreeDeliveryEligible" class="text-emerald-700 flex items-center gap-1 font-bold">
-            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-            <span x-text="lang === 'uz' ? 'Sizga bepul yetkazib berish taqdim etiladi!' : 'Вам доступна бесплатная доставка!'"></span>
-          </span>
-          <span x-text="deliveryProgressPercent + '%'"></span>
-        </div>
-        <div class="w-full bg-emerald-200/80 rounded-full h-1.5 overflow-hidden">
-          <div class="bg-emerald-600 h-1.5 rounded-full transition-all duration-300" :style="'width: ' + deliveryProgressPercent + '%'"></div>
-        </div>
-      </div>
-
-      <!-- Cart Items List -->
-      <div class="flex-1 overflow-y-auto p-5 space-y-4">
-        
-        <!-- Empty State -->
-        <div x-show="cart.length === 0" class="py-16 text-center">
-          <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
-            <i data-lucide="shopping-cart" class="w-8 h-8"></i>
-          </div>
-          <h4 class="font-bold text-slate-800 text-base" x-text="t('empty_cart')"></h4>
-          <p class="text-xs text-slate-500 max-w-xs mx-auto mt-1" x-text="t('empty_cart_desc')"></p>
-        </div>
-
-        <!-- Items -->
-        <template x-for="item in cart" :key="item.id">
-          <div class="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-200">
-            <img :src="item.image" :alt="item.name_ru" class="w-14 h-14 object-contain bg-white rounded-xl p-1 shrink-0 border border-slate-100 drop-shadow-xs">
-            
-            <div class="flex-1 min-w-0">
-              <h4 class="font-bold text-slate-900 text-xs sm:text-sm truncate" x-text="lang === 'uz' ? item.name_uz : item.name_ru"></h4>
-              <p class="text-[11px] text-slate-500 truncate" x-text="lang === 'uz' ? item.dosage_uz : item.dosage_ru"></p>
-              <div class="text-xs font-bold text-wmBlue-600 mt-1" x-text="formatPrice(item.price)"></div>
-            </div>
-
-            <!-- Stepper -->
-            <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1">
-              <button @click="updateCartQty(item.id, -1)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-xs font-bold">-</button>
-              <span class="w-6 text-center text-xs font-bold text-slate-900" x-text="item.quantity"></span>
-              <button @click="updateCartQty(item.id, 1)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-xs font-bold">+</button>
-            </div>
-
-            <button @click="removeFromCart(item.id)" class="text-slate-400 hover:text-red-500 p-1">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </template>
-      </div>
-
-      <!-- Cart Footer / Summary -->
-      <div x-show="cart.length > 0" class="p-5 border-t border-slate-200 bg-white space-y-3">
-        <div class="flex items-center justify-between text-sm text-slate-600">
-          <span x-text="lang === 'uz' ? 'Mahsulotlar narxi:' : 'Стоимость товаров:'"></span>
-          <span class="font-semibold text-slate-900" x-text="formatPrice(cartTotal)"></span>
-        </div>
-        <div class="flex items-center justify-between text-sm text-slate-600">
-          <span x-text="lang === 'uz' ? 'Yetkazib berish:' : 'Доставка:'"></span>
-          <span class="font-semibold" :class="isFreeDeliveryEligible ? 'text-emerald-600' : 'text-slate-900'" x-text="isFreeDeliveryEligible ? (lang === 'uz' ? 'Bepul' : 'Бесплатно') : '25 000 ' + t('sum')"></span>
-        </div>
-        <div class="flex items-center justify-between text-base font-extrabold text-slate-900 pt-2 border-t border-slate-100">
-          <span x-text="t('total') + ':'"></span>
-          <span class="text-wmBlue-600 text-lg" x-text="formatPrice(isFreeDeliveryEligible ? cartTotal : cartTotal + 25000)"></span>
-        </div>
-
-        <div class="pt-2 grid grid-cols-1 gap-2">
-          <button 
-            @click="openCheckout()" 
-            class="w-full py-3.5 rounded-xl wm-blue-bg text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
-          >
-            <i data-lucide="credit-card" class="w-4 h-4"></i>
-            <span x-text="t('checkout_btn')"></span>
-          </button>
-
-          <button 
-            @click="sendTelegramDirectOrder()" 
-            class="w-full py-3 rounded-xl telegram-btn font-bold text-xs shadow-xs flex items-center justify-center gap-2"
-          >
-            <i data-lucide="send" class="w-4 h-4"></i>
-            <span x-text="t('telegram_order_btn')"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Detailed Product Modal (Quick View & Instructions) -->
   <div 
     x-show="isProductModalOpen" 
@@ -1107,45 +993,67 @@
               <h2 class="text-2xl font-extrabold text-slate-900 mt-1" x-text="lang === 'uz' ? selectedProduct?.name_uz : selectedProduct?.name_ru"></h2>
             </div>
 
-            <!-- Price Box -->
-            <div class="p-3.5 rounded-2xl bg-wmBlue-50 border border-wmBlue-100 flex items-center justify-between">
-              <div>
-                <span class="text-[11px] text-slate-500" x-text="lang === 'uz' ? 'Katalog narxi:' : 'Цена в каталоге:'"></span>
-                <div class="text-xl font-black text-slate-900" x-text="selectedProduct ? formatPrice(selectedProduct.price) : ''"></div>
-              </div>
-
-              <!-- Quantity Selector & Add -->
-              <div class="flex items-center gap-2">
-                <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1">
-                  <button @click="modalQty = Math.max(1, modalQty - 1)" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-xs font-bold">-</button>
-                  <span class="w-8 text-center text-xs font-bold" x-text="modalQty"></span>
-                  <button @click="modalQty++" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-xs font-bold">+</button>
-                </div>
-                <button 
-                  @click="addToCart(selectedProduct, modalQty); closeProductModal(); isCartOpen = true;" 
-                  class="px-4 py-2.5 rounded-xl wm-blue-bg text-white text-xs font-bold shadow-xs transition-all"
-                  x-text="t('add_to_cart')"
-                ></button>
-              </div>
-            </div>
-
-            <!-- Uzum Market Direct Option inside Modal -->
-            <div class="p-3 bg-purple-50 rounded-2xl border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-2.5">
-              <div class="flex items-center gap-2.5 text-xs">
-                <span class="w-7 h-7 rounded-xl bg-[#7000FF] text-white flex items-center justify-center font-black text-xs shadow-2xs">U</span>
+            <!-- Price & Marketplace Buying Box in Modal -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-3">
+              <div class="flex items-center justify-between">
                 <div>
-                  <div class="font-bold text-purple-950" x-text="t('buy_on_uzum')"></div>
-                  <div class="text-[11px] text-purple-700" x-text="t('uzum_delivery_tag')"></div>
+                  <span class="text-[10.5px] text-slate-500 font-bold uppercase tracking-wider" x-text="lang === 'uz' ? 'O\'rtacha narxi:' : 'Ориентировочная цена:'"></span>
+                  <div class="text-2xl font-black text-slate-900" x-text="selectedProduct ? formatPrice(selectedProduct.price) : ''"></div>
                 </div>
+                <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black border border-emerald-300/60">
+                  100% Original GMP
+                </span>
               </div>
-              <a 
-                :href="getUzumUrl(selectedProduct)" 
-                target="_blank" 
-                class="w-full sm:w-auto px-4 py-2 rounded-xl uzum-btn text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-transform transform active:scale-95"
-              >
-                <span>Перейти на Uzum</span>
-                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-              </a>
+
+              <div>
+                <p class="text-xs font-bold text-slate-800 mb-2" x-text="lang === 'uz' ? 'Rasmiy marketpleyslardan xarid qilish:' : 'Купить в официальных магазинах на маркетплейсах:'"></p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <!-- Uzum Market Card -->
+                  <a 
+                    :href="getUzumUrl(selectedProduct)" 
+                    target="_blank" 
+                    class="p-3 bg-purple-50 hover:bg-purple-100/80 border-2 border-purple-200 hover:border-purple-400 rounded-2xl flex items-center justify-between gap-2 transition-all group shadow-2xs cursor-pointer"
+                  >
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <span class="w-9 h-9 rounded-xl bg-[#7000FF] text-white flex items-center justify-center font-black text-sm shrink-0 shadow-xs">U</span>
+                      <div class="min-w-0">
+                        <div class="font-black text-xs text-purple-950 truncate">Uzum Market</div>
+                        <div class="text-[10.5px] text-purple-700 leading-tight" x-text="lang === 'uz' ? '1 kunda yetkazish • 0% muddatli to\'lov' : 'Доставка за 1 день • Рассрочка 0%'"></div>
+                      </div>
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-purple-700 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0"></i>
+                  </a>
+
+                  <!-- Yandex Market Card -->
+                  <a 
+                    :href="getYandexMarketUrl(selectedProduct)" 
+                    target="_blank" 
+                    class="p-3 bg-red-50/80 hover:bg-red-100/80 border-2 border-red-200 hover:border-red-400 rounded-2xl flex items-center justify-between gap-2 transition-all group shadow-2xs cursor-pointer"
+                  >
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <span class="w-9 h-9 rounded-xl bg-[#fc3f1d] text-white flex items-center justify-center font-black text-sm shrink-0 shadow-xs">Я</span>
+                      <div class="min-w-0">
+                        <div class="font-black text-xs text-red-950 truncate">Яндекс Маркет</div>
+                        <div class="text-[10.5px] text-red-700 leading-tight" x-text="lang === 'uz' ? 'Kuryer orqali tezkor yetkazish' : 'Экспресс-доставка курьером'"></div>
+                      </div>
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-red-700 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0"></i>
+                  </a>
+                </div>
+
+                <!-- Apteka.uz Link -->
+                <a 
+                  :href="getAptekaUrl(selectedProduct)" 
+                  target="_blank" 
+                  class="mt-2 p-2.5 bg-emerald-50/70 hover:bg-emerald-100/80 border border-emerald-200/80 rounded-xl flex items-center justify-between gap-2 transition-all group text-xs cursor-pointer"
+                >
+                  <div class="flex items-center gap-2 min-w-0">
+                    <i data-lucide="cross" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                    <span class="font-bold text-emerald-950 truncate" x-text="lang === 'uz' ? 'Apteka.uz orqali shahar dorixonalaridan qidirish' : 'Найти в аптеках вашего города на Apteka.uz'"></span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-700 shrink-0"></i>
+                </a>
+              </div>
             </div>
 
             <!-- Trust & Halal Badges inside Modal -->
@@ -1191,74 +1099,128 @@
     </div>
   </div>
 
-  <!-- Checkout Modal -->
+  <!-- Dedicated Marketplaces Modal Window -->
   <div 
-    x-show="isCheckoutModalOpen" 
-    x-transition 
+    x-show="isMarketplaceModalOpen" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
     class="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
     style="display: none;"
   >
     <div 
-      @click.away="isCheckoutModalOpen = false" 
-      class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 sm:p-8 relative"
+      @click.away="closeMarketplaceModal()" 
+      class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 sm:p-7 relative overflow-hidden"
     >
-      <button @click="isCheckoutModalOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-        <i data-lucide="x" class="w-5 h-5"></i>
+      <!-- Modal Header -->
+      <button 
+        @click="closeMarketplaceModal()" 
+        class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
       </button>
 
-      <div class="flex items-center gap-2 mb-4">
-        <div class="w-8 h-8 rounded-full wm-blue-bg text-white flex items-center justify-center">
-          <i data-lucide="check-square" class="w-4 h-4"></i>
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#001f66] to-[#7000FF] text-white flex items-center justify-center shadow-xs">
+          <i data-lucide="store" class="w-5 h-5"></i>
         </div>
-        <h3 class="text-lg sm:text-xl font-bold text-slate-900" x-text="t('checkout_btn')"></h3>
+        <div>
+          <h3 class="font-black text-lg text-slate-900 leading-tight" x-text="lang === 'uz' ? 'Qayerdan xarid qilish mumkin?' : 'Где купить препараты?'"></h3>
+          <p class="text-xs text-slate-500 font-medium" x-text="lang === 'uz' ? 'World Medicine rasmiy do\'konlari' : 'Официальные магазины World Medicine'"></p>
+        </div>
       </div>
 
-      <div class="space-y-4 text-xs sm:text-sm">
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1" x-text="lang === 'uz' ? 'Ismingiz:' : 'Ваше имя:'"></label>
-          <input type="text" x-model="checkout.name" placeholder="Aziz Karimov / Алишер" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-wmBlue-500 focus:outline-none">
+      <!-- Product preview if specific product selected -->
+      <template x-if="selectedMarketplaceProduct">
+        <div class="flex items-center gap-3 p-3 mb-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+          <img :src="selectedMarketplaceProduct.image" :alt="selectedMarketplaceProduct.name_ru" class="w-14 h-14 object-contain bg-white rounded-xl p-1 shrink-0 border border-slate-200/60 shadow-2xs">
+          <div class="flex-1 min-w-0">
+            <div class="text-xs font-bold text-[#0032a0] uppercase truncate" x-text="lang === 'uz' ? selectedMarketplaceProduct.pharm_group_uz : selectedMarketplaceProduct.pharm_group_ru"></div>
+            <div class="text-sm font-black text-slate-900 truncate" x-text="lang === 'uz' ? selectedMarketplaceProduct.name_uz : selectedMarketplaceProduct.name_ru"></div>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5" x-text="formatPrice(selectedMarketplaceProduct.price)"></div>
+          </div>
         </div>
+      </template>
 
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1" x-text="lang === 'uz' ? 'Telefon raqamingiz:' : 'Контактный телефон:'"></label>
-          <input type="tel" x-model="checkout.phone" placeholder="+998 90 123 45 67" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-wmBlue-500 focus:outline-none">
-        </div>
+      <!-- Marketplace Choice Cards -->
+      <div class="space-y-3">
+        <!-- 1. Uzum Market -->
+        <a 
+          :href="getUzumUrl(selectedMarketplaceProduct)" 
+          target="_blank" 
+          class="p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-purple-100/50 hover:from-purple-100 hover:to-purple-200/60 border-2 border-purple-200 hover:border-purple-400 transition-all flex items-center justify-between gap-3 group shadow-xs cursor-pointer"
+        >
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-2xl bg-[#7000FF] text-white flex items-center justify-center font-black text-lg shadow-md group-hover:scale-105 transition-transform">
+              U
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-black text-sm text-purple-950">Uzum Market</span>
+                <span class="px-2 py-0.5 rounded-md bg-[#7000FF] text-white text-[9.5px] font-extrabold uppercase">1 kunda</span>
+              </div>
+              <div class="text-xs text-purple-800 font-medium mt-0.5" x-text="lang === 'uz' ? '1 kunda bepul yetkazish • 0% muddatli to\'lov' : 'Доставка за 1 день • Рассрочка 0%'"></div>
+            </div>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-[#7000FF] text-white text-xs font-bold shadow-xs group-hover:bg-[#5e00d9] transition-colors whitespace-nowrap flex items-center gap-1">
+            <span x-text="lang === 'uz' ? 'O\'tish' : 'Купить'"></span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
 
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1" x-text="lang === 'uz' ? 'Yetkazib berish manzili:' : 'Адрес доставки:'"></label>
-          <input type="text" x-model="checkout.address" placeholder="Ташкент, Чиланзар, ул. Мукими, дом 15, кв. 4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-wmBlue-500 focus:outline-none">
-        </div>
+        <!-- 2. Яндекс Маркет -->
+        <a 
+          :href="getYandexMarketUrl(selectedMarketplaceProduct)" 
+          target="_blank" 
+          class="p-4 rounded-2xl bg-gradient-to-r from-red-50 to-amber-50/50 hover:from-red-100 hover:to-amber-100/60 border-2 border-red-200 hover:border-red-400 transition-all flex items-center justify-between gap-3 group shadow-xs cursor-pointer"
+        >
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-2xl bg-[#fc3f1d] text-white flex items-center justify-center font-black text-lg shadow-md group-hover:scale-105 transition-transform">
+              Я
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-black text-sm text-red-950">Яндекс Маркет</span>
+                <span class="px-2 py-0.5 rounded-md bg-[#fc3f1d] text-white text-[9.5px] font-extrabold uppercase">Express</span>
+              </div>
+              <div class="text-xs text-red-800 font-medium mt-0.5" x-text="lang === 'uz' ? 'Kuryer orqali eshikkacha yetkazish' : 'Экспресс-доставка курьером до двери'"></div>
+            </div>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-[#fc3f1d] text-white text-xs font-bold shadow-xs group-hover:bg-[#e02d0d] transition-colors whitespace-nowrap flex items-center gap-1">
+            <span x-text="lang === 'uz' ? 'O\'tish' : 'Купить'"></span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </a>
 
-        <!-- Order total preview -->
-        <div class="p-3 bg-wmBlue-50 rounded-xl border border-wmBlue-100 flex items-center justify-between">
-          <span class="font-semibold text-slate-700" x-text="t('total') + ':'"></span>
-          <span class="font-extrabold text-wmBlue-700 text-base" x-text="formatPrice(isFreeDeliveryEligible ? cartTotal : cartTotal + 25000)"></span>
-        </div>
+        <!-- 3. Apteka.uz -->
+        <a 
+          :href="getAptekaUrl(selectedMarketplaceProduct)" 
+          target="_blank" 
+          class="p-3.5 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100/90 border border-emerald-200/80 transition-all flex items-center justify-between gap-3 group shadow-2xs cursor-pointer"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+              <i data-lucide="cross" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-black text-xs text-emerald-950">Apteka.uz</div>
+              <div class="text-[11px] text-emerald-800" x-text="lang === 'uz' ? 'Shahar dorixonalaridan qidirish va narxlar' : 'Поиск в ближайших аптеках города'"></div>
+            </div>
+          </div>
+          <i data-lucide="external-link" class="w-4 h-4 text-emerald-700"></i>
+        </a>
+      </div>
 
-        <div class="pt-2 space-y-2">
-          <button 
-            @click="submitOrder()" 
-            :disabled="isSubmittingOrder"
-            :class="isSubmittingOrder ? 'opacity-75 cursor-not-allowed' : 'hover:opacity-95 active:scale-[0.99]'"
-            class="w-full py-3.5 rounded-xl wm-blue-bg text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
-          >
-            <template x-if="isSubmittingOrder">
-              <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </template>
-            <span x-text="isSubmittingOrder ? (lang === 'uz' ? 'Yuborilmoqda...' : 'Отправка заказа...') : (lang === 'uz' ? 'Buyurtmani tasdiqlash' : 'Подтвердить и отправить заказ')"></span>
-          </button>
-
-          <button 
-            @click="sendTelegramDirectOrder()" 
-            class="w-full py-3 rounded-xl telegram-btn font-bold text-xs shadow-xs flex items-center justify-center gap-2"
-          >
-            <i data-lucide="send" class="w-4 h-4"></i>
-            <span x-text="t('telegram_order_btn')"></span>
-          </button>
-        </div>
+      <!-- Hot-line help footer in modal -->
+      <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <span x-text="lang === 'uz' ? 'Savollaringiz bormi?' : 'Нужна консультация?'"></span>
+        <a href="tel:+998712075059" class="font-bold text-[#001f66] hover:text-[#0032a0] flex items-center gap-1">
+          <i data-lucide="phone" class="w-3 h-3 text-[#3bbdd2]"></i>
+          +998 (71) 207-50-59
+        </a>
       </div>
     </div>
   </div>
@@ -1408,13 +1370,14 @@
                       <div class="text-[11px] font-black text-slate-900 truncate" x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"></div>
                       <div class="text-[10.5px] font-black text-[#0032a0]" x-text="formatPrice(prod.price)"></div>
                     </div>
-                    <button
-                      @click="addToCart(prod, 1); showToast(lang === 'uz' ? 'Savatga qo\'shildi!' : 'Добавлено в корзину!')"
-                      class="px-2.5 py-1.5 bg-[#0032a0] hover:bg-[#001f66] text-white text-[10px] font-bold rounded-lg shrink-0 transition-colors shadow-2xs cursor-pointer flex items-center gap-1"
+                    <a
+                      :href="getUzumUrl(prod)"
+                      target="_blank"
+                      class="px-2.5 py-1.5 bg-[#7000FF] hover:bg-[#5e00d9] text-white text-[10px] font-bold rounded-lg shrink-0 transition-colors shadow-2xs cursor-pointer flex items-center gap-1"
                     >
-                      <i data-lucide="plus" class="w-3 h-3"></i>
-                      <span x-text="lang === 'uz' ? 'Savat' : 'Купить'"></span>
-                    </button>
+                      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                      <span x-text="lang === 'uz' ? 'Uzum' : 'Uzum Market'"></span>
+                    </a>
                   </div>
                 </template>
               </div>

@@ -1,64 +1,8 @@
-/* Official World Medicine Corporate Typography (FuturaOrto) */
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Regular.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FuturaOrto';
-  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --font-display: 'FuturaOrto', 'Futura PT', 'Futura', system-ui, -apple-system, sans-serif;
-  --font-sans: 'FuturaOrto', 'Futura PT', 'Futura', system-ui, -apple-system, sans-serif;
+  --font-display: 'Montserrat', 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Montserrat', -apple-system, system-ui, sans-serif;
   
   /* World Medicine Luxury Wellness Brandbook */
   --wm-blue: #0032a0;
@@ -94,6 +38,7 @@ body, input, button, select, textarea {
 
 h1, h2, h3, h4, h5, h6, .font-display, .font-black, .font-bold, .font-semibold {
   font-family: var(--font-display);
+  letter-spacing: -0.015em;
 }
 
 /* Glassmorphism Classes */

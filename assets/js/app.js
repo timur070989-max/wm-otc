@@ -202,10 +202,47 @@ document.addEventListener('alpine:init', () => {
       this.handleSendMessage();
     },
 
+    isUzbekQuery(text) {
+      if (!text) return false;
+      const uzbekIndicators = [
+        // Latin Uzbek
+        'assalom', 'alaykum', 'salom', 'rahmat', 'raxmat', 'tashakkur', 'qanday', 'nima', 'qanaqa',
+        'yaxshi', 'kerak', 'mumkin', 'bormi', "yo'q", 'yoq', 'qayerda', 'qancha', 'narxi', 'narx',
+        'yetkaz', 'bering', 'aytib', 'yordam', 'uchun', 'ichiladi', 'ichish', 'qabul', 'qilish', 'bolalar',
+        'bola', 'onalar', 'farzand', "bo'g'im", 'bogim', 'bel', 'tizza', "og'riq", 'ogriq', "og'ri", 'ogri',
+        'holsiz', 'charchoq', 'uyqu', 'asab', 'siqilish', 'teri', 'soch', 'tirnoq',
+        'oshqozon', 'hazm', 'jigar', "jig'ildon", 'jigildon', "dam bo'l", 'dam bol', 'shamollash',
+        'isitma', 'tomir', 'varikoz', "ko'z", 'koz', 'kamqonlik', 'gemoglobin', 'homilador', 'ozish',
+        'sotib', 'olish', 'buyurtma', 'iltimos', 'tushunarli', 'boshim', 'bosh ', 'oyog', 'qolim',
+
+        // Cyrillic Uzbek
+        'ассалом', 'алейкум', 'салом', 'рахмат', 'ташаккур', 'қандай', 'кандай', 'нима', 'яхши', 'керак',
+        'мумкин', 'борми', 'йўқ', 'йук', 'қанча', 'канча', 'нарх', 'етказиб', 'етказиш', 'беринг', 'айтиб',
+        'ёрдам', 'ердам', 'учун', 'ичилади', 'ичиш', 'қабул', 'кабул', 'қилиш', 'килиш', 'болалар', 'бола',
+        'фарзанд', 'бўғим', 'бугим', 'бел', 'тизза', 'оғриқ', 'огриқ', 'оғрияпти', 'огрияпти', 'оғри', 'огри',
+        'ҳолсиз', 'холсиз', 'чарчоқ', 'чарчок', 'уйқу', 'уйку', 'асаб', 'сиқилиш', 'сикилиш', 'тери', 'соч',
+        'тирноқ', 'тирнок', 'ошқозон', 'ошкозон', 'ҳазм', 'хазм', 'жигар', 'жиғилдон', 'жигилдон',
+        'шамоллаш', 'иситма', 'томир', 'варикоз', 'кўз', 'куз', 'камқонлик', 'камконлик', 'ҳомиладор',
+        'хомиладор', 'озиш', 'сотиб', 'буюртма', 'илтимос', 'тушунарли', 'бошим', 'оёғим', 'оёк', 'оёг',
+        'қўлим', 'кулим', 'бўлади', 'булади', 'қилса', 'килса'
+      ];
+      const t = text.toLowerCase().trim();
+      return uzbekIndicators.some(w => t.includes(w));
+    },
+
     handleSendMessage(wasSpoken = false) {
       const text = (this.chatInput || '').trim();
       const phone = (this.chatPhone || '').trim();
       if (!text && !phone) return;
+
+      // Auto-detect conversation language
+      if (this.isUzbekQuery(text)) {
+        this.lang = 'uz';
+        localStorage.setItem('wm_lang', 'uz');
+      } else if (/[а-яё]/i.test(text) && !this.isUzbekQuery(text)) {
+        this.lang = 'ru';
+        localStorage.setItem('wm_lang', 'ru');
+      }
 
       const userMsg = {
         id: Date.now(),
@@ -412,7 +449,7 @@ document.addEventListener('alpine:init', () => {
         text_ru = "Все препараты в наличии, 100% оригинал World Medicine. 📦\n\n• **Доставка по Ташкенту**: курьером за 2–4 часа прямо до двери.\n• **По Узбекистану**: экспресс-доставка через Uzum за 1 день.\n• **Оплата**: при получении наличными или картой (Humo, Uzcard, Click, Payme).\n\nВы можете нажать кнопку «В корзину» или оставить номер телефона для оформления!";
         text_uz = "Barcha preparatlar mavjud, World Medicine original mahsulotlari. 📦\n\n• **Toshkent bo'ylab**: kuryer orqali 2-4 soatda yetkaziladi.\n• **O'zbekiston bo'ylab**: Uzum orqali 1 kunda yetkazib berish.\n• **To'lov**: qabul qilganda naqd yoki karta orqali (Humo, Uzcard, Click, Payme).\n\n«Savat» tugmasi orqali yoki telefon raqamingizni qoldirib buyurtma berishingiz mumkin!";
       }
-      else if (q.match(/^(привет|здравствуй|салам|добрый|салом|assalomu|salom|hayrli|privet|hi|hello)/)) {
+      else if (q.match(/^(ассалому|алейкум|салом|assalomu|salom|hayrli|привет|здравствуй|салам|добрый|privet|hi|hello)/) || q.includes('ассалому алейкум') || q.includes('assalomu alaykum')) {
         text_ru = "Здравствуйте! Рада общению с вами. 🌿\n\nНапишите, что именно вас беспокоит или какую задачу хотите решить (например: суставы, упадок сил, бессонница, зрение, вены, пищеварение, иммунитет или красота кожи и волос). Подберу нужный комплекс и подскажу, как правильно принимать!";
         text_uz = "Assalomu alaykum! Siz bilan muloqotdan mamnunman. 🌿\n\nSizni nima bezovta qilayotganini yozing (masalan: bo'g'imlar, holsizlik, uyqusizlik, ko'rish, tomirlar, oshqozon, immunitet yoki soch-teri parvarishi). Sizga mos majmuani tanlab beraman!";
         matched = [];

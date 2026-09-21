@@ -1,8 +1,64 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+/* Official World Medicine Corporate Typography (FuturaOrto) */
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Regular.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaOrto';
+  src: url('../fonts/FuturaOrto-Bold.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 :root {
-  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'FuturaOrto', 'Futura PT', 'Futura', system-ui, -apple-system, sans-serif;
+  --font-sans: 'FuturaOrto', 'Futura PT', 'Futura', system-ui, -apple-system, sans-serif;
   
   /* World Medicine Luxury Wellness Brandbook */
   --wm-blue: #0032a0;
@@ -28,7 +84,7 @@
   --shadow-modal: 0 32px 64px -16px rgba(0, 23, 76, 0.35);
 }
 
-body {
+body, input, button, select, textarea {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   color: var(--color-text-main);
@@ -36,7 +92,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, .font-display {
+h1, h2, h3, h4, h5, h6, .font-display, .font-black, .font-bold, .font-semibold {
   font-family: var(--font-display);
 }
 

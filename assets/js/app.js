@@ -620,6 +620,18 @@ document.addEventListener('alpine:init', () => {
       
       this.startHeroAutoSlide();
       setTimeout(() => this.refreshIcons(), 100);
+
+      // Auto-open AI Consultant after 2 seconds
+      setTimeout(() => {
+        if (!this.isChatOpen && !this.isProductModalOpen && !this.isCheckoutModalOpen) {
+          this.isChatOpen = true;
+          this.hasUnreadChat = false;
+          this.$nextTick(() => {
+            this.scrollChatToBottom();
+            this.refreshIcons();
+          });
+        }
+      }, 2000);
     },
 
     setLang(newLang) {

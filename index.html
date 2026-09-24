@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=94.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=95.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=94.0"></script>
-  <script src="assets/js/app.js?v=94.0"></script>
+  <script src="assets/js/products-data.js?v=95.0"></script>
+  <script src="assets/js/app.js?v=95.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=94.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=95.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -378,11 +378,7 @@
               </div>
 
               <!-- 4. Marketplaces 1-Day Delivery -->
-              <div 
-                @click="openMarketplaceModal(null)"
-                class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-purple-50/60 transition-all group cursor-pointer"
-                :title="lang === 'uz' ? 'Marketpleyslar ro\'yxatini ko\'rish' : 'Смотреть список маркетплейсов'"
-              >
+              <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
                 <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
                   <i data-lucide="store" class="w-4.5 h-4.5"></i>
                 </div>

@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=95.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=96.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=95.0"></script>
-  <script src="assets/js/app.js?v=95.0"></script>
+  <script src="assets/js/products-data.js?v=96.0"></script>
+  <script src="assets/js/app.js?v=96.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=95.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=96.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -344,58 +344,58 @@
           <div class="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-[0_15px_40px_rgba(0,31,102,0.08)] border border-slate-200/90 p-3.5 sm:p-4 lg:p-5 transition-all">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 lg:gap-2 items-center">
               
-              <!-- 1. Halal Certified -->
+              <!-- 1. Scientific Approach -->
               <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-                <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                  <i data-lucide="check-circle-2" class="w-4.5 h-4.5"></i>
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="microscope" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Halol sertifikati' : 'Сертификат Халяль'"></div>
-                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? '100% toza formulalar' : '100% чистые формулы'"></div>
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Ilmiy yondashuv' : 'Научный подход'"></div>
+                  <div class="text-[10px] sm:text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5 line-clamp-2" x-text="lang === 'uz' ? 'Tadqiqotlar asosida ishlab chiqilgan' : 'Продукты разработаны на основе исследований'"></div>
                 </div>
               </div>
 
-              <!-- 2. European GMP Standard -->
+              <!-- 2. Turkish Quality & ISO/Halal -->
               <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-                <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#0032a0] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
                   <i data-lucide="shield-check" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'GMP Standarti' : 'Стандарт GMP'"></div>
-                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Yevropa sifati nazorati' : 'Контроль качества ЕС'"></div>
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Turkiya sifati' : 'Турецкое качество'"></div>
+                  <div class="text-[10px] sm:text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5 line-clamp-2" x-text="lang === 'uz' ? 'ISO standartlari va Halol sertifikati' : 'Производство по стандартам ISO и сертификат Халяль'"></div>
                 </div>
               </div>
 
-              <!-- 3. Bio-Available Formulas -->
+              <!-- 3. Safe Formulations -->
               <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-                <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                  <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="leaf" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Bio-o\'zlashuvchan' : 'Биодоступность'"></div>
-                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Tezkor o\'zlashtirish' : 'Быстрое усвоение'"></div>
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Xavfsiz tarkib' : 'Безопасные составы'"></div>
+                  <div class="text-[10px] sm:text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5 line-clamp-2" x-text="lang === 'uz' ? 'Tarkibiy qismlarning qat\'iy nazorati' : 'Тщательный контроль ингредиентов'"></div>
                 </div>
               </div>
 
-              <!-- 4. Marketplaces 1-Day Delivery -->
+              <!-- 4. Care For You -->
               <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group">
-                <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-[#7000FF] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                  <i data-lucide="store" class="w-4.5 h-4.5"></i>
+                <div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="heart-pulse" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Marketpleyslar' : 'Маркетплейсы'"></div>
-                  <div class="text-[10.5px] text-purple-700 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Uzum & Yandex Market' : 'Uzum & Яндекс Маркет'"></div>
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Siz haqingizda g\'amxo\'rlik' : 'Забота о вас'"></div>
+                  <div class="text-[10px] sm:text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5 line-clamp-2" x-text="lang === 'uz' ? 'Butun oila va har qanday turmush tarzi uchun' : 'Для всей семьи и любого образа жизни'"></div>
                 </div>
               </div>
 
-              <!-- 5. 25+ Years of Trust -->
+              <!-- 5. Fast Delivery -->
               <div class="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl hover:bg-slate-50 transition-all group col-span-2 md:col-span-1">
-                <div class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                  <i data-lucide="award" class="w-4.5 h-4.5"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <i data-lucide="truck" class="w-4.5 h-4.5"></i>
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? '25+ yil ishonch' : '25+ лет доверия'"></div>
-                  <div class="text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5" x-text="lang === 'uz' ? 'Millionlab oilalar tanlovi' : 'Выбор миллионов семей'"></div>
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 leading-tight truncate" x-text="lang === 'uz' ? 'Tezkor yetkazib berish' : 'Быстрая доставка'"></div>
+                  <div class="text-[10px] sm:text-[10.5px] text-slate-500 font-medium leading-tight mt-0.5 line-clamp-2" x-text="lang === 'uz' ? 'Butun O\'zbekiston bo\'ylab eng qisqa muddatda' : 'По всему Узбекистану в кратчайшие сроки'"></div>
                 </div>
               </div>
 

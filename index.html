@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=93.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=94.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=93.0"></script>
-  <script src="assets/js/app.js?v=93.0"></script>
+  <script src="assets/js/products-data.js?v=94.0"></script>
+  <script src="assets/js/app.js?v=94.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=93.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=94.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -575,45 +575,12 @@
           ></h2>
         </div>
 
-        <!-- Clean Sorting Controls & Search (Centered, Glassy White) -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pb-2 mb-8 max-w-2xl mx-auto">
-          <!-- Search Input -->
-          <div class="relative w-full sm:w-72">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-            <input 
-              type="text" 
-              x-model="searchQuery" 
-              :placeholder="t('search_placeholder')" 
-              class="w-full pl-10 pr-8 py-2.5 rounded-2xl bg-white/95 border border-wmBlue-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-wmBlue-500 shadow-xs"
-            >
-            <button 
-              x-show="searchQuery" 
-              @click="searchQuery = ''" 
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-            >
-              <i data-lucide="x" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-
-          <div class="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-wmBlue-200/80 shadow-xs text-xs font-bold text-slate-800">
-            <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-wmBlue-700"></i>
-            <span class="text-slate-500" x-text="lang === 'uz' ? 'Saralash:' : 'Сортировка:'"></span>
-            <select x-model="sortBy" class="bg-transparent font-black focus:outline-none cursor-pointer text-slate-950">
-              <option value="popular" x-text="lang === 'uz' ? 'Ommabopligi bo\'yicha' : 'По популярности'"></option>
-              <option value="price_asc" x-text="lang === 'uz' ? 'Narx: arzonroqdan' : 'По цене (сначала дешевле)'"></option>
-              <option value="price_desc" x-text="lang === 'uz' ? 'Narx: qimmatroqdan' : 'По цене (сначала дороже)'"></option>
-              <option value="name" x-text="lang === 'uz' ? 'Nomi bo\'yicha (A-Z)' : 'По названию (А-Я)'"></option>
-            </select>
-          </div>
-
-          <button 
-            x-show="selectedSymptom || searchQuery" 
-            @click="resetAllFilters()" 
-            class="px-4 py-2.5 rounded-2xl bg-white hover:bg-wmBlue-50 text-wmBlue-800 border border-wmBlue-300 text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs"
-          >
-            <i data-lucide="x" class="w-3.5 h-3.5"></i>
-            <span x-text="lang === 'uz' ? 'Barchasini ko\'rsatish' : 'Показать все'"></span>
-          </button>
+        <!-- Active Symptom Filter Indicator (Shown only when filtering via symptoms orbit above) -->
+        <div x-show="selectedSymptom" class="flex items-center justify-center gap-2 mb-6" style="display: none;">
+          <span class="px-4 py-1.5 rounded-full bg-blue-50 text-[#002275] border border-blue-200 text-xs font-bold flex items-center gap-2 shadow-2xs">
+            <span x-text="lang === 'uz' ? 'Simptom bo\'yicha saralangan' : 'Показаны препараты по выбранному симптому'"></span>
+            <button @click="resetAllFilters()" class="text-blue-600 hover:text-red-500 font-black cursor-pointer ml-1 text-base leading-none" title="Сбросить">&times;</button>
+          </span>
         </div>
 
         <!-- Products Grid (Clean background, Large product images, 2 Rows = 8 items per page) -->

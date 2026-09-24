@@ -20,8 +20,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Montserrat', 'system-ui', '-apple-system', 'sans-serif'],
-            display: ['Montserrat', 'Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif']
+            sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif'],
+            display: ['Inter', 'Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif']
           },
           colors: {
             wmBlue: {
@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=87.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=88.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=87.0"></script>
-  <script src="assets/js/app.js?v=87.0"></script>
+  <script src="assets/js/products-data.js?v=88.0"></script>
+  <script src="assets/js/app.js?v=88.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=87.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=88.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -264,7 +264,7 @@
           </div>
 
           <!-- Bold Modern Headline -->
-          <h1 class="text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-black tracking-tight text-[#001f66] leading-[1.2] uppercase">
+          <h1 class="text-2xl sm:text-3xl lg:text-[32px] xl:text-[36px] font-bold tracking-tight text-[#001f66] leading-[1.25] uppercase">
             <span x-show="lang === 'uz'">Salomatlik — bu siz bilan baham ko'radigan boyligimiz</span>
             <span x-show="lang !== 'uz'">Здоровье – сокровище,<br class="hidden sm:inline"> которым мы делимся с вами</span>
           </h1>
@@ -418,7 +418,7 @@
         <!-- Section Header -->
         <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-6 reveal-on-scroll">
           <h2
-            class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight"
+            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight"
             x-text="lang === 'uz' ? 'O\'z salomatlik va go\'zallik formulangizni toping' : 'Найдите свою формулу здоровья и красоты'"
           ></h2>
         </div>
@@ -574,7 +574,7 @@
         <!-- Catalog Header -->
         <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8 reveal-on-scroll">
           <h2
-            class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight"
+            class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight"
             x-text="t('catalog_title')"
           ></h2>
         </div>

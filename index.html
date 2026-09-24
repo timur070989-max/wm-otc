@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=91.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=92.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=91.0"></script>
-  <script src="assets/js/app.js?v=91.0"></script>
+  <script src="assets/js/products-data.js?v=92.0"></script>
+  <script src="assets/js/app.js?v=92.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=91.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=92.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -627,22 +627,6 @@
               <div>
                 <!-- Dynamic Packaging-Matched Pedestal Image Container -->
                 <div :class="getProductBg(prod)" class="product-image-wrap p-3.5 h-48 sm:h-52 relative cursor-pointer transition-colors duration-300" @click="openProductModal(prod)">
-                  
-                  <!-- Badges -->
-                  <div class="absolute top-2.5 left-2.5 max-w-[calc(100%-2.75rem)] flex flex-col gap-1 z-10 pointer-events-none">
-                    <span 
-                      x-show="prod.badge_ru" 
-                      :class="{
-                        'badge-bestseller': prod.badge_type === 'bestseller',
-                        'badge-natural': prod.badge_type === 'natural',
-                        'badge-premium': prod.badge_type === 'premium',
-                        'badge-kids': prod.badge_type === 'kids',
-                        'badge-otc': prod.badge_type === 'top' || prod.badge_type === 'basic'
-                      }"
-                      class="text-[9.5px] font-black px-2 py-0.5 rounded-md shadow-2xs uppercase tracking-wider truncate block"
-                      x-text="lang === 'uz' ? prod.badge_uz : prod.badge_ru"
-                    ></span>
-                  </div>
 
                   <!-- Wishlist Button -->
                   <button 
@@ -665,7 +649,7 @@
                     onerror="this.onerror=null; this.src='https://placehold.co/400x400/ffffff/0032a0?text=World+Medicine';"
                   >
 
-                                    <!-- Authentic Halal Certification Seal / Stamp on Packaging -->
+                  <!-- Authentic Halal Certification Seal / Stamp on Packaging -->
                   <div class="absolute bottom-2.5 right-2.5 z-10 pointer-events-none select-none">
                     <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-800/90 backdrop-blur-md text-white border border-emerald-400/90 shadow-[0_4px_12px_rgba(4,120,87,0.4)] -rotate-3">
                       <span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
@@ -694,10 +678,14 @@
                     x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"
                   ></h3>
 
-                  <!-- Dosage & Quality Badge -->
+                  <!-- Dosage & Unified Feature Badge -->
                   <div class="flex items-center justify-between gap-2 pt-0.5">
                     <span class="text-xs font-semibold text-slate-500 truncate" x-text="lang === 'uz' ? prod.dosage_uz : prod.dosage_ru"></span>
-                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">GMP EU</span>
+                    <span 
+                      x-show="prod.badge_ru || prod.pharm_group_ru" 
+                      class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0 max-w-[55%] truncate"
+                      x-text="lang === 'uz' ? (prod.badge_uz || prod.pharm_group_uz) : (prod.badge_ru || prod.pharm_group_ru)"
+                    ></span>
                   </div>
 
                 </div>

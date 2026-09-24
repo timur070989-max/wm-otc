@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=92.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=93.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=92.0"></script>
-  <script src="assets/js/app.js?v=92.0"></script>
+  <script src="assets/js/products-data.js?v=93.0"></script>
+  <script src="assets/js/app.js?v=93.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=92.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=93.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -678,14 +678,12 @@
                     x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"
                   ></h3>
 
-                  <!-- Dosage & Unified Feature Badge -->
-                  <div class="flex items-center justify-between gap-2 pt-0.5">
-                    <span class="text-xs font-semibold text-slate-500 truncate" x-text="lang === 'uz' ? prod.dosage_uz : prod.dosage_ru"></span>
-                    <span 
-                      x-show="prod.badge_ru || prod.pharm_group_ru" 
-                      class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0 max-w-[55%] truncate"
-                      x-text="lang === 'uz' ? (prod.badge_uz || prod.pharm_group_uz) : (prod.badge_ru || prod.pharm_group_ru)"
-                    ></span>
+                  <!-- Full-Width Focus / Feature Badge -->
+                  <div class="pt-0.5" x-show="prod.badge_ru || prod.pharm_group_ru">
+                    <div class="w-full py-1 px-2.5 rounded-lg bg-emerald-50/90 border border-emerald-200/80 text-emerald-800 text-[11px] sm:text-xs font-bold text-center leading-snug flex items-center justify-center gap-1.5 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span class="truncate" x-text="lang === 'uz' ? (prod.badge_uz || prod.pharm_group_uz) : (prod.badge_ru || prod.pharm_group_ru)"></span>
+                    </div>
                   </div>
 
                 </div>

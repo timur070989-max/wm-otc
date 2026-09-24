@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=90.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=91.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=90.0"></script>
-  <script src="assets/js/app.js?v=90.0"></script>
+  <script src="assets/js/products-data.js?v=91.0"></script>
+  <script src="assets/js/app.js?v=91.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=90.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=91.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -703,40 +703,17 @@
                 </div>
               </div>
 
-              <!-- Bottom Price & Cart Action -->
-              <div class="p-3.5 sm:p-4 pt-2.5 border-t border-slate-100 bg-white space-y-2">
-                <!-- Action Buttons Row (Uzum + Yandex Marketplaces) -->
-                <div class="grid grid-cols-2 gap-1.5">
-                  <!-- Uzum Market Direct Button -->
-                  <a 
-                    :href="getUzumUrl(prod)" 
-                    target="_blank" 
-                    class="py-2.5 px-2 rounded-xl bg-[#7000FF] hover:bg-[#5c00d2] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1.5 active:scale-95 text-center"
-                    :title="lang === 'uz' ? 'Uzum Market orqali 1 kunda yetkazib berish bilan xarid qilish' : 'Купить на Uzum Market с доставкой за 1 день'"
-                  >
-                    <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                    <span>Uzum</span>
-                  </a>
-
-                  <!-- Yandex Market Direct Button -->
-                  <a 
-                    :href="getYandexMarketUrl(prod)" 
-                    target="_blank" 
-                    class="py-2.5 px-2 rounded-xl bg-[#fc3f1d] hover:bg-[#e02d0d] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-1.5 active:scale-95 text-center"
-                    :title="lang === 'uz' ? 'Yandex Market orqali xarid qilish' : 'Купить на Яндекс Маркет'"
-                  >
-                    <span class="font-black text-[11px] bg-white text-[#fc3f1d] w-3.5 h-3.5 rounded-full inline-flex items-center justify-center">Я</span>
-                    <span>Яндекс</span>
-                  </a>
-                </div>
-
-                <!-- More Marketplaces Trigger -->
+              <!-- Bottom Action: Single Clean 'Купить' Button -->
+              <div class="p-3.5 sm:p-4 pt-2.5 border-t border-slate-100 bg-white">
                 <button 
                   @click="openMarketplaceModal(prod)"
-                  class="w-full py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200/80 text-[11px] font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                  class="w-full py-2.5 px-4 rounded-xl bg-[#002275] hover:bg-[#001752] text-white text-xs sm:text-[13px] font-bold shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 active:scale-95 cursor-pointer group/btn"
+                  :title="lang === 'uz' ? 'Marketpleyslardan xarid qilish' : 'Купить на маркетплейсах'"
                 >
-                  <i data-lucide="store" class="w-3 h-3 text-[#0032a0]"></i>
-                  <span x-text="lang === 'uz' ? 'Barcha marketpleyslar' : 'Все маркетплейсы'"></span>
+                  <svg class="w-4 h-4 text-white group-hover/btn:scale-110 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  <span x-text="lang === 'uz' ? 'Sotib olish' : 'Купить'"></span>
                 </button>
               </div>
 
@@ -1352,14 +1329,13 @@
                       <div class="text-[11px] font-black text-slate-900 truncate" x-text="lang === 'uz' ? prod.name_uz : prod.name_ru"></div>
                       <div class="text-[10.5px] font-bold text-slate-500 truncate" x-text="lang === 'uz' ? prod.dosage_uz : prod.dosage_ru"></div>
                     </div>
-                    <a
-                      :href="getUzumUrl(prod)"
-                      target="_blank"
-                      class="px-2.5 py-1.5 bg-[#7000FF] hover:bg-[#5e00d9] text-white text-[10px] font-bold rounded-lg shrink-0 transition-colors shadow-2xs cursor-pointer flex items-center gap-1"
+                    <button
+                      @click="openMarketplaceModal(prod)"
+                      class="px-2.5 py-1.5 bg-[#002275] hover:bg-[#001752] text-white text-[10px] font-bold rounded-lg shrink-0 transition-colors shadow-2xs cursor-pointer flex items-center gap-1"
                     >
-                      <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-                      <span x-text="lang === 'uz' ? 'Uzum' : 'Uzum Market'"></span>
-                    </a>
+                      <i data-lucide="shopping-bag" class="w-3 h-3"></i>
+                      <span x-text="lang === 'uz' ? 'Sotib olish' : 'Купить'"></span>
+                    </button>
                   </div>
                 </template>
               </div>

@@ -61,7 +61,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=89.0">
+  <link rel="stylesheet" href="assets/css/styles.css?v=90.0">
 
   <!-- Alpine.js Core & Plugins -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,10 +70,10 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <!-- Products Database & App Logic -->
-  <script src="assets/js/products-data.js?v=89.0"></script>
-  <script src="assets/js/app.js?v=89.0"></script>
+  <script src="assets/js/products-data.js?v=90.0"></script>
+  <script src="assets/js/app.js?v=90.0"></script>
   <!-- Interactive Mouse Follower 3D Character Component -->
-  <script src="assets/mouse-follower/mouse-follower.js?v=89.0" defer></script>
+  <script src="assets/mouse-follower/mouse-follower.js?v=90.0" defer></script>
   <!-- Three.js & GLTFLoader for Precise Head-Only 3D Rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -629,7 +629,7 @@
                 <div :class="getProductBg(prod)" class="product-image-wrap p-3.5 h-48 sm:h-52 relative cursor-pointer transition-colors duration-300" @click="openProductModal(prod)">
                   
                   <!-- Badges -->
-                  <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
+                  <div class="absolute top-2.5 left-2.5 max-w-[calc(100%-2.75rem)] flex flex-col gap-1 z-10 pointer-events-none">
                     <span 
                       x-show="prod.badge_ru" 
                       :class="{
@@ -639,7 +639,7 @@
                         'badge-kids': prod.badge_type === 'kids',
                         'badge-otc': prod.badge_type === 'top' || prod.badge_type === 'basic'
                       }"
-                      class="text-[9.5px] font-black px-2 py-0.5 rounded-md shadow-2xs uppercase tracking-wider"
+                      class="text-[9.5px] font-black px-2 py-0.5 rounded-md shadow-2xs uppercase tracking-wider truncate block"
                       x-text="lang === 'uz' ? prod.badge_uz : prod.badge_ru"
                     ></span>
                   </div>
@@ -661,7 +661,7 @@
                     :src="prod.image" 
                     :alt="lang === 'uz' ? prod.name_uz : prod.name_ru" 
                     loading="lazy" 
-                    class="product-image h-40 sm:h-44 w-full object-contain filter drop-shadow-xs"
+                    class="product-image h-40 sm:h-44 w-full object-contain filter drop-shadow-xs pointer-events-none select-none"
                     onerror="this.onerror=null; this.src='https://placehold.co/400x400/ffffff/0032a0?text=World+Medicine';"
                   >
 
@@ -962,7 +962,7 @@
             <img 
               :src="selectedProduct?.image" 
               :alt="selectedProduct?.name_ru" 
-              class="max-h-72 w-full object-contain drop-shadow-md"
+              class="max-h-72 w-full object-contain drop-shadow-md pointer-events-none select-none"
               onerror="this.onerror=null; this.src='https://placehold.co/400x400/ffffff/0032a0?text=World+Medicine';"
             >
             <div class="mt-3 text-center" x-show="selectedProduct?.dosage_ru">

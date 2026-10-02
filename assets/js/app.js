@@ -32,6 +32,7 @@ document.addEventListener('alpine:init', () => {
     // Marketplaces & Purchase State
     isMarketplaceModalOpen: false,
     selectedMarketplaceProduct: null,
+    selectedProduct: null,
 
     // Cart & Wishlist
     cart: JSON.parse(localStorage.getItem('wm_cart') || '[]'),

@@ -1,0 +1,14 @@
+{
+  "name": "wm-otc-order-relay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Forwards wm-otc orders and AI-consultant leads to Telegram without exposing the bot token",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

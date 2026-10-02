@@ -2,6 +2,15 @@
  * World Medicine OTC Catalog Application (Alpine.js State)
  */
 
+// Customer input goes into Telegram messages sent with parse_mode HTML; an
+// unescaped "<" or "&" makes Telegram reject the whole message.
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 document.addEventListener('alpine:init', () => {
   Alpine.data('catalogApp', () => ({
     lang: localStorage.getItem('wm_lang') || 'ru',
@@ -28,11 +37,10 @@ document.addEventListener('alpine:init', () => {
     cart: JSON.parse(localStorage.getItem('wm_cart') || '[]'),
     favorites: JSON.parse(localStorage.getItem('wm_favorites') || '[]'),
     
-    // Telegram Bot Live Delivery Configuration
-    telegramBot: {
-      token: '8924881958:AAETcQcg6iH-2RDDbILywa5qF13xUhjoUUE',
-      chatId: '-1003942536859'
-    },
+    // Orders and AI-consultant leads go to Telegram through the server-side
+    // relay in relay/ (it holds the bot token). Never put a bot token here:
+    // everything in this file is public to every visitor.
+    orderRelayUrl: (typeof WM_ORDER_RELAY_URL !== 'undefined' ? WM_ORDER_RELAY_URL : ''),
     isSubmittingOrder: false,
     
     // AI Health Consultant & Conversational Intelligence State
@@ -1108,13 +1116,13 @@ document.addEventListener('alpine:init', () => {
 
       if (question) {
         msg += `❓ <b>${isUz ? 'Mijoz savoli' : 'Вопрос клиента'}:</b>
-<i>«${question}»</i>
+<i>«${escapeHtml(question)}»</i>
 
 `;
       }
 
       if (phone) {
-        msg += `📞 <b>${isUz ? 'Bog\'lanish telefoni' : 'Контактный телефон'}:</b> <code>${phone}</code>
+        msg += `📞 <b>${isUz ? 'Bog\'lanish telefoni' : 'Контактный телефон'}:</b> <code>${escapeHtml(phone)}</code>
 
 `;
       } else {
@@ -1137,23 +1145,23 @@ document.addEventListener('alpine:init', () => {
       msg += `
 🌐 <i>Manba: World Medicine OTC AI Assistant</i>`;
 
-      if (this.telegramBot && this.telegramBot.token && this.telegramBot.chatId) {
-        try {
-          const res = await fetch(`https://api.telegram.org/bot${this.telegramBot.token}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: this.telegramBot.chatId,
-              text: msg,
-              parse_mode: 'HTML'
-            })
-          });
-          const data = await res.json();
-          console.log('AI Lead Telegram delivery status:', data.ok);
-        } catch (err) {
-          console.warn('Telegram lead delivery error:', err);
-        }
+      try {
+        await this.sendToTelegramRelay(msg);
+      } catch (err) {
+        console.warn('Telegram lead delivery error:', err);
       }
+    },
+
+    // POSTs a ready HTML message to the relay; throws if it was not delivered.
+    async sendToTelegramRelay(text) {
+      if (!this.orderRelayUrl) throw new Error('Order relay URL is not configured');
+      const res = await fetch(this.orderRelayUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(`Relay error ${res.status}: ${data.error || 'unknown'}`);
     },
 
     async submitOrder() {
@@ -1176,11 +1184,11 @@ document.addEventListener('alpine:init', () => {
 
 `;
       
-      message += `👤 <b>${isUz ? 'Mijoz' : 'Клиент'}:</b> ${this.checkout.name}
+      message += `👤 <b>${isUz ? 'Mijoz' : 'Клиент'}:</b> ${escapeHtml(this.checkout.name)}
 `;
-      message += `📞 <b>${isUz ? 'Telefon' : 'Телефон'}:</b> <code>${this.checkout.phone}</code>
+      message += `📞 <b>${isUz ? 'Telefon' : 'Телефон'}:</b> <code>${escapeHtml(this.checkout.phone)}</code>
 `;
-      message += `📍 <b>${isUz ? 'Manzil' : 'Адрес доставки'}:</b> ${this.checkout.city || 'Toshkent'}, ${this.checkout.address || (isUz ? 'Aniqlanadi' : 'Уточняется')}
+      message += `📍 <b>${isUz ? 'Manzil' : 'Адрес доставки'}:</b> ${escapeHtml(this.checkout.city || 'Toshkent')}, ${escapeHtml(this.checkout.address || (isUz ? 'Aniqlanadi' : 'Уточняется'))}
 
 `;
 
@@ -1204,23 +1212,19 @@ document.addEventListener('alpine:init', () => {
 `;
       message += `🌐 <i>Manba: wm-otc online platform</i>`;
 
-      // 2. Send via Telegram Bot API
-      if (this.telegramBot && this.telegramBot.token && this.telegramBot.chatId) {
-        try {
-          const res = await fetch(`https://api.telegram.org/bot${this.telegramBot.token}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: this.telegramBot.chatId,
-              text: message,
-              parse_mode: 'HTML'
-            })
-          });
-          const data = await res.json();
-          console.log('Order Telegram delivery status:', data.ok);
-        } catch (err) {
-          console.error('Failed to send order via Telegram Bot:', err);
-        }
+      // 2. Send via the server-side relay. Show success (and clear the cart)
+      // only when the order really reached the managers' chat; otherwise the
+      // customer would think the order was placed while it was lost.
+      try {
+        await this.sendToTelegramRelay(message);
+      } catch (err) {
+        console.error('Failed to send order via Telegram relay:', err);
+        this.isSubmittingOrder = false;
+        const fallback = confirm(isUz
+          ? "Buyurtmani yuborib bo'lmadi. Uni Telegram orqali yuborasizmi?"
+          : 'Не удалось отправить заказ. Отправить его через Telegram?');
+        if (fallback) this.sendTelegramDirectOrder();
+        return;
       }
 
       this.isSubmittingOrder = false;
@@ -1248,7 +1252,10 @@ document.addEventListener('alpine:init', () => {
       const fullMessage = encodeURIComponent(title + itemsText + totalText + "\n" + clientInfo);
       
       // Open Telegram direct message
-      window.open(`https://t.me/worldmedicineuz?text=${fullMessage}`, '_blank');
+      // After an await (relay failure fallback) the popup blocker may refuse
+      // window.open; navigate in the same tab instead of silently doing nothing.
+      const tgUrl = `https://t.me/worldmedicineuz?text=${fullMessage}`;
+      if (!window.open(tgUrl, '_blank')) window.location.href = tgUrl;
       
       this.isCheckoutModalOpen = false;
       this.isOrderSuccessModalOpen = true;
